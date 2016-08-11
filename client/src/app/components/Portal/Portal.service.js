@@ -47,36 +47,22 @@ angular.module('BigScreen.Portal')
 
     PortalService.getPortalNavs = function() {
         return [{
-            name: 'PortalNavs.Dashboard',
-            state: $state.get('app.Portal.Dashboard'),
+            name: '办公空间环境监控',
+            state: $state.get('app.Portal.OfficeSpace'),
             icon: 'fa-tachometer'
         }, {
-            name: 'PortalNavs.Elasticsearch',
-            state: $state.get('app.Portal.Elasticsearch'),
+            name: '办公空间环境监控',
+            state: $state.get('app.Portal.Environment'),
             icon: 'fa-line-chart'
         }, {
-            name: 'PortalNavs.Geo',
-            state: $state.get('app.Portal.Geo'),
+            name: '会议室',
+            state: $state.get('app.Portal.OfficeUsage'),
             icon: 'fa-globe'
         }, {
-            name: 'PortalNavs.Mqtt',
-            state: $state.get('app.Portal.Mqtt'),
+            name: '智能停车场',
+            state: $state.get('app.Portal.ParkingArea'),
             icon: 'fa-cogs',
             hidden: true
-        }, {
-            name: 'PortalNavs.Paho',
-            state: $state.get('app.Portal.Paho'),
-            icon: 'fa-cogs',
-            hidden: true
-        }, {
-            name: 'PortalNavs.Websocket',
-            state: $state.get('app.Portal.Websocket'),
-            icon: 'fa-cogs',
-            hidden: true
-        }, {
-            name: 'PortalNavs.Settings',
-            state: $state.get('app.Portal.Settings'),
-            icon: 'fa-cogs'
         }];
     }
 
