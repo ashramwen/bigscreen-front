@@ -1,0 +1,48 @@
+.room {
+    float: left;
+    width: 12%;
+    height: 300px;
+    border: 1px solid #333;
+    &.empty {
+        border: 1px solid transparent;
+    }
+    &.off {
+        visibility: hidden;
+    }
+    >div {
+      height: 33%;
+      // display: block;
+      // position: relative;
+        >i {
+            // line-height: 100%;
+            font-size: 100%;
+        }
+    }
+    .icon-fan {
+        font-family: Fontsaddict;
+        display: inline-block;
+        font-weight: normal;
+        font-style: normal;
+        &:before {
+            content: "\e800"
+        }
+    }
+    .light {
+        color: gold;
+        &.off {
+            color: #333;
+        }
+    }
+    .fan {
+        color: LightGreen;
+        &.off {
+            color: #333;
+        }
+    }
+    .user {
+        color: DeepSkyBlue;
+        &.off {
+            display: none;
+        }
+    }
+}

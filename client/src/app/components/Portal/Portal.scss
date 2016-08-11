@@ -1,8 +1,15 @@
 @import 'src/app/components/AppShared/scss/global.scss';
 .app-portal {
-    .menu {
-        float: right;
-        margin-right: 200px;
-        margin-top: -50px;
+    .header-bar {
+        padding-top: 20px;
+        position: relative;
+        height: 80px;
+        .menu {
+            float: right;
+            margin-right: 200px;
+            .dropdown-menu {
+                left: -106px;
+            }
+        }
     }
 }

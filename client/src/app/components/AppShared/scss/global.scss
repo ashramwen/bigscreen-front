@@ -1,4 +1,12 @@
 @import "theme/conf/conf";
-@import "theme/_preloader";
-@import "theme/_layout";
-@import "theme/_mixin";
+@import "theme/bootstrap-overrides/overrides";
+// @import "~animate.css/animate";
+// @import "theme/typography";
+@import "theme/buttons";
+// @import "theme/icons";
+@import "theme/layout";
+// @import "theme/socicon";
+// @import "theme/table";
+// @import "theme/form";
+// @import "theme/treeView";
+@import "theme/mixin";
