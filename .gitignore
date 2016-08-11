@@ -2,6 +2,6 @@ bower_components/
 node_modules/
 .tmp/
 dist/
-client/src/app/css/
+client/src/css/
 npm-debug.log
 .DS_Store
