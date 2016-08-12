@@ -11,12 +11,6 @@ angular.module('BigScreen.Portal')
         legend: {
             data: ['进入高峰', '驶出高峰']
         },
-        toolbox: {
-            show: true,
-            feature: {
-                magicType: { type: ['line', 'bar'] }
-            }
-        },
         xAxis: {
             type: 'category',
             boundaryGap: false,
