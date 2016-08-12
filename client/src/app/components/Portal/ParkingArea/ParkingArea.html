@@ -1,4 +1,4 @@
-<div class="app-portal-parkingarea container">
+<div class="app-portal-parkingarea container" ng-init="init()">
     <div class="row">
         <div class="fa fa-clock-o title" aria-hidden="true"></div>
         <div class="hint">
@@ -15,8 +15,6 @@
         </div>
     </div>
     <div class="row">
-        <!--进入高峰-->
-        <!--驶出高峰-->
         <div class="fa fa-clock-o title" aria-hidden="true"></div>
         <div class="hint">
             <div class="title">进出高峰时段</div>
@@ -25,5 +23,7 @@
             <div><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 提示您避开车多拥挤时段</div>
         </div>
     </div>
-    <div class="row"></div>
+    <div class="row">
+        <div id="parking-chart"></div>
+    </div>
 </div>
