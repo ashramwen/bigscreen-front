@@ -1,11 +1,5 @@
-<div class="room" ng-class="{'off': room.off}">
-  <div #light class="clearfix">
-    <i class="pull-right fa fa-lightbulb-o light off" aria-hidden="true" [ngStyle]="getSize(light)"></i>
-  </div>
-  <div class="clearfix">
-    <i class="pull-right icon-fan fan off" aria-hidden="true" [ngStyle]="getSize(light)"></i>
-  </div>
-  <div class="clearfix">
-    <i class="fa fa-user user off" aria-hidden="true" [ngStyle]="getSize(light)"></i>
-  </div>
+<div class="room">
+    <div class="icon light"></div>
+    <div class="icon air"></div>
+    <div class="icon person"></div>
 </div>

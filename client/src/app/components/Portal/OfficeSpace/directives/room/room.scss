@@ -1,48 +1,43 @@
+@import 'src/app/components/AppShared/scss/global.scss';
 .room {
     float: left;
-    width: 12%;
-    height: 300px;
-    border: 1px solid #333;
-    &.empty {
-        border: 1px solid transparent;
-    }
-    &.off {
-        visibility: hidden;
-    }
-    >div {
-      height: 33%;
-      // display: block;
-      // position: relative;
-        >i {
-            // line-height: 100%;
-            font-size: 100%;
-        }
-    }
-    .icon-fan {
-        font-family: Fontsaddict;
-        display: inline-block;
-        font-weight: normal;
-        font-style: normal;
-        &:before {
-            content: "\e800"
-        }
+    position: relative;
+    width: 11.2%;
+    height: 100%;
+    &.sm {}
+    .icon {
+        @include bg-image("icon_officespace.png");
     }
     .light {
-        color: gold;
+        position: absolute;
+        top: 13%;
+        left: 12%;
+        background-position: -49px 0;
+        width: 39px;
+        height: 40px;
         &.off {
-            color: #333;
+            background-position: -49px -40px;
         }
     }
-    .fan {
-        color: LightGreen;
+    .air {
+        position: absolute;
+        top: 42%;
+        left: 12%;
+        width: 49px;
+        height: 27px;
         &.off {
-            color: #333;
+            background-position: 0 -27px;
         }
     }
-    .user {
-        color: DeepSkyBlue;
+    .person {
+        position: absolute;
+        top: 30%;
+        left: 69%;
+        background-position: -87px 0;
+        width: 14px;
+        height: 35px;
         &.off {
-            display: none;
+            background-position: -87px -35px;
         }
     }
 }

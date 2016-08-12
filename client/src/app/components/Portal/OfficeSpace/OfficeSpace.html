@@ -1,8 +1,12 @@
 <div class="app-portal-officespace">
-    <div class="row">
+    <img class="bg" src="/images/bg_officespace.png" alt="">
+    <div class="room-row">
+        <app-room ng-repeat="r in firstRooms" room="r"></app-room>
+    </div>
+    <!--<div class="row">
         <app-room ng-repeat="r in firstRooms" room="r"></app-room>
     </div>
     <div class="row">
         <app-room ng-repeat="r in secondRooms" room="r"></app-room>
-    </div>
+    </div>-->
 </div>
