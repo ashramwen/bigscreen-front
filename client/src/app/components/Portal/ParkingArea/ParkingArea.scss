@@ -1,1 +1,30 @@
-.app-portal-parkingarea {}
+.app-portal-parkingarea {
+    .row {
+        margin-bottom: 50px;
+        > div {
+            float: left;
+            margin-right: 5px;
+        }
+        .title {
+            font-size: 35px;
+            line-height: 35px;
+        }
+        .remark {
+            margin: 15px 0;
+            font-size: 20px;
+            span {
+                font-size: 26px;
+            }
+        }
+        .desc {
+            position: relative;
+            height: 35px;
+            width: 250px;
+            > div {
+                position: absolute;
+                bottom: 0;
+                font-size: 20px;
+            }
+        }
+    }
+}
