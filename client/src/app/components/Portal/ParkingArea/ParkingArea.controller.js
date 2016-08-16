@@ -2,14 +2,30 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('ParkingAreaController', ['$scope', function($scope, mqttClient, sendHttpRequest) {
+.controller('ParkingAreaController', ['$scope', 'ParkingService', function($scope, ParkingService) {
+
+    var today = new Date();
+    ParkingService.getCarInFrequency({
+        startTime: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 0, 0, 0).getTime(),
+        endTime: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20, 0, 0, 0).getTime(),
+        interval: '1h'
+    });
+
+    ParkingService.getCarOutFrequency({
+        startTime: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 0, 0, 0).getTime(),
+        endTime: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20, 0, 0, 0).getTime(),
+        interval: '1h'
+    });
 
     var option = {
         tooltip: {
             trigger: 'axis'
         },
         legend: {
-            data: ['进入高峰', '驶出高峰']
+            data: ['进入高峰', '驶出高峰'],
+            textStyle: {
+                fontSize: 24
+            }
         },
         xAxis: {
             type: 'category',
@@ -30,15 +46,19 @@ angular.module('BigScreen.Portal')
                 }
             },
             markPoint: {
-                data: [
-                    { type: 'max', name: '最大值' }
-                ]
-            },
-            // markLine: {
-            //     data: [
-            //         { type: 'average', name: '平均值' }
-            //     ]
-            // }
+                data: [{
+                    type: 'max',
+                    name: '最大值',
+                    symbolSize: 60,
+                    label: {
+                        normal: {
+                            textStyle: {
+                                fontSize: 24
+                            }
+                        }
+                    }
+                }]
+            }
         }, {
             name: '驶出高峰',
             type: 'line',
@@ -50,30 +70,19 @@ angular.module('BigScreen.Portal')
                 }
             },
             markPoint: {
-                data: [
-                    { type: 'max', name: '最大值' }
-                ]
+                data: [{
+                    type: 'max',
+                    name: '最大值',
+                    symbolSize: 60,
+                    label: {
+                        normal: {
+                            textStyle: {
+                                fontSize: 24
+                            }
+                        }
+                    }
+                }]
             },
-            // markLine: {
-            //     data: [
-            //         { type: 'average', name: '平均值' },
-            //         [{
-            //             symbol: 'none',
-            //             x: '90%',
-            //             yAxis: 'max'
-            //         }, {
-            //             symbol: 'circle',
-            //             label: {
-            //                 normal: {
-            //                     position: 'start',
-            //                     formatter: '最大值'
-            //                 }
-            //             },
-            //             type: 'max',
-            //             name: '最高点'
-            //         }]
-            //     ]
-            // }
         }]
     };
 

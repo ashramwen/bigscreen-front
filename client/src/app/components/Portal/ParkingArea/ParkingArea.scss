@@ -1,4 +1,6 @@
 .app-portal-parkingarea {
+    width: 2600px !important;
+    margin: 0 auto;
     .fa {
         color: #2aabe2 !important;
     }
@@ -33,8 +35,8 @@
             }
         }
         #parking-chart {
-            width: 100%;
-            height: 400px;
+            width: 2600px;
+            height: 800px;
         }
     }
 }

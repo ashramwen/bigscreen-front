@@ -7,6 +7,7 @@
 (function () {
     var siteUrl = appConfig[appConfig.ENV].siteUrl;
     window.thirdPartyAPIUrl = appConfig[appConfig.ENV].thirdPartyAPIUrl;
+    window.thirdPartyAPIKey = appConfig[appConfig.ENV].thirdPartyAPIKey;
     var cloudUrl = appConfig[appConfig.ENV].cloudUrl;
     /*
      * API used globally for web service
