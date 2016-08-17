@@ -12,7 +12,7 @@
         height: 213px;
         margin-left: 5px;
         &:first-child {
-            margin-left: 403px;
+            margin-left: 402px;
             margin-right: 216px;
         }
         .name {
@@ -23,6 +23,8 @@
         }
     }
     &.rest {
+        background-color: #faece4;
+        box-shadow: -6px 6px 5px -2px rgba(255, 102, 0, .75);
         .name {
             color: #ff6600;
         }
@@ -39,18 +41,26 @@
             display: block;
             @include bg-image("icon_officespace.png");
         }
+        span {
+            display: none;
+            font-size: 13px;
+            color: #f53134;
+        }
+        &.off span {
+            display: block;
+        }
     }
     .light {
         position: absolute;
-        top: 25px;
+        top: 35px;
         left: 29px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #868686;
         i {
             background-position: -49px 0;
-            width: 39px;
+            width: 38px;
             height: 40px;
-            &.off {
+        }
+        &.off {
+            i {
                 background-position: -49px -40px;
             }
         }
@@ -59,10 +69,17 @@
         position: absolute;
         top: 100px;
         left: 25px;
+        padding-top: 15px;
+        border-top: 1px solid #868686;
         i {
-            width: 49px;
+            width: 48px;
             height: 26px;
             &.off {
+                background-position: 0 -26px;
+            }
+        }
+        &.off {
+            i {
                 background-position: 0 -26px;
             }
         }
@@ -78,6 +95,11 @@
             width: 14px;
             height: 36px;
             &.off {
+                background-position: -88px -36px;
+            }
+        }
+        &.off {
+            i {
                 background-position: -88px -36px;
             }
         }

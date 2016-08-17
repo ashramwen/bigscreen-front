@@ -9,15 +9,7 @@ angular.module('BigScreen.Portal')
             templateUrl: 'app/components/Portal/Welcome/Welcome.html',
             controller: 'WelcomeController',
             getName: function() {
-                return 'PortalNavs.Welcome';
-            }
-        })
-        .state('app.Portal.Environment', {
-            url: '/Environment',
-            templateUrl: 'app/components/Portal/Environment/Environment.html',
-            controller: 'EnvironmentController',
-            getName: function() {
-                return 'PortalNavs.Environment';
+                return 'Welcome';
             }
         })
         .state('app.Portal.OfficeSpace', {
@@ -25,7 +17,15 @@ angular.module('BigScreen.Portal')
             templateUrl: 'app/components/Portal/OfficeSpace/OfficeSpace.html',
             controller: 'OfficeSpaceController',
             getName: function() {
-                return 'PortalNavs.OfficeSpace';
+                return '办公空间总览';
+            }
+        })
+        .state('app.Portal.Environment', {
+            url: '/Environment',
+            templateUrl: 'app/components/Portal/Environment/Environment.html',
+            controller: 'EnvironmentController',
+            getName: function() {
+                return '办公环境监控';
             }
         })
         .state('app.Portal.OfficeUsage', {
@@ -33,7 +33,7 @@ angular.module('BigScreen.Portal')
             templateUrl: 'app/components/Portal/OfficeUsage/OfficeUsage.html',
             controller: 'OfficeUsageController',
             getName: function() {
-                return 'PortalNavs.OfficeUsage';
+                return '会议室';
             }
         })
         .state('app.Portal.ParkingArea', {
@@ -41,7 +41,7 @@ angular.module('BigScreen.Portal')
             templateUrl: 'app/components/Portal/ParkingArea/ParkingArea.html',
             controller: 'ParkingAreaController',
             getName: function() {
-                return 'PortalNavs.ParkingArea';
+                return '智能停车场';
             }
         });
 }]);

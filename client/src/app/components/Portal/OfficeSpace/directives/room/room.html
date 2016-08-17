@@ -1,6 +1,6 @@
 <div class="room" ng-class="room.type">
-    <div class="icon light"><i></i></div>
-    <div class="icon air"><i></i></div>
-    <div class="icon person"><i></i></div>
+    <div class="icon light" ng-class="{'off': !room.light}"><i></i><span>维修中!</span></div>
+    <div class="icon air" ng-class="{'off': !room.fan}"><i></i><span>维修中!</span></div>
+    <div class="icon person" ng-class="{'off': room.empty}"><i></i></div>
     <div class="name">{{room.name}}</div>
 </div>

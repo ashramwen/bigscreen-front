@@ -1,14 +1,36 @@
 @import 'src/app/components/AppShared/scss/global.scss';
 .app-portal {
     .header-bar {
-        padding-top: 20px;
+        padding-top: 30px;
         position: relative;
         height: 80px;
-        .menu {
+        line-height: 39px;
+        .title {
+            float: left;
+            margin-left: 40px;
+            font-size: 45px;
+        }
+        .time {
             float: right;
-            margin-right: 200px;
+            margin-right: 109px;
+            font-size: 35px;
+        }
+        .menu {
+            cursor: pointer;
+            float: right;
+            margin-right: 40px;
+            > div {
+                width: 52px;
+                height: 39px;
+                @include bg-image("icon_menu.png");
+                &:hover {
+                    background-position: 0 -39px;
+                }
+            }
             .dropdown-menu {
-                left: -106px;
+                top: 45px;
+                right: 0px;
+                left: initial;
             }
         }
     }

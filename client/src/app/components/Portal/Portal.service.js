@@ -47,11 +47,11 @@ angular.module('BigScreen.Portal')
 
     PortalService.getPortalNavs = function() {
         return [{
-            name: '办公空间环境监控',
+            name: '办公空间总览',
             state: $state.get('app.Portal.OfficeSpace'),
             icon: 'fa-tachometer'
         }, {
-            name: '办公空间环境监控',
+            name: '办公环境监控',
             state: $state.get('app.Portal.Environment'),
             icon: 'fa-line-chart'
         }, {
@@ -61,8 +61,7 @@ angular.module('BigScreen.Portal')
         }, {
             name: '智能停车场',
             state: $state.get('app.Portal.ParkingArea'),
-            icon: 'fa-cogs',
-            hidden: true
+            icon: 'fa-cogs'
         }];
     }
 
