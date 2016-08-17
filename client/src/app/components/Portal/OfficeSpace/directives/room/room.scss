@@ -2,17 +2,36 @@
 .room {
     float: left;
     position: relative;
-    width: 383px;
-    height: 480px;
+    width: 190px;
+    height: 240px;
     background-color: #e6f8ff;
-    margin-left: 11px;
-    box-shadow: -10px 10px 5px -2px rgba(65, 130, 194, .75);
-    &.sm {}
+    margin-left: 10px;
+    box-shadow: -6px 6px 5px -2px rgba(65, 130, 194, .75);
+    &.sm {
+        width: 178px;
+        height: 213px;
+        margin-left: 5px;
+        &:first-child {
+            margin-left: 403px;
+            margin-right: 216px;
+        }
+        .name {
+            left: 62px;
+        }
+        .person {
+            left: 101px;
+        }
+    }
+    &.rest {
+        .name {
+            color: #ff6600;
+        }
+    }
     .name {
         position: absolute;
-        bottom: 50px;
-        left: 137.5px;
-        font-size: 36px;
+        bottom: 25px;
+        left: 68px;
+        font-size: 18px;
         color: #29abe2;
     }
     .icon {
@@ -23,43 +42,43 @@
     }
     .light {
         position: absolute;
-        top: 50px;
-        left: 58px;
-        padding-bottom: 40px;
+        top: 25px;
+        left: 29px;
+        padding-bottom: 20px;
         border-bottom: 1px solid #868686;
         i {
-            background-position: -98px 0;
-            width: 78px;
-            height: 80px;
+            background-position: -49px 0;
+            width: 39px;
+            height: 40px;
             &.off {
-                background-position: -98px -80px;
+                background-position: -49px -40px;
             }
         }
     }
     .air {
         position: absolute;
-        top: 200px;
-        left: 50px;
+        top: 100px;
+        left: 25px;
         i {
-            width: 98px;
-            height: 52px;
+            width: 49px;
+            height: 26px;
             &.off {
-                background-position: 0 -52px;
+                background-position: 0 -26px;
             }
         }
     }
     .person {
         position: absolute;
-        top: 123px;
-        left: 214px;
-        padding: 8px 0 8px 60px;
+        top: 61px;
+        left: 107px;
+        padding: 4px 0 4px 30px;
         border-left: 1px solid #868686;
         i {
-            background-position: -177px 0;
-            width: 27px;
-            height: 69px;
+            background-position: -88px 0;
+            width: 14px;
+            height: 36px;
             &.off {
-                background-position: -177px -69px;
+                background-position: -88px -36px;
             }
         }
     }

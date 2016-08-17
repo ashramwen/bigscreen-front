@@ -24,8 +24,11 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 33%;
+        // width: 100%;
+        // height: 33%;
+        &.second {
+            top: 351px;
+        }
     }
     // @include bg-image("bg_officespace.png");
     // background-size:cover;

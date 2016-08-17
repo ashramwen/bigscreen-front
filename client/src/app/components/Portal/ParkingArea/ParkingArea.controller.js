@@ -23,9 +23,9 @@ angular.module('BigScreen.Portal')
         },
         legend: {
             data: ['进入高峰', '驶出高峰'],
-            textStyle: {
-                fontSize: 24
-            }
+            // textStyle: {
+            //     fontSize: 24
+            // }
         },
         xAxis: {
             type: 'category',
@@ -49,14 +49,14 @@ angular.module('BigScreen.Portal')
                 data: [{
                     type: 'max',
                     name: '最大值',
-                    symbolSize: 60,
-                    label: {
-                        normal: {
-                            textStyle: {
-                                fontSize: 24
-                            }
-                        }
-                    }
+                    // symbolSize: 60,
+                    // label: {
+                    //     normal: {
+                    //         textStyle: {
+                    //             fontSize: 24
+                    //         }
+                    //     }
+                    // }
                 }]
             }
         }, {
@@ -73,14 +73,14 @@ angular.module('BigScreen.Portal')
                 data: [{
                     type: 'max',
                     name: '最大值',
-                    symbolSize: 60,
-                    label: {
-                        normal: {
-                            textStyle: {
-                                fontSize: 24
-                            }
-                        }
-                    }
+                    // symbolSize: 60,
+                    // label: {
+                    //     normal: {
+                    //         textStyle: {
+                    //             fontSize: 24
+                    //         }
+                    //     }
+                    // }
                 }]
             },
         }]
