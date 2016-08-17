@@ -4,6 +4,11 @@ angular.module('BigScreen.Portal')
 
 .controller('ParkingAreaController', ['$scope', 'ParkingService', function($scope, ParkingService) {
 
+    $scope.init = function() {
+        var myChart = echarts.init(document.getElementById('parking-chart'));
+        myChart.setOption(option);
+    }
+
     var today = new Date();
     ParkingService.getCarInFrequency({
         startTime: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 8, 0, 0, 0).getTime(),
@@ -17,6 +22,9 @@ angular.module('BigScreen.Portal')
         interval: '1h'
     });
 
+
+
+    // chart options
     var option = {
         tooltip: {
             trigger: 'axis'
@@ -85,10 +93,4 @@ angular.module('BigScreen.Portal')
             },
         }]
     };
-
-
-    $scope.init = function() {
-        var myChart = echarts.init(document.getElementById('parking-chart'));
-        myChart.setOption(option);
-    }
 }]);
