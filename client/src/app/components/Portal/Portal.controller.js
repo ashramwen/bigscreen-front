@@ -59,7 +59,7 @@ angular.module('BigScreen.Portal')
         $scope.time = moment().startOf('minute').valueOf();
         if ($scope.time % onehr === 0)
             $rootScope.$broadcast('theHour');
-        rotateState();
+        // rotateState();
     }, 60000);
 
     function rotateState() {

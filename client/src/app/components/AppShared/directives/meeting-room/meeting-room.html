@@ -1,6 +1,19 @@
-<div class="meeting-room" ng-class="room.type">
-    <div class="icon light" ng-class="{'off': !room.light}"><i></i><span>维修中!</span></div>
-    <div class="icon air" ng-class="{'off': !room.fan}"><i></i><span>维修中!</span></div>
-    <div class="icon person" ng-class="{'off': room.empty}"><i></i></div>
-    <div class="name">{{room.name}}</div>
+<div class="meeting-room" ng-class="{'busy': room.busy}">
+    <div class="room-head">
+        <div class="name">
+            <div class="title">{{room.name}}</div>
+            <div class="id">{{room.id}}</div>
+        </div>
+        <div class="status"></div>
+    </div>
+    <div class="room-body"></div>
+    <div class="room-foot">
+        <div class="icon-wrap">
+            <div class="icon light"></div>
+            <div class="vl"></div>
+            <div class="icon air"></div>
+            <div class="vl"></div>
+            <div class="icon person"></div>
+        </div>
+    </div>
 </div>

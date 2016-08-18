@@ -1,8 +1,98 @@
 @import 'src/app/components/AppShared/scss/global.scss';
 .meeting-room {
-    float: left;
     width: 286px;
-    height: 680px;
+    // height: 680px;
     border-radius: 8px;
-    box-shadow: 0 10px 10px rgba(12,4,7,.29);
+    box-shadow: 0 10px 10px rgba(12, 4, 7, .29);
+    overflow: hidden;
+    &.sm {
+        margin-bottom: 16px;
+        .room-body {
+            height: 129px;
+        }
+    }
+    &.busy {
+        .room-head {
+            background-color: #2aabe2;
+        }
+        .status {
+            background-position: 0 -71px;
+        }
+    }
+    .room-head {
+        padding: 45px 21px 0 21px;
+        width: 100%;
+        height: 140px;
+        background-color: #ff6600;
+        .name {
+            float: left;
+            .title {
+                font-size: 39px;
+                line-height: 39px;
+            }
+            .id {
+                margin-top: 9px;
+                margin-left: 3px;
+                font-size: 18px;
+            }
+        }
+        .status {
+            float: right;
+            width: 54px;
+            height: 71px;
+            @include bg-image("icon_meeting.png");
+        }
+    }
+    .room-body {
+        position: relative;
+        width: 100%;
+        height: 477px;
+    }
+    .room-foot {
+        height: 63px;
+        padding-bottom: 23px;
+        .icon-wrap {
+            margin-left: auto;
+            margin-right: auto;
+            width: 138px;
+            height: 100%;
+        }
+        .icon {
+            @include bg-image("icon_officespace.png");
+            display: inline-block;
+            &.light {
+                background-position: -49px 0;
+                width: 38px;
+                height: 40px;
+                &.off {
+                    background-position: -49px -40px;
+                }
+            }
+            &.air {
+                width: 48px;
+                height: 26px;
+                margin-bottom: 7px;
+                &.off {
+                    background-position: 0 -26px;
+                }
+            }
+            &.person {
+                background-position: -88px 0;
+                width: 14px;
+                height: 36px;
+                &.off {
+                    background-position: -88px -36px;
+                }
+            }
+        }
+        .vl {
+            display: inline-block;
+            width: 1px;
+            height: 40px;
+            margin-left: 5px;
+            margin-right: 5px;
+            // margin-bottom: 10px;
+            background-color: #c8c7c0;
+        }
+    }
 }
