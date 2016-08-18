@@ -51,7 +51,7 @@ angular.module('BigScreen.Portal')
     }
 
     var onehr = 3600000;
-    onehr = 10000;
+    // onehr = 10000;
     $interval(function() {
         $scope.time = moment().startOf('minute').valueOf();
         if ($scope.time % onehr === 0)

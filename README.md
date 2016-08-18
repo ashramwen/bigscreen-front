@@ -15,7 +15,7 @@ If you are using linux or windows, please install ```ruby```
 go to client directory:
 
 ```
-cd front-end-template/client
+cd bigscreen-front/client
 ```
 
 install npm packages

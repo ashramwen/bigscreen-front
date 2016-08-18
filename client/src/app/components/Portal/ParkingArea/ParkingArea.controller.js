@@ -11,7 +11,6 @@ angular.module('BigScreen.Portal')
     }
 
     $scope.$on('theHour', function() {
-        console.log('theHour');
         ParkingChart.setData();;
     })
 }]);
