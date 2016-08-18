@@ -8,6 +8,7 @@ angular.module('BigScreen.Portal')
         $state.go('app.Secure');
     }
 
+
     $scope.portalNavs = PortalService.getPortalNavs();
     $scope.getStateChan = PortalService.getStateChan;
     $scope.getStateDisplayName = PortalService.getStateDisplayName;
@@ -17,6 +18,8 @@ angular.module('BigScreen.Portal')
     $scope.current = $state.current;
 
     $scope.menuOff = false;
+
+    checkState();
 
     /**
      * turn offer left side menu bar
@@ -56,11 +59,22 @@ angular.module('BigScreen.Portal')
         $scope.time = moment().startOf('minute').valueOf();
         if ($scope.time % onehr === 0)
             $rootScope.$broadcast('theHour');
+        rotateState();
     }, 60000);
 
-    // $interval(function() {
-    //     // $scope.time = new Date();
-    // }, 10000);
+    function rotateState() {
+        var i = 0,
+            length = $scope.portalNavs.length;
+        for (; i < length; i++) {
+            if (!$scope.portalNavs[i].isActive) continue;
+            if (i < length - 1) {
+                $state.go($scope.portalNavs[i + 1].state.name);
+            } else {
+                $state.go($scope.portalNavs[0].state.name);
+            }
+            return;
+        }
+    }
 
     /**
      * watch portal nav changes
@@ -76,11 +90,15 @@ angular.module('BigScreen.Portal')
     }, true);
 
     $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options) {
+        checkState();
+    });
+
+    function checkState() {
         var nav;
         for (var i = 0, length = $scope.portalNavs.length; i < length; i++) {
             nav = $scope.portalNavs[i];
             nav.isActive = (nav.state.name == $state.current.name);
         }
         $scope.current = $state.current;
-    });
+    }
 }]);

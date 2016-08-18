@@ -1,0 +1,8 @@
+@import 'src/app/components/AppShared/scss/global.scss';
+.meeting-room {
+    float: left;
+    width: 286px;
+    height: 680px;
+    border-radius: 8px;
+    box-shadow: 0 10px 10px rgba(12,4,7,.29);
+}
