@@ -119,8 +119,6 @@ angular.module('BigScreen.Portal')
         }]
     };
 
-    var myChart;
-
     function parseData(resIn, resOut) {
         var x = [],
             dataIn = [],
@@ -144,6 +142,7 @@ angular.module('BigScreen.Portal')
         }
     }
 
+    var myChart;
     var ParkingChart = {
         init: function(elem) {
             myChart = echarts.init(elem);
@@ -154,10 +153,7 @@ angular.module('BigScreen.Portal')
                 var data = parseData(res[0], res[1]);
                 myChart.setOption({
                     xAxis: {
-                        data: data.x,
-                        // formatter: function(value, index) {
-                        //     return moment(value).format('H:mm');
-                        // }
+                        data: data.x
                     },
                     series: [{
                         name: '进入高峰',
