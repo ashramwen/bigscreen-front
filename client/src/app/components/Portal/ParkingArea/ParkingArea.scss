@@ -8,14 +8,22 @@
         &:not(:last-child) {
             margin-bottom: 50px;
         }
-        > div {
+        > * {
             float: left;
             margin-right: 5px;
             color: #666;
         }
         .title {
-            font-size: 35px;
-            line-height: 35px;
+            font-size: 36px;
+            line-height: 36px;
+        }
+        // .clock {
+        //     height:36px;
+        //     @include bg-image("icon_clock.png");
+        // }
+        .hint {
+            margin-left: 15px;
+            margin-right: 30px;
         }
         .remark {
             margin: 15px 0;
@@ -26,7 +34,7 @@
         }
         .desc {
             position: relative;
-            height: 35px;
+            height: 36px;
             width: 250px;
             > div {
                 position: absolute;

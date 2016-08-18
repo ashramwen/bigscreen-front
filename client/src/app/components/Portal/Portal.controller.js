@@ -50,13 +50,17 @@ angular.module('BigScreen.Portal')
         $state.go(!nav.state.abstract ? nav.state.name : nav.state.redirectTo, $state.params);
     }
 
+    var onehr = 3600000;
+    onehr = 10000;
     $interval(function() {
-        $scope.time = new Date();
-    }, 1000);
+        $scope.time = moment().startOf('minute').valueOf();
+        if ($scope.time % onehr === 0)
+            $rootScope.$broadcast('theHour');
+    }, 60000);
 
-    $interval(function() {
-        // $scope.time = new Date();
-    }, 10000);
+    // $interval(function() {
+    //     // $scope.time = new Date();
+    // }, 10000);
 
     /**
      * watch portal nav changes
