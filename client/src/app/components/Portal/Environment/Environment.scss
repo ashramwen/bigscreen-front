@@ -1,1 +1,60 @@
-.app-portal-environment {}
+.app-portal-environment {
+    padding: 0 18px;
+    height: 800px;
+    color: #333;
+    > .pull-left {
+        width: 1072px;
+    }
+    .title-wrap {
+        height: 111px;
+        line-height: 111px;
+        font-size: 35px;
+        padding-left: 112px;
+    }
+    .electricity-wrap {
+        height: 296px;
+        border-top: 1px dashed #999;
+        border-bottom: 1px dashed #999;
+        padding-left: 112px;
+        .pull-left {
+            height: 100%;
+            font-size: 21px;
+        }
+        .helper {
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+        }
+        img {
+            vertical-align: middle;
+        }
+        .bar-wrap {
+            margin-top: 64px;
+            margin-left: 114px;
+            .bar {
+                &:last-child {
+                    margin-top: 50px;
+                }
+                .desc {
+                    display: inline-block;
+                    width: 162px;
+                }
+                .value {
+                    font-size: 27px;
+                }
+                .progress {
+                    margin-top: 15px;
+                    width: 400px;
+                }
+            }
+        }
+    }
+    .population-wrap {
+        height: 391px;
+    }
+    .air-wrap {
+        width: 650px;
+        height: 100%;
+        border-left: 1px dashed #999;
+    }
+}
