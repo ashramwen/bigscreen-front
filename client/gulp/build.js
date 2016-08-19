@@ -4,6 +4,7 @@ var gulp = require('gulp');
 
 var paths = gulp.paths;
 var sass = require('gulp-sass');
+var modifyCssUrls = require('gulp-modify-css-urls');
 
 var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
@@ -47,6 +48,11 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.uglify({preserveComments: $.uglifySaveLicense}))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
+    .pipe(modifyCssUrls({
+      modify: function (url, filePath) {
+        return '..' + url;
+      }
+    }))
     .pipe($.csso())
     .pipe(cssFilter.restore())
     .pipe(assets.restore())
