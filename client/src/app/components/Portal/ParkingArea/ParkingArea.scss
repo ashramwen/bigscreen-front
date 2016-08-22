@@ -5,8 +5,9 @@
         color: #2aabe2 !important;
     }
     .row {
-        &:not(:last-child) {
-            margin-bottom: 50px;
+        margin-bottom: 50px;
+        &:last-child {
+            margin-bottom: initial;
         }
         > * {
             float: left;

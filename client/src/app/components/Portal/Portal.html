@@ -2,11 +2,16 @@
 
     <div class="header-bar">
         <div class="title">{{current.getName()}}</div>
-        <div class="menu" uib-dropdown>
+        <div class="menu" uib-dropdown is-open="isOpen" auto-close="outsideClick">
             <div uib-dropdown-toggle></div>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                 <li class="menuitem" ng-repeat="nav in portalNavs" ng-class="{'active':nav.isActive}">
                     <a ng-click="changeNav(nav)"><i class="fa fa-fw" ng-class="nav.icon"></i> {{nav.name}}</a>
+                </li>
+                <li class="divider"></li>
+                <li role="menuitem" class="switch">
+                    <span>轮播:</span>
+                    <switchery ng-model="rotation"></switchery>
                 </li>
             </ul>
         </div>

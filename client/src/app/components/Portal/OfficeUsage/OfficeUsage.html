@@ -1,21 +1,8 @@
 <div class="app-portal-officeusage">
     <div class="column-wrap">
-        <div class="column">
-            <app-meeting-room room="rooms[0]"></app-meeting-room>
-        </div>
-        <div class="column">
-            <app-meeting-room room="rooms[1]"></app-meeting-room>
-        </div>
-        <div class="column">
-            <app-meeting-room room="rooms[2]"></app-meeting-room>
-        </div>
-        <div class="column">
-            <app-meeting-room room="rooms[3]" class="sm"></app-meeting-room>
-            <app-meeting-room room="rooms[4]" class="sm"></app-meeting-room>
-        </div>
-        <div class="column">
-            <app-meeting-room room="rooms[5]" class="sm"></app-meeting-room>
-            <app-meeting-room room="rooms[6]" class="sm"></app-meeting-room>
+        <div class="column" ng-repeat="room in rooms">
+            <app-meeting-room room="room"></app-meeting-room>
         </div>
     </div>
+    <img src="images/icon_description.png" width="550" height="70" alt="">
 </div>

@@ -18,6 +18,7 @@ angular.module('BigScreen.Portal')
     $scope.current = $state.current;
 
     $scope.menuOff = false;
+    $scope.rotation = true;
 
     checkState();
 
@@ -50,6 +51,7 @@ angular.module('BigScreen.Portal')
     }
 
     $scope.changeNav = function(nav) {
+        $scope.isOpen = false;
         $state.go(!nav.state.abstract ? nav.state.name : nav.state.redirectTo, $state.params);
     }
 
@@ -59,10 +61,11 @@ angular.module('BigScreen.Portal')
         $scope.time = moment().startOf('minute').valueOf();
         if ($scope.time % onehr === 0)
             $rootScope.$broadcast('theHour');
-        // rotateState();
+        rotateState();
     }, 60000);
 
     function rotateState() {
+        if (!$scope.rotation) return;
         var i = 0,
             length = $scope.portalNavs.length;
         for (; i < length; i++) {

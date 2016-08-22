@@ -1,3 +1,4 @@
+@import 'src/app/components/AppShared/scss/global.scss';
 .app-portal-environment {
     padding: 0 18px;
     height: 800px;
@@ -5,17 +6,18 @@
     > .pull-left {
         width: 1072px;
     }
+    .wrap {
+        padding-left: 112px;
+    }
     .title-wrap {
         height: 111px;
         line-height: 111px;
         font-size: 35px;
-        padding-left: 112px;
     }
     .electricity-wrap {
         height: 296px;
         border-top: 1px dashed #999;
         border-bottom: 1px dashed #999;
-        padding-left: 112px;
         .pull-left {
             height: 100%;
             font-size: 21px;
@@ -29,8 +31,8 @@
             vertical-align: middle;
         }
         .bar-wrap {
-            margin-top: 64px;
-            margin-left: 114px;
+            padding-top: 64px;
+            padding-left: 114px;
             .bar {
                 &:last-child {
                     margin-top: 50px;
@@ -51,10 +53,51 @@
     }
     .population-wrap {
         height: 391px;
+        .pull-left {
+            height: 100%;
+        }
+        .population {
+            font-size: 20px;
+        }
+        .title {
+            line-height: 35px;
+            font-size: 35px;
+            padding-top: 78px;
+        }
+        .people {
+            position: relative;
+            margin-top: 10px;
+            max-width: 450px;
+            height: 100px;
+            vertical-align: bottom;
+            .text {
+                position: absolute;
+                bottom: 0;
+            }
+        }
+        .people-bar {
+            position: relative;
+            margin-left: 140px;
+            height: 100%;
+        }
     }
     .air-wrap {
         width: 650px;
         height: 100%;
         border-left: 1px dashed #999;
+    }
+    .progress {
+        @include border-radius(8px);
+        .light {
+            background-color: #f60;
+            background-image: -webkit-linear-gradient(left, #f60, #cf0, #00d8ff);
+            background-image: -moz-linear-gradient(left, #f60, #cf0, #00d8ff);
+            background-image: -o-linear-gradient(left, #f60, #cf0, #00d8ff);
+            background-image: -ms-linear-gradient(left, #f60, #cf0, #00d8ff);
+            background-image: linear-gradient(to right, #f60, #cf0, #00d8ff);
+        }
+        .socket {
+            background-color: #48d4dd;
+        }
     }
 }

@@ -1,13 +1,17 @@
 .app-portal-officeusage {
     .column-wrap {
-        margin: 0 90px;
+        margin: 0 18px;
     }
     .column {
         float: left;
-        margin-right: 28px;
+        margin-right: 22px;
         &:last-child {
-            margin-left: 70px;
+            // margin-left: 70px;
             margin-right: 0;
         }
+    }
+    img {
+        margin-top: 45px;
+        margin-left: 18px;
     }
 }

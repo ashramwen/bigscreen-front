@@ -1,6 +1,6 @@
 @import 'src/app/components/AppShared/scss/global.scss';
 .meeting-room {
-    width: 286px;
+    width: 232px;
     // height: 680px;
     border-radius: 8px;
     box-shadow: 0 10px 10px rgba(12, 4, 7, .29);
@@ -27,8 +27,8 @@
         .name {
             float: left;
             .title {
-                font-size: 39px;
-                line-height: 39px;
+                font-size: 36px;
+                line-height: 36px;
             }
             .id {
                 margin-top: 9px;
