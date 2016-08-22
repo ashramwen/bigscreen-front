@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('OfficeUsageController', ['$scope', function($scope, mqttClient, sendHttpRequest) {
+.controller('OfficeUsageController', ['$scope', function($scope) {
     /*
     会议中
     空闲中

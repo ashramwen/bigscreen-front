@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('OfficeSpaceController', ['$scope', function($scope, mqttClient, sendHttpRequest) {
+.controller('OfficeSpaceController', ['$scope', function($scope) {
     $scope.firstRooms = [
         { id: 1, light: 1, fan: 1, empty: false, name: '工位区', type: 'work' },
         { id: 2, light: 1, fan: 1, empty: false, name: '工位区', type: 'work' },
