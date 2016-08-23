@@ -71,6 +71,17 @@ angular.module('BigScreen.Portal')
             type: 'line',
             // data: [11, 11, 15, 1, 12, 13, 10],
             smooth: true,
+            itemStyle: {
+                normal: {
+                    opacity: 0
+                }
+            },
+            lineStyle: {
+                normal: {
+                    color: '#ff6600',
+                    opacity: 0
+                }
+            },
             areaStyle: {
                 normal: {
                     // color: 'rgba(133, 165, 184, 0.5)'
@@ -78,6 +89,19 @@ angular.module('BigScreen.Portal')
                 }
             },
             markPoint: {
+                label: {
+                    normal: {
+                        textStyle: {
+                            fontSize: 24
+                        }
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        // color: '#ff6600'
+                    }
+                },
+                symbolSize: 80,
                 data: [{
                     type: 'max',
                     name: '最大值',
@@ -96,6 +120,16 @@ angular.module('BigScreen.Portal')
             type: 'line',
             // data: [1, 1, 2, 5, 3, 2, 0],
             smooth: true,
+            itemStyle: {
+                normal: {
+                    opacity: 0
+                }
+            },
+            lineStyle: {
+                normal: {
+                    opacity: 0
+                }
+            },
             areaStyle: {
                 normal: {
                     // color: 'rgba(62, 197, 235, 0.5)'
@@ -103,6 +137,19 @@ angular.module('BigScreen.Portal')
                 }
             },
             markPoint: {
+                label: {
+                    normal: {
+                        textStyle: {
+                            fontSize: 24
+                        }
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        // color: '#2bce10'
+                    }
+                },
+                symbolSize: 80,
                 data: [{
                     type: 'max',
                     name: '最大值',
