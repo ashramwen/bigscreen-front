@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('PortalController', ['$scope', '$rootScope', '$state', 'AppUtils', 'PortalService', 'SessionService', '$interval', function($scope, $rootScope, $state, AppUtils, PortalService, SessionService, $interval) {
+.controller('PortalController', ['$scope', '$rootScope', '$state', 'AppUtils', 'PortalService', 'SessionService', '$interval', 'WebSocketClient', function($scope, $rootScope, $state, AppUtils, PortalService, SessionService, $interval, WebSocketClient) {
     var userInfo = SessionService.getPortalAdmin();
     if (!userInfo) {
         $state.go('app.Secure');
@@ -104,4 +104,13 @@ angular.module('BigScreen.Portal')
         }
         $scope.current = $state.current;
     }
+
+    $scope.$on('stomp.connected', function() {
+        // WebSocketClient.subscribe('/topic/192b49ce/th.f83120e36100-bada-6e11-b056-0951136c', function(res) {
+
+        // });
+        // WebSocketClient.subscribe('/topic/192b49ce/th.aba700e36100-72a9-6e11-b056-04db935c', function(res) {
+
+        // });
+    });
 }]);

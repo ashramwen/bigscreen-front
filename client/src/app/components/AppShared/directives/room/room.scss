@@ -6,15 +6,11 @@
     height: 240px;
     background-color: #e6f8ff;
     margin-left: 10px;
-    box-shadow: -6px 6px 5px -2px rgba(65, 130, 194, .75);
+    box-shadow: -6px 6px 5px -2px rgba(65, 130, 194, .45);
     &.sm {
-        width: 178px;
+        width: 175px;
         height: 213px;
         margin-left: 5px;
-        &:first-child {
-            margin-left: 402px;
-            margin-right: 216px;
-        }
         .name {
             left: 62px;
         }
@@ -24,7 +20,7 @@
     }
     &.rest {
         background-color: #faece4;
-        box-shadow: -6px 6px 5px -2px rgba(255, 102, 0, .75);
+        box-shadow: -6px 6px 5px -2px rgba(255, 102, 0, .45);
         .name {
             color: #ff6600;
         }
