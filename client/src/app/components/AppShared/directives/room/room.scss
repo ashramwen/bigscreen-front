@@ -5,6 +5,7 @@
     width: 190px;
     height: 240px;
     background-color: #e6f8ff;
+    color: #666;
     margin-left: 10px;
     box-shadow: -6px 6px 5px -2px rgba(65, 130, 194, .45);
     &.sm {
@@ -52,7 +53,7 @@
         left: 29px;
         i {
             background-position: -49px 0;
-            width: 38px;
+            width: 39px;
             height: 40px;
         }
         &.off {
@@ -68,12 +69,12 @@
         padding-top: 15px;
         border-top: 1px solid #868686;
         i {
-            width: 48px;
-            height: 26px;
+            width: 49px;
+            height: 28px;
         }
         &.off {
             i {
-                background-position: 0 -26px;
+                background-position: 0 -28px;
             }
         }
     }

@@ -4,15 +4,9 @@
 angular.module('BigScreen.Portal')
 
 .factory('ParkingService', ['$resource', '$q', function($resource, $q) {
-    var _today = new Date();
-    var today = {
-        year: _today.getFullYear(),
-        month: _today.getMonth(),
-        day: _today.getDate()
-    }
     var Parking = $resource(thirdPartyAPIUrl, {
-        startTime: new Date(today.year, today.month, today.day, 8, 0, 0, 0).getTime(),
-        endTime: new Date(today.year, today.month, today.day, 20, 0, 0, 0).getTime(),
+        startTime: moment().hour(8).minute(0).second(0).millisecond(0).valueOf(),
+        endTime: moment().hour(20).minute(0).second(0).millisecond(0).valueOf(),
         interval: '1h'
     }, {
         getCarInFrequency: {

@@ -464,6 +464,14 @@ angular.module('BigScreen')
             },
             isArray: true
         },
+        getAllThingsByLocation: {
+            method: 'GET',
+            url: MyAPIs.LOCATION_TAGS + '/:location/allThings',
+            params: {
+                location: '@location'
+            },
+            isArray: true
+        },
         getParent: {
             method: 'GET',
             url: MyAPIs.LOCATION_TAGS + '/:location/parent',

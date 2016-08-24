@@ -26,11 +26,13 @@ angular.module('BigScreen.AppShared')
         isConnected: function() {
             return _client.connected || false;
         },
-        subscribe: function(destination, callback, headers) {
+        subscribe: function(app, thingId, callback, headers) {
+            var destination = '/topic/' + app + '/' + thingId;
             if (subscriptionList.indexOf(destination) > -1) return;
             subscriptionList.push(destination);
             _client.subscribe(destination, function() {
                 var args = arguments;
+                args[0] = JSON.parse(args[0].body);
                 $rootScope.$apply(function() {
                     callback.apply(_client, args);
                 });
@@ -39,7 +41,7 @@ angular.module('BigScreen.AppShared')
         unsubscribe: function(destination) {
             _client.unsubscribe(destination);
         },
-        unsubscribeAll: function(destination) {
+        unsubscribeAll: function() {
             var i = 0;
             for (; i < _client.subscriptions.length; i++) {
                 _client.subscriptions[i].unsubscribe();

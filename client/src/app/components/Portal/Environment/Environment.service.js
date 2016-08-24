@@ -3,41 +3,28 @@
 angular.module('BigScreen.Portal')
 
 .factory('PopulationService', ['$resource', '$q', function($resource, $q) {
-    var _today = new Date();
-    var today = {
-        year: _today.getFullYear(),
-        month: _today.getMonth(),
-        day: _today.getDate()
-    }
-    var Parking = $resource(thirdPartyAPIUrl, {
-        startTime: new Date(today.year, today.month, today.day, 8, 0, 0, 0).getTime(),
-        endTime: new Date(today.year, today.month, today.day, 20, 0, 0, 0).getTime(),
-        interval: '1h'
+    var Face = $resource(thirdPartyAPIUrl, {
+        startTime: moment().hour(0).minute(0).second(0).millisecond(0).valueOf(),
+        endTime: moment().hour(23).minute(59).second(59).millisecond(0).valueOf()
     }, {
-        getCarInFrequency: {
-            url: thirdPartyAPIUrl + 'carparking/CarInFrequency',
-            method: 'GET',
-            headers: { 'apiKey': thirdPartyAPIKey }
-        },
-        getCarOutFrequency: {
-            url: thirdPartyAPIUrl + 'carparking/CarOutFrequency',
+        getFacialIdentify: {
+            url: thirdPartyAPIUrl + 'facialIdentify/aggregate',
             method: 'GET',
             headers: { 'apiKey': thirdPartyAPIKey }
         }
     });
 
-    var qIn = Parking.getCarInFrequency;
-    var qOut = Parking.getCarOutFrequency;
+    var qIn = Face.getFacialIdentify;
 
     return function() {
-        var deferred = $q.defer();
-        $q.all([qIn().$promise, qOut().$promise]).then(function(res) {
-            var ret = [res[0].aggregations.byHour.buckets, res[1].aggregations.byHour.buckets];
-            deferred.resolve(ret);
-        }, function() {
-            deferred.reject();
-        });
-        return deferred.promise;
+        // var deferred = $q.defer();
+        // $q.all([qIn().$promise, qOut().$promise]).then(function(res) {
+        //     var ret = [res[0].aggregations.byHour.buckets, res[1].aggregations.byHour.buckets];
+        //     deferred.resolve(ret);
+        // }, function() {
+        //     deferred.reject();
+        // });
+        // return deferred.promise;
     };
 }])
 

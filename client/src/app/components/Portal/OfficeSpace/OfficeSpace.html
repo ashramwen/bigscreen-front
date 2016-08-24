@@ -4,6 +4,6 @@
         <app-room ng-repeat="r in firstRooms" room="r"></app-room>
     </div>
     <div class="room-row second">
-        <app-room ng-repeat="r in secondRooms" room="r" class="sm"></app-room>
+        <app-room ng-repeat="r in secondRooms track by r.location" room="r" class="sm"></app-room>
     </div>
 </div>
