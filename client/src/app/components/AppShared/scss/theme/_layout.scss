@@ -1,5 +1,4 @@
 @import "./conf/conf";
-
 $left-space: 180px;
 @include scrollbars(.5em, #d9d9d9, rgba(0, 0, 0, 0));
 html {
@@ -15,6 +14,7 @@ body {
 }
 
 main {
+    width: 1920px;
     min-height: 100%;
     position: relative;
     font: 14px/16px $font-family;
