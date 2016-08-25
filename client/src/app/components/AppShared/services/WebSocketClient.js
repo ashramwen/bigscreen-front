@@ -20,6 +20,7 @@ angular.module('BigScreen.AppShared')
             // 'Authorization': 'Bearer super_token '
             'Authorization': 'Bearer ' + SessionService.getPortalAdmin().accessToken
         }, connect_callback, error_callback);
+        _client.debug = angular.noop();
     })();
 
     return {

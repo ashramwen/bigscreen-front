@@ -2,14 +2,13 @@
     <div class="room-head">
         <div class="name">
             <div class="title">{{room.name}}</div>
-            <div class="id">{{room.id}}</div>
+            <div class="id">{{room.no}}</div>
         </div>
         <div class="status"></div>
     </div>
     <div class="room-body">
         <ul>
-            <li>15:00-16:00</li>
-            <li>16:00-17:00</li>
+            <li ng-repeat="info in room.bookInfoList">{{info.start}}-{{info.end}}</li>
         </ul>
     </div>
     <div class="room-foot">

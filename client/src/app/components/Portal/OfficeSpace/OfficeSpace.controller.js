@@ -46,6 +46,7 @@ angular.module('BigScreen.Portal')
         room[type].forEach(function(thing) {
             if (!thing.kiiAppID || !thing.kiiThingID) return;
             WebSocketClient.subscribe(thing.kiiAppID, thing.kiiThingID, function(res) {
+                // console.log(thing, res.state);
                 angular.extend(thing.status, res.state);
                 switch (thing.type) {
                     case 'AirCondition':

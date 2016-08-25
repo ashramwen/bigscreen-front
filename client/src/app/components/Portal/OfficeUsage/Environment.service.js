@@ -4,8 +4,8 @@ angular.module('BigScreen.Portal')
 
 .factory('PopulationService', ['$resource', '$q', function($resource, $q) {
     var Face = $resource(thirdPartyAPIUrl, {
-        startTime: moment().startOf('day').valueOf() / 1000,
-        endTime: moment().endOf('day').millisecond(0).valueOf() / 1000
+        startTime: moment().hour(0).minute(0).second(0).millisecond(0).valueOf() / 1000,
+        endTime: moment().hour(23).minute(59).second(59).millisecond(0).valueOf() / 1000
     }, {
         getFacialIdentify: {
             url: thirdPartyAPIUrl + 'facialIdentify/aggregate',
