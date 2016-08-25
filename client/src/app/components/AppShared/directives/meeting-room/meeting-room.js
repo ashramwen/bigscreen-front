@@ -1,6 +1,6 @@
 angular.module('BigScreen.AppShared')
 
-.directive('appMeetingRoom', ['BookingService', function(BookingService) {
+.directive('appMeetingRoom', ['BookingService', 'appMeetingRoomService', function(BookingService, appMeetingRoomService) {
     return {
         restrict: 'E',
         templateUrl: 'app/components/AppShared/directives/meeting-room/meeting-room.html',
@@ -18,6 +18,7 @@ angular.module('BigScreen.AppShared')
                     return true;
                 });
             }
+            appMeetingRoomService(room);
             scope.room.bookInfoList = [];
             BookingService.get({ id: scope.room.id, sign: scope.room.sign }).$promise.then(function(res) {
                 if (!res.success) return;
@@ -38,5 +39,12 @@ angular.module('BigScreen.AppShared')
                 checkRoom(time);
             });
         }
+    }
+}])
+
+
+.factory('appMeetingRoomService', ['WebSocketClient', function(WebSocketClient) {
+    return function(room) {
+
     }
 }]);

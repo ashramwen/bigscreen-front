@@ -13,11 +13,11 @@
     </div>
     <div class="room-foot">
         <div class="icon-wrap">
-            <div class="icon light"></div>
+            <div class="icon light" ng-class="{'off': !room.light}"></div>
             <div class="vl"></div>
-            <div class="icon air"></div>
+            <div class="icon air" ng-class="{'off': !room.air}"></div>
             <div class="vl"></div>
-            <div class="icon person"></div>
+            <div class="icon person" ng-class="{'off': !room.person}"></div>
         </div>
     </div>
 </div>

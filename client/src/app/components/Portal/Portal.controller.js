@@ -58,9 +58,9 @@ angular.module('BigScreen.Portal')
     var onehr = 3600000;
     // onehr = 10000;
     $interval(function() {
-        $scope.time = moment().startOf('minute');
-        $rootScope.$broadcast('theMin', $scope.time);
-        if ($scope.time.valueOf() % onehr === 0)
+        $scope.time = moment().startOf('minute').valueOf();
+        $rootScope.$broadcast('theMin', moment($scope.time));
+        if ($scope.time % onehr === 0)
             $rootScope.$broadcast('theHour');
         rotateState();
     }, 60000);

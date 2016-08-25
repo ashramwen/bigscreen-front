@@ -2,7 +2,6 @@
 
 angular.module('BigScreen.AppShared')
 
-
 .factory('WebSocketClient', ['$rootScope', 'SessionService', function($rootScope, SessionService) {
     var _client = {};
     var subscriptionList = [];
@@ -20,7 +19,7 @@ angular.module('BigScreen.AppShared')
             // 'Authorization': 'Bearer super_token '
             'Authorization': 'Bearer ' + SessionService.getPortalAdmin().accessToken
         }, connect_callback, error_callback);
-        _client.debug = angular.noop();
+        // _client.debug = angular.noop();
     })();
 
     return {

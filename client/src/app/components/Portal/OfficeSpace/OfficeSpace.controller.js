@@ -2,8 +2,9 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('OfficeSpaceController', ['$scope', '$$Location', 'WebSocketClient', function($scope, $$Location, WebSocketClient) {
+.controller('OfficeSpaceController', ['$scope', '$$Location', 'RoomSensorService', 'StatusDetector', function($scope, $$Location, RoomSensorService, StatusDetector) {
 
+    var _client;
     var surscribeField = ['AirCondition', 'EnvironmentSensor', 'Lighting'];
 
     $scope.firstRooms = [
@@ -30,77 +31,13 @@ angular.module('BigScreen.Portal')
                     room[thing.type] = [];
                 room[thing.type].push(thing);
             });
-            detectSensor(room);
-            presubscribe(room);
+            StatusDetector.detectAll(room);
+            _client = RoomSensorService(room);
         });
     })
 
-    function presubscribe(room) {
-        surscribeField.forEach(function(type) {
-            if (!room.hasOwnProperty(type)) return;
-            subscribeThings(room, type);
-        });
-    }
-
-    function subscribeThings(room, type) {
-        room[type].forEach(function(thing) {
-            if (!thing.kiiAppID || !thing.kiiThingID) return;
-            WebSocketClient.subscribe(thing.kiiAppID, thing.kiiThingID, function(res) {
-                // console.log(thing, res.state);
-                angular.extend(thing.status, res.state);
-                switch (thing.type) {
-                    case 'AirCondition':
-                        detectAirCondition(room)
-                        break;
-                    case 'EnvironmentSensor':
-                        detectPIR(room)
-                        break;
-                    case 'Lighting':
-                        detectLighting(room)
-                        break;
-                }
-            });
-        });
-    }
-
-    function detectSensor(room) {
-        detectLighting(room);
-        detectAirCondition(room);
-        detectPIR(room);
-    }
-
-    function detectLighting(room) {
-        if (!room.hasOwnProperty('Lighting')) return;
-        room.light = room.light | 0;
-        room['Lighting'].forEach(function(thing) {
-            if (!thing.status) return;
-            room.light = room.light | thing.status.Power;
-        });
-    }
-
-    function detectAirCondition(room) {
-        if (!room.hasOwnProperty('AirCondition')) return;
-        room.air = room.air | 0;
-        room['AirCondition'].forEach(function(thing) {
-            if (!thing.status) return;
-            room.air = room.air | thing.status.Power;
-        });
-    }
-
-    function detectPIR(room) {
-        if (!room.hasOwnProperty('EnvironmentSensor')) return;
-        room.person = room.person | 0;
-        room['EnvironmentSensor'].forEach(function(thing) {
-            if (!thing.status) return;
-            room.person = room.person | thing.status.PIR;
-        });
-    }
-
-    function subscription(room, message) {
-
-    }
-
     $scope.$on('$destroy', function() {
-        WebSocketClient.unsubscribeAll();
+        if (_client)
+            _client.unsubscribeAll();
     });
 }]);
