@@ -2,10 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('OfficeSpaceController', ['$scope', '$$Location', 'RoomSensorService', 'StatusDetector', function($scope, $$Location, RoomSensorService, StatusDetector) {
-
-    var _client;
-    var surscribeField = ['AirCondition', 'EnvironmentSensor', 'Lighting'];
+.controller('OfficeSpaceController', ['$scope', 'WebSocketClient', 'RoomSensorService', function($scope, WebSocketClient, RoomSensorService) {
 
     $scope.firstRooms = [
         { location: '0807w-W05', name: '工位区', type: 'work' },
@@ -25,19 +22,14 @@ angular.module('BigScreen.Portal')
     ];
 
     $scope.firstRooms.forEach(function(room, i) {
-        $$Location.getAllThingsByLocation({ location: room.location }).$promise.then(function(res) {
-            res.forEach(function(thing, i) {
-                if (!room.hasOwnProperty(thing.type))
-                    room[thing.type] = [];
-                room[thing.type].push(thing);
-            });
-            StatusDetector.detectAll(room);
-            _client = RoomSensorService(room);
-        });
+        RoomSensorService(room);
+    })
+
+    $scope.secondRooms.forEach(function(room, i) {
+        RoomSensorService(room);
     })
 
     $scope.$on('$destroy', function() {
-        if (_client)
-            _client.unsubscribeAll();
+        WebSocketClient.unsubscribeAll();
     });
 }]);

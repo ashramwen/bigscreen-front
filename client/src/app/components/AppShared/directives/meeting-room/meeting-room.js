@@ -1,6 +1,6 @@
 angular.module('BigScreen.AppShared')
 
-.directive('appMeetingRoom', ['BookingService', 'appMeetingRoomService', function(BookingService, appMeetingRoomService) {
+.directive('appMeetingRoom', ['WebSocketClient', 'BookingService', 'RoomSensorService', function(WebSocketClient, BookingService, RoomSensorService) {
     return {
         restrict: 'E',
         templateUrl: 'app/components/AppShared/directives/meeting-room/meeting-room.html',
@@ -18,7 +18,7 @@ angular.module('BigScreen.AppShared')
                     return true;
                 });
             }
-            appMeetingRoomService(scope.room);
+            RoomSensorService(scope.room);
             scope.room.bookInfoList = [];
             BookingService.get({ id: scope.room.id, sign: scope.room.sign }).$promise.then(function(res) {
                 if (!res.success) return;
@@ -39,14 +39,8 @@ angular.module('BigScreen.AppShared')
                 checkRoom(time);
             });
             scope.$on('$destroy', function() {
-                // console.log('destroy');
+                WebSocketClient.unsubscribe(scope.room.kiiAppID, scope.room.kiiThingID);
             });
         }
-    }
-}])
-
-.factory('appMeetingRoomService', ['WebSocketClient', function(WebSocketClient) {
-    return function(room) {
-
     }
 }]);

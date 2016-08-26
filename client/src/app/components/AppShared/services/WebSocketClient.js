@@ -38,7 +38,8 @@ angular.module('BigScreen.AppShared')
                 });
             }, headers);
         },
-        unsubscribe: function(destination) {
+        unsubscribe: function(app, thingId) {
+            var destination = '/topic/' + app + '/' + thingId;
             _client.unsubscribe(destination);
         },
         unsubscribeAll: function() {
