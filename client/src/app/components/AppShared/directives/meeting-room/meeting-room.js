@@ -18,7 +18,7 @@ angular.module('BigScreen.AppShared')
                     return true;
                 });
             }
-            RoomSensorService(scope.room);
+            RoomSensorService.run(scope.room);
             scope.room.bookInfoList = [];
             BookingService.get({ id: scope.room.id, sign: scope.room.sign }).$promise.then(function(res) {
                 if (!res.success) return;
@@ -39,7 +39,7 @@ angular.module('BigScreen.AppShared')
                 checkRoom(time);
             });
             scope.$on('$destroy', function() {
-                WebSocketClient.unsubscribe(scope.room.kiiAppID, scope.room.kiiThingID);
+                RoomSensorService.stop(scope.room);
             });
         }
     }

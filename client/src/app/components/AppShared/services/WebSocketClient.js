@@ -30,17 +30,14 @@ angular.module('BigScreen.AppShared')
             var destination = '/topic/' + app + '/' + thingId;
             if (subscriptionList.indexOf(destination) > -1) return;
             subscriptionList.push(destination);
-            _client.subscribe(destination, function() {
+            var s = _client.subscribe(destination, function() {
                 var args = arguments;
                 args[0] = JSON.parse(args[0].body);
                 $rootScope.$apply(function() {
                     callback.apply(_client, args);
                 });
             }, headers);
-        },
-        unsubscribe: function(app, thingId) {
-            var destination = '/topic/' + app + '/' + thingId;
-            _client.unsubscribe(destination);
+            return s;
         },
         unsubscribeAll: function() {
             var i = 0;

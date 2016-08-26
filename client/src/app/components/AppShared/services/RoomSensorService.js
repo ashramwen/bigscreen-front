@@ -4,13 +4,14 @@ angular.module('BigScreen.AppShared')
 
 .factory('RoomSensorService', ['$rootScope', '$$Location', 'WebSocketClient', 'StatusDetector', function($rootScope, $$Location, WebSocketClient, StatusDetector) {
     function subscribeThings(room, type) {
+        var subscription;
         room.things[type].forEach(function(thing) {
             if (!thing.kiiAppID || !thing.kiiThingID) return;
-            WebSocketClient.subscribe(thing.kiiAppID, thing.kiiThingID, function(res) {
-                // console.log(thing, res.state);
+            subscription = WebSocketClient.subscribe(thing.kiiAppID, thing.kiiThingID, function(res) {
                 angular.extend(thing.status, res.state);
                 StatusDetector.detectSpecificType(room, type);
             });
+            subscription && room.subscriptions.push(subscription);
         });
     }
 
@@ -23,25 +24,31 @@ angular.module('BigScreen.AppShared')
 
     var surscribeField = ['AirCondition', 'EnvironmentSensor', 'Lighting'];
 
-    return function(room) {
-        if (!room.things) room.things = {};
-        $$Location.getAllThingsByLocation({ location: room.location }).$promise.then(function(res) {
-            res.forEach(function(thing, i) {
-                if (!room.things.hasOwnProperty(thing.type))
-                    room.things[thing.type] = [];
-                room.things[thing.type].push(thing);
-            });
-            StatusDetector.detectAll(room);
+    return {
+        run: function(room) {
+            if (!room.things) room.things = {};
+            room.subscriptions = [];
+            $$Location.getAllThingsByLocation({ location: room.location }).$promise.then(function(res) {
+                res.forEach(function(thing, i) {
+                    if (!room.things.hasOwnProperty(thing.type))
+                        room.things[thing.type] = [];
+                    room.things[thing.type].push(thing);
+                });
+                StatusDetector.detectAll(room);
 
-            if (WebSocketClient.isConnected()) {
-                presubscribe(room);
-            } else {
-                $rootScope.$on('stomp.connected', function() {
+                if (WebSocketClient.isConnected()) {
                     presubscribe(room);
-                })
-            }
-        });
-
-        return WebSocketClient;
+                } else {
+                    $rootScope.$on('stomp.connected', function() {
+                        presubscribe(room);
+                    })
+                }
+            });
+        },
+        stop: function(room) {
+            room.subscriptions.forEach(function(subscription) {
+                subscription.unsubscribe();
+            });
+        }
     }
 }]);

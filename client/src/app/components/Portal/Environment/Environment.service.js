@@ -30,12 +30,12 @@ angular.module('BigScreen.Portal')
         };
         buckets.forEach(function(bucket) {
             switch (bucket.key) {
-                case 'in':
+                case 'east_in':
                 case 'south_in':
                     population.total += bucket.doc_count;
                     population.guest += getNonBeehiveNumber(bucket);
                     break;
-                case 'out':
+                case 'east_out':
                 case 'south_out':
                     population.total -= bucket.doc_count;
                     population.guest -= getNonBeehiveNumber(bucket);

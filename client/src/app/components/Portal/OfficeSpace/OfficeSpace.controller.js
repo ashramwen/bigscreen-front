@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('OfficeSpaceController', ['$scope', 'WebSocketClient', 'RoomSensorService', function($scope, WebSocketClient, RoomSensorService) {
+.controller('OfficeSpaceController', ['$scope', function($scope) {
 
     $scope.firstRooms = [
         { location: '0807w-W05', name: '工位区', type: 'work' },
@@ -20,16 +20,4 @@ angular.module('BigScreen.Portal')
         { location: '0807w-F05', name: '休闲区', type: 'rest' },
         { location: '0807w-F04', name: '休闲区', type: 'rest' }
     ];
-
-    $scope.firstRooms.forEach(function(room, i) {
-        RoomSensorService(room);
-    })
-
-    $scope.secondRooms.forEach(function(room, i) {
-        RoomSensorService(room);
-    })
-
-    $scope.$on('$destroy', function() {
-        WebSocketClient.unsubscribeAll();
-    });
 }]);

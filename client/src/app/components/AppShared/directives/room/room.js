@@ -1,14 +1,18 @@
 angular.module('BigScreen.AppShared')
-  .directive('appRoom',['$timeout',function($timeout){
+
+.directive('appRoom', ['WebSocketClient', 'RoomSensorService', function(WebSocketClient, RoomSensorService) {
     return {
         restrict: 'E',
         templateUrl: 'app/components/AppShared/directives/room/room.html',
         replace: true,
-        scope:{
+        scope: {
             room: '='
         },
-        link: function(scope, element, attrs){
-
+        link: function(scope, element, attrs) {
+            RoomSensorService.run(scope.room);
+            scope.$on('$destroy', function() {
+                RoomSensorService.stop(scope.room);
+            });
         }
     }
-  }]);
+}]);
