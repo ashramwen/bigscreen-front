@@ -2,10 +2,10 @@
 
 angular.module('BigScreen.Portal')
 
-.factory('PopulationService', ['$resource', '$q', function($resource, $q) {
-    var Face = $resource(thirdPartyAPIUrl, {
-        startTime: moment().startOf('day').valueOf() / 1000,
-        endTime: moment().endOf('day').millisecond(0).valueOf() / 1000
+.factory('EnvironmentService', ['$resource', '$q', function($resource, $q) {
+    return $resource(thirdPartyAPIUrl, {
+        startDateTime: moment().startOf('day').valueOf() / 1000,
+        endDateTime: moment().endOf('day').millisecond(0).valueOf() / 1000
     }, {
         getFacialIdentify: {
             url: thirdPartyAPIUrl + 'facialIdentify/aggregate',
@@ -16,22 +16,53 @@ angular.module('BigScreen.Portal')
             }
         }
     });
-
-    var qIn = Face.getFacialIdentify;
-
-    return function() {
-        // var deferred = $q.defer();
-        // $q.all([qIn().$promise, qOut().$promise]).then(function(res) {
-        //     var ret = [res[0].aggregations.byHour.buckets, res[1].aggregations.byHour.buckets];
-        //     deferred.resolve(ret);
-        // }, function() {
-        //     deferred.reject();
-        // });
-        // return deferred.promise;
-    };
 }])
 
-.factory('PopulationChart', ['$rootScope', 'PopulationService', function($rootScope, PopulationService) {
+.factory('PopulationChart', ['$rootScope', '$q', 'EnvironmentService', function($rootScope, $q, EnvironmentService) {
+
+    function parseData(buckets, total) {
+        var population = {
+            total: 0,
+            beehive: 0,
+            beehive_display: 0,
+            guest: 0,
+            guest_display: 0
+        };
+        buckets.forEach(function(bucket) {
+            switch (bucket.key) {
+                case 'in':
+                case 'south_in':
+                    population.total += bucket.doc_count;
+                    population.guest += getNonBeehiveNumber(bucket);
+                    break;
+                case 'out':
+                case 'south_out':
+                    population.total -= bucket.doc_count;
+                    population.guest -= getNonBeehiveNumber(bucket);
+                    break;
+            }
+        });
+        population.beehive = population.total - population.guest;
+        population.beehive_display = calNumber(population.beehive);
+        population.guest_display = calNumber(population.guest);
+        return population;
+    }
+
+    function getNonBeehiveNumber(bucket) {
+        var count = 0;
+        bucket.beehive_user_count.buckets.forEach(function(b) {
+            if (b.key !== 'non_beehive_user') return;
+            count = b.doc_count;
+            return true;
+        });
+        return count;
+    }
+
+    function calNumber(count) {
+        count = Math.floor(count / 10);
+        return (count > 10) ? 10 : count;
+    }
+
     var option = {
         tooltip: {
             trigger: 'item',
@@ -66,53 +97,19 @@ angular.module('BigScreen.Portal')
         }]
     };
 
-    function parseData(resIn, resOut) {
-        var x = [],
-            dataIn = [],
-            dataOut = [];
-        var i = 0;
-        var length = (resIn.length > resOut.length) ? resIn.length : resOut.length;
-        for (; i < length; i++) {
-            if (resIn[i]) {
-                x[i] = resIn[i].key;
-                dataIn.push(resIn[i].doc_count);
-            }
-            if (resOut[i]) {
-                x[i] = resOut[i].key;
-                dataOut.push(resOut[i].doc_count);
-            }
-        }
-        return {
-            x: x,
-            dataIn: dataIn,
-            dataOut: dataOut
+    var myChart;
+
+    return {
+        init: function(elem, population) {
+            var q = $q.defer();
+            EnvironmentService.getFacialIdentify().$promise.then(function(res) {
+                myChart = echarts.init(elem);
+                myChart.setOption(option);
+                q.resolve(parseData(res.aggregations.action.buckets));
+            }, function() {
+                q.reject();
+            });
+            return q.promise;
         }
     }
-
-    var myChart;
-    var Chart = {
-        init: function(elem) {
-            myChart = echarts.init(elem);
-            myChart.setOption(option);
-        },
-        setData: function() {
-            ParkingService().then(function(res) {
-                var data = parseData(res[0], res[1]);
-                myChart.setOption({
-                    xAxis: {
-                        data: data.x
-                    },
-                    series: [{
-                        name: '进入高峰',
-                        data: data.dataIn
-                    }, {
-                        name: '驶出高峰',
-                        data: data.dataOut
-                    }]
-                });
-            });
-        }
-    };
-
-    return Chart;
 }]);

@@ -45,7 +45,6 @@ angular.module('BigScreen.AppShared')
     }
 }])
 
-
 .factory('appMeetingRoomService', ['WebSocketClient', function(WebSocketClient) {
     return function(room) {
 

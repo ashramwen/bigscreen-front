@@ -25,30 +25,18 @@
             <div class="pull-left population">
                 <div class="title">办公室人员</div>
                 <div class="people">
-                    <div class="text">员工 /100</div>
+                    <div class="text">员工 /{{population.beehive}}</div>
                     <div class="people-bar">
                         <div class="people-container">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
+                            <img src="images/icon_person.png" width="23" height="57" alt="" ng-repeat="p in [] | range:0:population.beehive_display">
                         </div>
                     </div>
                 </div>
                 <div class="people">
-                    <div class="text">访客 /40</div>
+                    <div class="text">访客 /{{population.guest}}</div>
                     <div class="people-bar">
                         <div class="people-container">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
-                            <img src="images/icon_person.png" width="23" height="57" alt="">
+                            <img src="images/icon_person.png" width="23" height="57" alt="" ng-repeat="p in [] | range:0:population.guest_display">
                         </div>
                     </div>
                 </div>
