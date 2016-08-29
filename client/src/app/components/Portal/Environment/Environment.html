@@ -50,22 +50,19 @@
     <div class=" pull-right air-wrap">
         <div class="title">办公室空气质量</div>
         <div class="type temp">
-            <div class="text">温度 舒适/24℃</div>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"></div>
-            </div>
+            <div class="text">温度 {{status.temp | tempLevel}}/ {{status.temp | celsius}}</div>
+            <!--- [溫度] -5 ~ 45 -->
+            <uib-progressbar max="50" value="status.temp+5"></uib-progressbar>
         </div>
         <div class="type co2">
-            <div class="text">CO2含量 优/10%</div>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"></div>
-            </div>
+            <div class="text">CO2含量 {{status.co2 | co2Level}}/ {{status.co2}}</div>
+            <!-- [CO2] 350 - 1000 -->
+            <uib-progressbar max="650" value="status.co2-350"></uib-progressbar>
         </div>
         <div class="type pm25">
-            <div class="text">PM2.5 优/31</div>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"></div>
-            </div>
+            <div class="text">PM2.5 {{status.pm25 | pm25Level}}/ {{status.pm25}}</div>
+            <!-- [PM2.5] 0-70 -->
+            <uib-progressbar max="70" value="status.pm25"></uib-progressbar>
         </div>
         <div class="foot"><i class="fa fa-exclamation-circle" aria-hidden="true"></i> 智能模式已启动，为您自动调适最舒适环境</div>
     </div>

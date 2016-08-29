@@ -3,17 +3,27 @@
 angular.module('BigScreen.Portal')
 
 .factory('EnvironmentService', ['$resource', '$q', function($resource, $q) {
-    return $resource(thirdPartyAPIUrl, {
-        startDateTime: moment().startOf('day').valueOf() / 1000,
-        endDateTime: moment().endOf('day').millisecond(0).valueOf() / 1000
-    }, {
+    return $resource(thirdPartyAPIUrl, {}, {
         getFacialIdentify: {
             url: thirdPartyAPIUrl + 'facialIdentify/aggregate',
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer super_token',
                 'apiKey': thirdPartyAPIKey
+            },
+            params: {
+                startDateTime: moment().startOf('day').valueOf() / 1000,
+                endDateTime: moment().endOf('day').millisecond(0).valueOf() / 1000
             }
+        },
+        getThingsLatestStatus: {
+            url: thirdPartyAPIUrl + 'ES/ThingsLatestStatusQuery',
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer super_token',
+                'apiKey': thirdPartyAPIKey
+            },
+            params: {}
         }
     });
 }])
@@ -105,7 +115,12 @@ angular.module('BigScreen.Portal')
             EnvironmentService.getFacialIdentify().$promise.then(function(res) {
                 myChart = echarts.init(elem);
                 myChart.setOption(option);
-                q.resolve(parseData(res.aggregations.action.buckets));
+                try {
+                    q.resolve(parseData(res.aggregations.action.buckets));
+                } catch (e) {
+                    console.log('no facial identify data.')
+                    q.resolve(parseData([]));
+                }
             }, function() {
                 q.reject();
             });

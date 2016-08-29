@@ -17,7 +17,7 @@ angular.module('BigScreen.Portal')
         getCarOutFrequency: {
             url: thirdPartyAPIUrl + 'carparking/CarOutFrequency',
             method: 'GET',
-            headers: { 'apiKey': thirdPartyAPIKey }
+            headers: { 'apiKey': thirdPartyAPIKey },
         }
     });
 
