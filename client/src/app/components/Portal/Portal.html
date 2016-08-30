@@ -9,9 +9,28 @@
                     <a ng-click="changeNav(nav)"><i class="fa fa-fw" ng-class="nav.icon"></i> {{nav.name}}</a>
                 </li>
                 <li class="divider"></li>
-                <li role="menuitem" class="switch">
+                <li class="menuitem">
+                    <a href="#"><i class="fa fa-fw fa-check" ng-class="nav.icon"></i> 圖片1</a>
+                </li>
+                <li class="menuitem">
+                    <a href="#"><i class="fa fa-fw" ng-class="nav.icon"></i> 圖片2</a>
+                </li>
+                <li class="menuitem">
+                    <a href="#"><i class="fa fa-fw" ng-class="nav.icon"></i> 圖片3</a>
+                </li>
+                <li class="divider"></li>
+                <li role="menuitem" class="input">
                     <span>轮播:</span>
                     <switchery ng-model="rotation"></switchery>
+                </li>
+                <li role="menuitem" class="input">
+                    <span>位置:</span>
+                    <!--<input type="text" class="form-control pull-right" placeholder="位置">-->
+                    <select class="form-control pull-right">
+                        <option value="0">无</option>
+                        <option value="1">打印室</option>
+                        <option value="2">公共区域</option>
+                    </select>
                 </li>
             </ul>
         </div>
