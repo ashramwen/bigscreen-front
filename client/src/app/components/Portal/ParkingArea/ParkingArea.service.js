@@ -5,8 +5,8 @@ angular.module('BigScreen.Portal')
 
 .factory('ParkingService', ['$resource', '$q', function($resource, $q) {
     var Parking = $resource(thirdPartyAPIUrl, {
-        startTime: moment().hour(8).minute(0).second(0).millisecond(0).valueOf(),
-        endTime: moment().hour(20).minute(0).second(0).millisecond(0).valueOf(),
+        startTime: moment().startOf('hour').hour(8).valueOf(),
+        endTime: moment().startOf('hour').hour(20).valueOf(),
         interval: '1h'
     }, {
         getCarInFrequency: {
@@ -18,22 +18,39 @@ angular.module('BigScreen.Portal')
             url: thirdPartyAPIUrl + 'carparking/CarOutFrequency',
             method: 'GET',
             headers: { 'apiKey': thirdPartyAPIKey },
+        },
+        leaveAvgTime: {
+            url: thirdPartyAPIUrl + 'carparking/leaveAvgTime',
+            method: 'GET',
+            headers: { 'apiKey': thirdPartyAPIKey },
+            params: {
+                startTime: moment().subtract(1, 'days').startOf('day').valueOf(),
+                endTime: moment().valueOf(),
+            },
+            transformResponse: function(data) {
+                return { time: angular.fromJson(data) }
+            }
         }
     });
 
     var qIn = Parking.getCarInFrequency;
     var qOut = Parking.getCarOutFrequency;
 
-    return function() {
-        var deferred = $q.defer();
-        $q.all([qIn().$promise, qOut().$promise]).then(function(res) {
-            var ret = [res[0].aggregations.byHour.buckets, res[1].aggregations.byHour.buckets];
-            deferred.resolve(ret);
-        }, function() {
-            deferred.reject();
-        });
-        return deferred.promise;
-    };
+    return {
+        getCarInOut: function() {
+            var deferred = $q.defer();
+            $q.all([qIn().$promise, qOut().$promise]).then(function(res) {
+                var ret = [res[0].aggregations.byHour.buckets, res[1].aggregations.byHour.buckets];
+                deferred.resolve(ret);
+            }, function() {
+                deferred.reject();
+            });
+            return deferred.promise;
+        },
+        leaveAvgTime: function() {
+            return Parking.leaveAvgTime();
+        }
+    }
 }])
 
 .factory('ParkingChart', ['$rootScope', 'ParkingService', function($rootScope, ParkingService) {
@@ -190,7 +207,7 @@ angular.module('BigScreen.Portal')
             myChart.setOption(option);
         },
         setData: function() {
-            ParkingService().then(function(res) {
+            ParkingService.getCarInOut().then(function(res) {
                 var data = parseData(res[0], res[1]);
                 myChart.setOption({
                     xAxis: {

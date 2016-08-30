@@ -32,6 +32,10 @@ angular.module('BigScreen.Portal')
         });
     }
 
+    $scope.displayValue = function(input, correction) {
+
+    }
+
     function getStatus(res) {
         try {
             var temp;
@@ -61,10 +65,13 @@ angular.module('BigScreen.Portal')
                     pm25Count++;
                 }
             });
+            temp = tempCount ? (parseFloat(tempTotal) / tempCount).toFixed(1) : NaN;
+            co2 = co2Count ? (co2Total / co2Count).toFixed(0) : NaN;
+            pm25 = pm25Count ? (pm25Total / pm25Count).toFixed(0) : NaN;
             $scope.status = {
-                temp: (parseFloat(tempTotal) / tempCount).toFixed(1),
-                co2: (co2Total / co2Count).toFixed(0),
-                pm25: (pm25Total / pm25Count).toFixed(0)
+                temp: temp,
+                co2: co2,
+                pm25: pm25
             }
         } catch (e) {
             console.warn('ThingsLatestStatus data error.')
