@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('PortalController', ['$scope', '$rootScope', '$state', 'AppUtils', 'PortalService', 'SessionService', '$interval', 'WebSocketClient', function($scope, $rootScope, $state, AppUtils, PortalService, SessionService, $interval, WebSocketClient) {
+.controller('PortalController', ['$scope', '$rootScope', '$state', 'AppUtils', 'PortalService', 'SessionService', '$interval', 'WebSocketClient', 'GeofenceService', function($scope, $rootScope, $state, AppUtils, PortalService, SessionService, $interval, WebSocketClient, GeofenceService) {
     var userInfo = SessionService.getPortalAdmin();
     if (!userInfo) {
         $state.go('app.Secure');
@@ -18,7 +18,7 @@ angular.module('BigScreen.Portal')
     $scope.current = $state.current;
 
     $scope.menuOff = false;
-    // $scope.rotation = true;
+    $scope.rotation = true;
 
     checkState();
 
@@ -114,4 +114,7 @@ angular.module('BigScreen.Portal')
 
         // });
     });
+
+    GeofenceService.current = GeofenceService.scopes[0];
+    console.log(GeofenceService.isIn(120.028456, 30.278226));
 }]);

@@ -5,7 +5,7 @@ angular.module('BigScreen.AppShared')
 .factory('GeofenceService', ['$rootScope', function($rootScope) {
     var scopes = [{
         location: '打印室',
-        points: [
+        scope: [
             { lng: 120.028441, lat: 30.278226 },
             { lng: 120.028485, lat: 30.278236 },
             { lng: 120.028501, lat: 30.278192 },
@@ -13,7 +13,7 @@ angular.module('BigScreen.AppShared')
         ]
     }, {
         location: '公共区域',
-        points: [
+        scope: [
             { lng: 120.028353, lat: 30.278305 },
             { lng: 120.028411, lat: 30.278317 },
             { lng: 120.028438, lat: 30.278254 },
@@ -21,16 +21,15 @@ angular.module('BigScreen.AppShared')
         ]
     }];
 
-    function searchPolygon(p, points) {
+    function searchPolygon(lng, lat, scope) {
         var size = scope.length;
         var count = 0;
         for (var i = 0; i < size; i++) {
             var nextI = (i + 1) % size;
-            var inRightSide = isInRightSide(p.lng, p.lat, points[i].lng, points[i].lat, points[nextI].lng, points[nextI].lat);
+            var inRightSide = isInRightSide(lng, lat, scope[i].lng, scope[i].lat, scope[nextI].lng, scope[nextI].lat);
             if (!inRightSide) break;
             count++;
         }
-
         return count === size;
     }
 
@@ -43,9 +42,9 @@ angular.module('BigScreen.AppShared')
     return {
         current: undefined,
         scopes: scopes,
-        isIn: function(p) {
+        isIn: function(lng, lat) {
             if (!this.current) return false;
-            return searchPolygon(p, this.current.points);
+            return searchPolygon(lng, lat, this.current.scope);
         }
     }
 }]);
