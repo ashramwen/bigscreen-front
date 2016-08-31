@@ -52,7 +52,6 @@ angular.module('BigScreen.Portal')
                 if (temp !== undefined) {
                     tempTotal += temp;
                     tempCount++;
-                    console.log(temp);
                 }
                 co2 = getStateValue(thing, 'CO2');
                 if (co2 !== undefined) {
@@ -69,9 +68,9 @@ angular.module('BigScreen.Portal')
             co2 = co2Count ? (co2Total / co2Count).toFixed(0) : NaN;
             pm25 = pm25Count ? (pm25Total / pm25Count).toFixed(0) : NaN;
             $scope.status = {
-                temp: temp,
-                co2: co2,
-                pm25: pm25
+                temp: parseFloat(temp),
+                co2: parseInt(co2),
+                pm25: parseInt(pm25)
             }
         } catch (e) {
             console.warn('ThingsLatestStatus data error.')

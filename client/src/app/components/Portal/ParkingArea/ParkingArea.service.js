@@ -68,11 +68,11 @@ angular.module('BigScreen.Portal')
             type: 'category',
             boundaryGap: false,
             data: [],
-            axisLabel: {
-                formatter: function(value, index) {
-                    return moment(value).format('H:mm');
-                }
-            }
+            // axisLabel: {
+            //     formatter: function(value, index) {
+            //         return moment(value).format('H:mm');
+            //     }
+            // }
         },
         yAxis: {
             type: 'value'
@@ -80,7 +80,6 @@ angular.module('BigScreen.Portal')
         series: [{
             name: '进入高峰',
             type: 'line',
-            // data: [11, 11, 15, 1, 12, 13, 10],
             smooth: true,
             itemStyle: {
                 normal: {
@@ -107,29 +106,15 @@ angular.module('BigScreen.Portal')
                         }
                     }
                 },
-                itemStyle: {
-                    normal: {
-                        // color: '#ff6600'
-                    }
-                },
                 symbolSize: 80,
                 data: [{
                     type: 'max',
                     name: '最大值',
-                    // symbolSize: 60,
-                    // label: {
-                    //     normal: {
-                    //         textStyle: {
-                    //             fontSize: 24
-                    //         }
-                    //     }
-                    // }
                 }]
             }
         }, {
             name: '驶出高峰',
             type: 'line',
-            // data: [1, 1, 2, 5, 3, 2, 0],
             smooth: true,
             itemStyle: {
                 normal: {
@@ -155,23 +140,10 @@ angular.module('BigScreen.Portal')
                         }
                     }
                 },
-                itemStyle: {
-                    normal: {
-                        // color: '#2bce10'
-                    }
-                },
                 symbolSize: 80,
                 data: [{
                     type: 'max',
-                    name: '最大值',
-                    // symbolSize: 60,
-                    // label: {
-                    //     normal: {
-                    //         textStyle: {
-                    //             fontSize: 24
-                    //         }
-                    //     }
-                    // }
+                    name: '最大值'
                 }]
             },
         }]
@@ -185,11 +157,11 @@ angular.module('BigScreen.Portal')
         var length = (resIn.length > resOut.length) ? resIn.length : resOut.length;
         for (; i < length; i++) {
             if (resIn[i]) {
-                x[i] = resIn[i].key;
+                x[i] = moment(resIn[i].key).format('H:mm');
                 dataIn.push(resIn[i].doc_count);
             }
             if (resOut[i]) {
-                x[i] = resOut[i].key;
+                x[i] = moment(resOut[i].key).format('H:mm');
                 dataOut.push(resOut[i].doc_count);
             }
         }

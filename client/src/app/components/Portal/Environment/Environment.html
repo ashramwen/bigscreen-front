@@ -52,12 +52,12 @@
         <div class="type temp">
             <div class="text">温度 {{status.temp | tempLevel}} {{status.temp | celsius}}</div>
             <!--- [溫度] -5 ~ 45 -->
-            <uib-progressbar max="50" value="status.pm25|bar:5"></uib-progressbar>
+            <uib-progressbar max="50" value="status.temp|bar:5"></uib-progressbar>
         </div>
         <div class="type co2">
             <div class="text">CO2含量 {{status.co2 | co2Level}} {{status.co2 || ''}}</div>
             <!-- [CO2] 350 - 1000 -->
-            <uib-progressbar max="650" value="status.pm25|bar:-350"></uib-progressbar>
+            <uib-progressbar max="650" value="status.co2|bar:-350"></uib-progressbar>
         </div>
         <div class="type pm25">
             <div class="text">PM2.5 {{status.pm25 | pm25Level}} {{status.pm25 || ''}}</div>

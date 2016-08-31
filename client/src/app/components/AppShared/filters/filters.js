@@ -87,6 +87,6 @@ angular.module('BigScreen.AppShared')
 .filter('bar', function() {
     return function(input, correction) {
         (correction === undefined) && (correction = 0);
-        return input ? input + corrections : 0;
+        return isNaN(input) ? 0 : input + correction;
     };
 });
