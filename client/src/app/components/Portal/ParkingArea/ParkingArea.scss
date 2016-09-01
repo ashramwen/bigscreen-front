@@ -1,3 +1,5 @@
+@import 'src/app/components/AppShared/scss/global.scss';
+
 .app-portal-parkingarea {
     width: 1600px !important;
     margin: 0 auto;
@@ -39,6 +41,12 @@
                 font-size: 20px;
             }
         }
+        .progress{
+            @include border-radius(8px);
+        .progress-bar{
+            background-color: #2aabe2;
+            @include border-radius(8px);
+        }}
         #parking-chart {
             margin-left: -50px;
             width: 1800px;

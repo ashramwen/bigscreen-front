@@ -3,13 +3,9 @@
 angular.module('BigScreen.Portal')
 
 .controller('OfficeUsageController', ['$scope', 'BookingService', function($scope, BookingService) {
-    /*
-    会议中
-    空闲中
 
-    预订
-    今日已满
-    */
+    // 今日已满
+
     // key = 0479f830b0c6e2cd
     // md5: app=kii&id=240479f830b0c6e2cd
     $scope.rooms = [{

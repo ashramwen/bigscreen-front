@@ -1,7 +1,11 @@
-angular.module('BigScreen')
+'use strict';
+
+angular.module('BigScreen.Portal')
 
 .factory('$$User', ['$resource', function($resource) {
-    var User = $resource(MyAPIs.USER + '/:userID', { userID: '@userID' }, {
+    var User = $resource(MyAPIs.USER + '/:userID', {
+        userID: '@userID'
+    }, {
         get: {
             method: 'GET',
             url: MyAPIs.USER + '/me'
@@ -122,7 +126,9 @@ angular.module('BigScreen')
 }])
 
 .factory('$$UserManager', ['$resource', function($resource) {
-    var $$UserManager = $resource(MyAPIs.USER_MANAGER + '/:userID', { userID: '@userID' }, {
+    var $$UserManager = $resource(MyAPIs.USER_MANAGER + '/:userID', {
+        userID: '@userID'
+    }, {
         update: {
             method: 'PATCH',
             url: MyAPIs.USER_MANAGER + '/:userID',
@@ -162,7 +168,9 @@ angular.module('BigScreen')
 }])
 
 .factory('$$UserGroup', ['$resource', function($resource) {
-    var UserGroup = $resource(MyAPIs.USER_GROUP + '/:id', { id: '@userGroupID' }, {
+    var UserGroup = $resource(MyAPIs.USER_GROUP + '/:id', {
+        id: '@userGroupID'
+    }, {
         addUser: {
             method: 'POST',
             url: MyAPIs.USER_GROUP + '/:userGroupID/user/:userID',
@@ -189,7 +197,9 @@ angular.module('BigScreen')
         get: {
             url: MyAPIs.USER_GROUP + '/:userGroupID',
             method: 'GET',
-            params: { userGroupID: '@userGroupID' }
+            params: {
+                userGroupID: '@userGroupID'
+            }
         },
         getList: {
             url: MyAPIs.USER_GROUP + '/all',
@@ -298,24 +308,35 @@ angular.module('BigScreen')
         },
         bindTags: {
             url: MyAPIs.THING + '/:thingids/tags/custom/:tags',
-            params: { thingids: '@things', tags: '@tags' },
+            params: {
+                thingids: '@things',
+                tags: '@tags'
+            },
             method: 'POST'
         },
         removeTags: {
             url: MyAPIs.THING + '/:things/tags/custom/:tags',
-            params: { things: '@things', tags: '@tags' },
+            params: {
+                things: '@things',
+                tags: '@tags'
+            },
             method: 'DELETE'
         },
         byTag: {
             url: MyAPIs.THING + '/search?tagType=:tagType&displayName=:displayName',
-            params: { tagType: '@tagType', displayName: '@displayName' },
+            params: {
+                tagType: '@tagType',
+                displayName: '@displayName'
+            },
             method: 'GET',
             isArray: true,
             //cache : true
         },
         byType: {
             url: MyAPIs.THING + '/types/:typeName',
-            params: { typeName: '@typeName' },
+            params: {
+                typeName: '@typeName'
+            },
             method: 'GET',
             isArray: true
         },
@@ -343,17 +364,24 @@ angular.module('BigScreen')
         getOnboardingInfo: {
             method: 'GET',
             url: MyAPIs.ONBOARDING + '/:vendorThingID',
-            params: { vendorThingID: '@vendorThingID' }
+            params: {
+                vendorThingID: '@vendorThingID'
+            }
         },
         getEndNodes: {
             url: MyAPIs.THING + '/:globalThingID/endnodes',
-            params: { globalThingID: '@globalThingID' },
+            params: {
+                globalThingID: '@globalThingID'
+            },
             method: 'GET',
             isArray: true
         },
         getEndNode: {
             url: MyAPIs.CLOUD_THING_IF + '/apps/:kiiAppID/targets/THING::thingID/states',
-            params: { thingID: '@thingID', kiiAppID: '@kiiAppID' },
+            params: {
+                thingID: '@thingID',
+                kiiAppID: '@kiiAppID'
+            },
             headers: {
                 Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
             },
@@ -361,7 +389,11 @@ angular.module('BigScreen')
         },
         replaceEndNode: {
             url: MyAPIs.CLOUD_THING_IF + '/apps/:kiiAppID/things/:kiiThingID/end-nodes/:thingID',
-            params: { thingID: '@thingID', kiiAppID: '@kiiAppID', kiiThingID: '@kiiThingID' },
+            params: {
+                thingID: '@thingID',
+                kiiAppID: '@kiiAppID',
+                kiiThingID: '@kiiThingID'
+            },
             headers: {
                 Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
             },
@@ -380,7 +412,11 @@ angular.module('BigScreen')
         removeEndNode: {
             method: 'DELETE',
             url: MyAPIs.CLOUD_THING_IF + '/apps/:kiiAppID/things/:kiiThingID/end-nodes/:thingID',
-            params: { thingID: '@thingID', kiiAppID: '@kiiAppID', kiiThingID: '@kiiThingID' },
+            params: {
+                thingID: '@thingID',
+                kiiAppID: '@kiiAppID',
+                kiiThingID: '@kiiThingID'
+            },
             headers: {
                 Authorization: 'Bearer c63Z840BhnyLgyL6TAoKeq0iGdUM6L1vZemenWrWjxc'
             }
@@ -406,7 +442,9 @@ angular.module('BigScreen')
 }])
 
 .factory('$$Tag', ['$resource', function($resource) {
-    var Tag = $resource(MyAPIs.TAG + '/:id', { id: '@tagName' }, {
+    var Tag = $resource(MyAPIs.TAG + '/:id', {
+        id: '@tagName'
+    }, {
         query: {
             method: 'GET'
         },
@@ -425,7 +463,9 @@ angular.module('BigScreen')
         },
         remove: {
             url: MyAPIs.TAG + '/custom/:id',
-            params: { id: '@tagName' },
+            params: {
+                id: '@tagName'
+            },
             method: 'DELETE'
         }
     });
@@ -434,7 +474,9 @@ angular.module('BigScreen')
 }])
 
 .factory('$$Location', ['$resource', function($resource) {
-    var $$Location = $resource(MyAPIs.TAG + '/:id', { id: '@tagName' }, {
+    var $$Location = $resource(MyAPIs.TAG + '/:id', {
+        id: '@tagName'
+    }, {
         queryAll: {
             method: 'GET',
             isArray: true,

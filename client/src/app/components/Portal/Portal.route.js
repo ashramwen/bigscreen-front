@@ -43,5 +43,13 @@ angular.module('BigScreen.Portal')
             getName: function() {
                 return '智能停车场';
             }
+        })
+        .state('app.Portal.VIP', {
+            url: '/vip',
+            templateUrl: 'app/components/Portal/VIP/VIP.html',
+            controller: 'VIPController',
+            getName: function() {
+                return '';
+            }
         });
 }]);
