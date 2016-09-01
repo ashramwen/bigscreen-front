@@ -31,7 +31,7 @@ angular.module('BigScreen.AppShared')
             });
         },
         detectAirCondition: function(room) {
-            if (!room.hasOwnProperty('AirCondition')) return;
+            if (!room.things.hasOwnProperty('AirCondition')) return;
             room.air = room.air | 0;
             room.things['AirCondition'].forEach(function(thing) {
                 if (!thing.status) return;
@@ -39,7 +39,7 @@ angular.module('BigScreen.AppShared')
             });
         },
         detectPIR: function(room) {
-            if (!room.hasOwnProperty('EnvironmentSensor')) return;
+            if (!room.things.hasOwnProperty('EnvironmentSensor')) return;
             room.person = room.person | 0;
             room.things['EnvironmentSensor'].forEach(function(thing) {
                 if (!thing.status) return;

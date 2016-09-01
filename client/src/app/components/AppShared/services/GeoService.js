@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.AppShared')
 
-.factory('GeoService', ['$rootScope', '$resource', '$q', '$interval', function($rootScope, $resource, $q, $interval) {
+.factory('GeoService', ['$rootScope', '$resource', '$q', function($rootScope, $resource, $q) {
 
     var GPS = $resource(thirdPartyAPIUrl, {
         startTime: moment().startOf('hour').hour(8).valueOf(),
@@ -40,10 +40,6 @@ angular.module('BigScreen.AppShared')
             }
         }
     });
-
-    var stop = $interval(function() {
-
-    }, 10000);
 
     return {
 
