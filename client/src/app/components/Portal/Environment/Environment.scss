@@ -184,7 +184,6 @@
         }
     }
     .progress {
-        @include border-radius(8px);
         .light {
             background-color: #f60;
             background-image: -webkit-linear-gradient(left, #f60, #cf0, #00d8ff);

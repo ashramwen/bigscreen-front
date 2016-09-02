@@ -69,7 +69,8 @@ angular.module('BigScreen.Portal')
     }
 
     function calNumber(count) {
-        count = Math.floor(count / 10);
+        if (count === 0) return 0;
+        count = Math.floor(count / 10) + 1;
         return (count > 10) ? 10 : count;
     }
 

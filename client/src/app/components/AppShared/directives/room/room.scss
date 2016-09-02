@@ -33,66 +33,30 @@
         font-size: 18px;
         color: #29abe2;
     }
-    .icon {
-        i {
-            display: block;
-            @include bg-image("icon_officespace.png");
-        }
-        span {
-            display: none;
-            font-size: 13px;
-            color: #f53134;
-        }
-        &.off span {
-            display: block;
-        }
-    }
-    .light {
+    .light-wrap {
         position: absolute;
         top: 35px;
         left: 29px;
-        i {
-            background-position: -49px 0;
-            width: 39px;
-            height: 40px;
-        }
-        &.off {
-            i {
-                background-position: -49px -40px;
-            }
-        }
     }
-    .air {
+    .air-wrap {
         position: absolute;
         top: 100px;
         left: 25px;
-        padding-top: 15px;
+        padding-top: 20px;
         border-top: 1px solid #868686;
-        i {
-            width: 49px;
-            height: 28px;
-        }
-        &.off {
-            i {
-                background-position: 0 -28px;
-            }
-        }
     }
-    .person {
+    .person-wrap {
         position: absolute;
         top: 61px;
         left: 107px;
         padding: 4px 0 4px 30px;
         border-left: 1px solid #868686;
-        i {
-            background-position: -88px 0;
-            width: 14px;
-            height: 36px;
-        }
-        &.off {
-            i {
-                background-position: -88px -36px;
-            }
-        }
+    }
+    span {
+        display: none;
+        margin-top: 5px;
+        font-size: 13px;
+        color: #f53134;
+        text-align: center;
     }
 }

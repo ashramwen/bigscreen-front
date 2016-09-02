@@ -150,26 +150,28 @@ angular.module('BigScreen.Portal')
     };
 
     function parseData(resIn, resOut) {
-        var x = [],
-            dataIn = [],
-            dataOut = [];
-        var i = 0;
-        var length = (resIn.length > resOut.length) ? resIn.length : resOut.length;
-        for (; i < length; i++) {
-            if (resIn[i]) {
-                x[i] = moment(resIn[i].key).format('H:mm');
-                dataIn.push(resIn[i].doc_count);
-            }
-            if (resOut[i]) {
-                x[i] = moment(resOut[i].key).format('H:mm');
-                dataOut.push(resOut[i].doc_count);
-            }
-        }
+        var x = genX(resIn, resOut);
+        var dataIn = Array(x.length).fill(0);
+        var dataOut = Array(x.length).fill(0);
+        resIn.forEach(function(data) {
+            dataIn[x.indexOf(moment(data.key).format('H:00'))] = data.doc_count;
+        });
+        resOut.forEach(function(data) {
+            dataOut[x.indexOf(moment(data.key).format('H:00'))] = data.doc_count;
+        });
         return {
             x: x,
             dataIn: dataIn,
             dataOut: dataOut
         }
+    }
+
+    function genX(resIn, resOut) {
+        var x = _.unionBy(resIn, resOut, 'key');
+        x = _.map(x, 'key').sort();
+        return x.map(function(o) {
+            return moment(o).format('H:00');
+        });
     }
 
     var myChart;

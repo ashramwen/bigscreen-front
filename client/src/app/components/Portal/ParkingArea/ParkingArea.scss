@@ -40,12 +40,8 @@
                 font-size: 20px;
             }
         }
-        .progress {
-            @include border-radius(8px);
-            .progress-bar {
-                background-color: #2aabe2;
-                @include border-radius(8px);
-            }
+        .progress-bar {
+            background-color: #2aabe2;
         }
         #parking-chart {
             margin-left: -50px;

@@ -97,32 +97,7 @@
             height: 100%;
         }
         .icon {
-            @include bg-image("icon_officespace.png");
             display: inline-block;
-            &.light {
-                background-position: -49px 0;
-                width: 39px;
-                height: 40px;
-                &.off {
-                    background-position: -49px -40px;
-                }
-            }
-            &.air {
-                width: 49px;
-                height: 28px;
-                margin-bottom: 2px;
-                &.off {
-                    background-position: 0 -28px;
-                }
-            }
-            &.person {
-                background-position: -88px 0;
-                width: 14px;
-                height: 36px;
-                &.off {
-                    background-position: -88px -36px;
-                }
-            }
         }
         .vl {
             display: inline-block;
