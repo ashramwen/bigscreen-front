@@ -18,7 +18,9 @@ angular.module('BigScreen.Portal')
     $scope.current = $state.current;
 
     $scope.menuOff = false;
-    $scope.rotation = true;
+    // $scope.rotation = true;
+
+    $scope.geoScopes = GeofenceService.scopes;
 
     checkState();
 
@@ -115,6 +117,7 @@ angular.module('BigScreen.Portal')
         // });
     });
 
-    GeofenceService.current = GeofenceService.scopes[0];
-    console.log(GeofenceService.isIn(120.028456, 30.278226));
+    $scope.geoChange = function() {
+        GeofenceService.current = $scope.geoScope;
+    }
 }]);

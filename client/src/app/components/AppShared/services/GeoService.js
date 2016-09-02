@@ -42,6 +42,15 @@ angular.module('BigScreen.AppShared')
     });
 
     return {
-
+        get: function() {
+            var q = $q.defer();
+            setTimeout(function() {
+                q.resolve({
+                    lng: 120.028456,
+                    lat: 30.278226
+                });
+            }, 100);
+            return q.promise;
+        }
     }
 }]);
