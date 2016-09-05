@@ -18,7 +18,7 @@ angular.module('BigScreen.Portal')
     $scope.current = $state.current;
 
     $scope.menuOff = false;
-    // $scope.rotation = true;
+    $scope.rotation = true;
 
     $scope.geoScopes = GeofenceService.scopes;
 

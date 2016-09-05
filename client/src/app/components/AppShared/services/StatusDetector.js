@@ -24,7 +24,7 @@ angular.module('BigScreen.AppShared')
         },
         detectLighting: function(room) {
             if (!room.things.hasOwnProperty('Lighting')) return;
-            room.light = room.light | 0;
+            room.light = 0;
             room.things['Lighting'].forEach(function(thing) {
                 if (!thing.status) return;
                 room.light = room.light | thing.status.Power;
@@ -32,7 +32,7 @@ angular.module('BigScreen.AppShared')
         },
         detectAirCondition: function(room) {
             if (!room.things.hasOwnProperty('AirCondition')) return;
-            room.air = room.air | 0;
+            room.air = 0;
             room.things['AirCondition'].forEach(function(thing) {
                 if (!thing.status) return;
                 room.air = room.air | thing.status.Power;
@@ -40,7 +40,7 @@ angular.module('BigScreen.AppShared')
         },
         detectPIR: function(room) {
             if (!room.things.hasOwnProperty('EnvironmentSensor')) return;
-            room.person = room.person | 0;
+            room.person = 0;
             room.things['EnvironmentSensor'].forEach(function(thing) {
                 if (!thing.status) return;
                 room.person = room.person | thing.status.PIR;

@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('EnvironmentController', ['$scope', 'EnvironmentService', 'PopulationChart', function($scope, EnvironmentService, PopulationChart) {
+.controller('EnvironmentController', ['$scope', '$interval', 'EnvironmentService', 'PopulationChart', function($scope, $interval, EnvironmentService, PopulationChart) {
 
     $scope.population = {
         total: 0,
@@ -12,16 +12,16 @@ angular.module('BigScreen.Portal')
         guest_display: 0
     }
 
+    $scope.status = {
+        temp: NaN,
+        co2: NaN,
+        pm25: NaN
+    }
+
     $scope.init = function() {
         PopulationChart.init(document.getElementById('population-chart')).then(function(res) {
             $scope.population = res;
         });
-
-        $scope.status = {
-            temp: NaN,
-            co2: NaN,
-            pm25: NaN
-        }
 
         EnvironmentService.getThingsLatestStatus({}, {
             'index': '192b49ce',
@@ -32,9 +32,16 @@ angular.module('BigScreen.Portal')
         });
     }
 
-    $scope.displayValue = function(input, correction) {
+    var stop = $interval(function() {
+        $scope.init();
+    }, 60000);
 
-    }
+    $scope.$on('$destroy', function() {
+        if (angular.isDefined(stop)) {
+            $interval.cancel(stop);
+            stop = undefined;
+        }
+    });
 
     function getStatus(res) {
         try {
