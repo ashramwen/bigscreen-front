@@ -37,7 +37,7 @@ angular.module('BigScreen.AppShared')
                 detectRoomStatus(moment());
             });
             scope.$on('theMin', function(e, time) {
-                checkRoom(time);
+                detectRoomStatus(time);
             });
             scope.$on('$destroy', function() {
                 RoomSensorService.stop(scope.room);
