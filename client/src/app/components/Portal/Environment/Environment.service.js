@@ -114,6 +114,10 @@ angular.module('BigScreen.Portal')
         init: function(elem, population) {
             var q = $q.defer();
             EnvironmentService.getFacialIdentify().$promise.then(function(res) {
+                if (!elem) {
+                    q.reject(elem);
+                    return;
+                }
                 myChart = echarts.init(elem);
                 myChart.setOption(option);
                 try {

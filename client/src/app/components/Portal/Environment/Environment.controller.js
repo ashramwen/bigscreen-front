@@ -21,6 +21,8 @@ angular.module('BigScreen.Portal')
     $scope.init = function() {
         PopulationChart.init(document.getElementById('population-chart')).then(function(res) {
             $scope.population = res;
+        }, function(err) {
+            console.log('Initialize failed: invalid dom.', err);
         });
 
         EnvironmentService.getThingsLatestStatus({}, {
@@ -55,8 +57,10 @@ angular.module('BigScreen.Portal')
             var pm25Total = 0;
             var pm25Count = 0;
             res.aggregations.group_by_target.buckets.forEach(function(thing) {
+                console.log(thing.key);
                 temp = getStateValue(thing, 'Temp');
                 if (temp !== undefined) {
+                    console.log('temp', temp);
                     tempTotal += temp;
                     tempCount++;
                 }
@@ -67,6 +71,7 @@ angular.module('BigScreen.Portal')
                 }
                 pm25 = getStateValue(thing, 'PM25');
                 if (pm25 !== undefined) {
+                    console.log('pm25', pm25);
                     pm25Total += pm25;
                     pm25Count++;
                 }

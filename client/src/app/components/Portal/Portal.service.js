@@ -49,19 +49,19 @@ angular.module('BigScreen.Portal')
         return [{
             name: '办公空间总览',
             state: $state.get('app.Portal.OfficeSpace'),
-            icon: 'fa-tachometer'
+            icon: 'fa-globe'
         }, {
             name: '办公环境监控',
             state: $state.get('app.Portal.Environment'),
-            icon: 'fa-line-chart'
+            icon: 'fa-tachometer'
         }, {
             name: '会议室',
             state: $state.get('app.Portal.OfficeUsage'),
-            icon: 'fa-globe'
+            icon: 'fa-th-list'
         }, {
             name: '智能停车场',
             state: $state.get('app.Portal.ParkingArea'),
-            icon: 'fa-cogs'
+            icon: 'fa-car'
         }];
     }
 

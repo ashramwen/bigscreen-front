@@ -7,7 +7,7 @@ angular.module('BigScreen.Secure')
 
     SecurityService.login().then(function(portalAdmin) {
         SessionService.setPortalAdmin(portalAdmin);
-        $state.go('app.Portal.OfficeSpace');
+        // $state.go('app.Portal.OfficeSpace');
         AppUtils.hideLoading();
     }, function(error) {
         console.log(error);

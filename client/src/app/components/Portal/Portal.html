@@ -10,27 +10,27 @@
                 </li>
 
                 <!--vip pic-->
-                <!--<li class="divider"></li>
-                <li class="menuitem">
+                <li class="divider" ng-if="Geofence.isNear"></li>
+                <li class="menuitem" ng-if="Geofence.isNear">
                     <a href="#"><i class="fa fa-fw fa-check" ng-class="nav.icon"></i> 圖片1</a>
                 </li>
-                <li class="menuitem">
+                <li class="menuitem" ng-if="Geofence.isNear">
                     <a href="#"><i class="fa fa-fw" ng-class="nav.icon"></i> 圖片2</a>
                 </li>
-                <li class="menuitem">
+                <li class="menuitem" ng-if="Geofence.isNear">
                     <a href="#"><i class="fa fa-fw" ng-class="nav.icon"></i> 圖片3</a>
-                </li>-->
+                </li>
                 <!--END vip pic-->
 
                 <li class="divider"></li>
                 <li role="menuitem" class="input">
                     <span>轮播:</span>
-                    <switchery ng-model="rotation"></switchery>
+                    <switchery ng-model="Geofence.rotative"></switchery>
                 </li>
                 <li role="menuitem" class="input">
                     <span>位置:</span>
                     <!--<input type="text" class="form-control pull-right" placeholder="位置">-->
-                    <select class="form-control pull-right" ng-options="s.location for s in geoScopes track by s.location" ng-model="geoScope" ng-change="geoChange()">
+                    <select class="form-control pull-right" ng-options="s.location for s in Geofence.scopes track by s.location" ng-model="Geofence.current">
                         <option value="">无</option>
                     </select>
                 </li>

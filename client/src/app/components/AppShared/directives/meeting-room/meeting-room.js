@@ -9,7 +9,8 @@ angular.module('BigScreen.AppShared')
             room: '='
         },
         link: function(scope, element, attrs) {
-            function checkRoom(time) {
+
+            function detectRoomStatus(time) {
                 if (!scope.room.bookInfoList) return;
                 scope.room.busy = false;
                 scope.room.bookInfoList.forEach(function(info) {
@@ -33,7 +34,7 @@ angular.module('BigScreen.AppShared')
                         end: e.format('H:mm')
                     })
                 });
-                checkRoom(moment());
+                detectRoomStatus(moment());
             });
             scope.$on('theMin', function(e, time) {
                 checkRoom(time);

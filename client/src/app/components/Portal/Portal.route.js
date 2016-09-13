@@ -45,7 +45,7 @@ angular.module('BigScreen.Portal')
             }
         })
         .state('app.Portal.VIP', {
-            url: '/vip',
+            url: '/vip/:name/{id:int}',
             templateUrl: 'app/components/Portal/VIP/VIP.html',
             controller: 'VIPController',
             getName: function() {
