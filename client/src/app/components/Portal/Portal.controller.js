@@ -69,6 +69,7 @@ angular.module('BigScreen.Portal')
 
         function rotateState() {
             if (!GeofenceService.rotative) return;
+            if ($scope.isVIP) return;
             var i = 0,
                 length = $scope.portalNavs.length;
             for (; i < length; i++) {
@@ -92,6 +93,9 @@ angular.module('BigScreen.Portal')
         }, true);
 
         $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options) {
+            $scope.isVIP = $state.includes('app.Portal.VIP');
+            $scope.picId = $state.params.id;
+            console.log($scope.picId);
             checkState();
         });
 
@@ -105,7 +109,8 @@ angular.module('BigScreen.Portal')
         }
 
         $rootScope.$on('new VIP', function(e, vip) {
-            // $state.go('app.Portal.VIP', { name: vip, id: 1 });
+            GeofenceService.rotative = true;
+            $state.go('app.Portal.VIP', { name: vip, id: 1 });
         });
 
         $scope.$on('$destroy', function() {

@@ -50,6 +50,9 @@ angular.module('BigScreen.Portal')
             controller: 'VIPController',
             getName: function() {
                 return '';
+            },
+            params: {
+                id: 1
             }
         });
 }]);

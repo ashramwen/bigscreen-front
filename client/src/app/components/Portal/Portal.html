@@ -12,13 +12,13 @@
                 <!--vip pic-->
                 <li class="divider" ng-if="Geofence.isNear"></li>
                 <li class="menuitem" ng-if="Geofence.isNear">
-                    <a href="#"><i class="fa fa-fw fa-check" ng-class="nav.icon"></i> 圖片1</a>
+                    <a ui-sref="app.Portal.VIP({name:Geofence.vip.name, id:1})" ng-disabled="picId===1"><i class="fa fa-fw" ng-class="{'fa-check':picId===1}"></i> 圖片1</a>
                 </li>
                 <li class="menuitem" ng-if="Geofence.isNear">
-                    <a href="#"><i class="fa fa-fw" ng-class="nav.icon"></i> 圖片2</a>
+                    <a ui-sref="app.Portal.VIP({name:Geofence.vip.name, id:2})" ng-disabled="picId===2"><i class="fa fa-fw" ng-class="{'fa-check':picId===2}"></i> 圖片2</a>
                 </li>
                 <li class="menuitem" ng-if="Geofence.isNear">
-                    <a href="#"><i class="fa fa-fw" ng-class="nav.icon"></i> 圖片3</a>
+                    <a ui-sref="app.Portal.VIP({name:Geofence.vip.name, id:3})" ng-disabled="picId===3"><i class="fa fa-fw" ng-class="{'fa-check':picId===3}"></i> 圖片3</a>
                 </li>
                 <!--END vip pic-->
 
@@ -41,7 +41,7 @@
 
     <div class="al-main">
         <div class="al-content">
-            <div ui-view class="container-fluid portal-content-body"></div>
+            <div ui-view class="container-fluid portal-content-body" ng-class="{'vip':isVIP}"></div>
         </div>
     </div>
 </main>

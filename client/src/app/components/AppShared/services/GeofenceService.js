@@ -22,7 +22,8 @@ angular.module('BigScreen.AppShared')
         return temp <= 0;
     }
 
-    function getPOI(vip) {
+    function getPOI(i) {
+        var vip = vips[i];
         var q = $q.defer();
         var poi = $resource(thirdPartyAPIUrl, {}, {
             get: {
@@ -42,7 +43,7 @@ angular.module('BigScreen.AppShared')
                 }
             }
         });
-        return poi.get().$promise;
+        // return poi.get().$promise;
         setTimeout(function() {
             q.resolve({
                 lng: 120.028456,
@@ -53,28 +54,37 @@ angular.module('BigScreen.AppShared')
     }
 
     function detectPOI() {
-        getPOI(vips[0]).then(function(res) {
-            if (detectVIP(vips[0], res))
-                return vips[0];
-            return getPOI(vips[1]).then(function(res) {
-                if (detectVIP(vips[1], res))
-                    return vips[1];
-                return getPOI(vips[2]).then(function(res) {
-                    if (detectVIP(vips[2], res))
-                        return vips[2];
-                    return;
-                });
+        var q = $q.defer();
+        $q.all([getPOI(0), getPOI(1), getPOI(2)]).then(function(res) {
+            GeofenceService.isNear = false;
+            var newVip;
+            vips.forEach(function(vip, i) {
+                vip.isIn = GeofenceService.isIn(res[i]);
+                GeofenceService.isNear = GeofenceService.isNear || vip.isIn;
+                if (vip.isIn && !newVip)
+                    newVip = vip;
             });
+            if (GeofenceService.isNear) {
+                if (!GeofenceService.vip || newVip.priority < GeofenceService.vip.priority) {
+                    GeofenceService.vip = newVip;
+                    $rootScope.$broadcast('new VIP', GeofenceService.vip.name);
+                }
+            } else {
+                GeofenceService.vip = undefined;
+            }
+            q.resolve();
         });
+        return q.promise;
     }
 
-    function detectVIP(vip, poi) {
-        if (!poi.hits.total) return false;
+    function detectVIP(i, poi) {
+        var vip = vips[i];
+        // if (!poi.hits.total) return false;
         GeofenceService.isNear = GeofenceService.isIn(poi);
         if (GeofenceService.isNear && GeofenceService.vip !== vip.name) {
             console.log(vip.name);
-            GeofenceService.vip = vip.name;
-            $rootScope.$broadcast('new VIP', GeofenceService.vip);
+            GeofenceService.vip = vip;
+            $rootScope.$broadcast('new VIP', GeofenceService.vip.name);
             return true;
         }
         return false;
@@ -98,25 +108,30 @@ angular.module('BigScreen.AppShared')
         ]
     }];
 
+    var priority = -1;
     var vips = [{
-        id: 'Bill',
+        priority: 1,
+        name: 'Bill',
         key: '0bea9fe760aaa85df7d953d6ab38d2e56692ddd8'
     }, {
-        id: 'Dolf',
+        priority: 2,
+        name: 'Dolf',
         key: 'a84feeebde4e496389b9161d7d64e565645b759f'
     }, {
-        id: 'oldKim',
+        priority: 3,
+        name: 'oldKim',
         key: 'a2e3a03c81aa83c5ac451b195d2f8d4b0eb37c97'
     }];
 
     var stop = $interval(function() {
+        if (!GeofenceService.current) return;
         detectPOI();
     }, 10000);
 
     var GeofenceService = {
         rotative: true,
         isNear: false,
-        vip: '',
+        vip: undefined,
         current: undefined,
         last: undefined,
         scopes: scopes,

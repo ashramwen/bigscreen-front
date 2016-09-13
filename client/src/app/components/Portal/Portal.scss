@@ -19,7 +19,7 @@
             cursor: pointer;
             float: right;
             margin-right: 40px;
-            > div {
+            >div {
                 width: 52px;
                 height: 39px;
                 @include bg-image("icon_menu.png");
@@ -62,6 +62,10 @@
         padding: 50px 22px;
         width: 1840px;
         height: 900px;
+        &.vip {
+            margin: 0;
+            padding: 0;
+        }
     }
     .progress {
         @include border-radius(8px);

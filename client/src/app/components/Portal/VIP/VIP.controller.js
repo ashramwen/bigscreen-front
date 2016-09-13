@@ -8,12 +8,15 @@ angular.module('BigScreen.Portal')
     var stop = $interval(function() {
         if (!GeofenceService.rotative) return;
         if (index === 3) {
-            GeofenceService.vip = '';
             $state.go('^.OfficeSpace');
         } else {
             $state.go('.', { name: $stateParams.name, id: index + 1 });
         }
     }, 10000);
+
+    $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options) {
+        var a = 1;
+    });
 
     $scope.$on('$destroy', function() {
         if (angular.isDefined(stop)) {
