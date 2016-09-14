@@ -1,7 +1,7 @@
 <main class="app-portal">
 
     <div class="header-bar">
-        <div class="title">{{current.getName()}}</div>
+        <div class="title">{{portalTitle}}</div>
         <div class="menu" uib-dropdown is-open="isOpen" auto-close="outsideClick">
             <div uib-dropdown-toggle></div>
             <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
@@ -11,14 +11,8 @@
 
                 <!--vip pic-->
                 <li class="divider" ng-if="Geofence.isNear"></li>
-                <li class="menuitem" ng-if="Geofence.isNear">
-                    <a ui-sref="app.Portal.VIP({name:Geofence.vip.name, id:1})" ng-disabled="picId===1" ng-click="Geofence.rotative=!1"><i class="fa fa-fw" ng-class="{'fa-check':picId===1}"></i> 圖片1</a>
-                </li>
-                <li class="menuitem" ng-if="Geofence.isNear">
-                    <a ui-sref="app.Portal.VIP({name:Geofence.vip.name, id:2})" ng-disabled="picId===2" ng-click="Geofence.rotative=!1"><i class="fa fa-fw" ng-class="{'fa-check':picId===2}"></i> 圖片2</a>
-                </li>
-                <li class="menuitem" ng-if="Geofence.isNear">
-                    <a ui-sref="app.Portal.VIP({name:Geofence.vip.name, id:3})" ng-disabled="picId===3" ng-click="Geofence.rotative=!1"><i class="fa fa-fw" ng-class="{'fa-check':picId===3}"></i> 圖片3</a>
+                <li class="menuitem" ng-if="Geofence.isNear" ng-repeat="pic in Geofence.vip.pics">
+                    <a ui-sref="app.Portal.VIP({name:Geofence.vip.name, id:$index+1})" ng-disabled="picId===$index+1" ng-click="Geofence.rotative=!1"><i class="fa fa-fw" ng-class="{'fa-check':picId===$index+1}"></i> 圖片{{$index+1}}</a>
                 </li>
                 <!--END vip pic-->
 

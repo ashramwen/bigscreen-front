@@ -8,6 +8,7 @@ angular.module('BigScreen.Portal')
         var userInfo = SessionService.getPortalAdmin();
         if (!userInfo) {
             $state.go('app.Secure');
+            return;
         }
 
         $scope.portalNavs = PortalService.getPortalNavs();
@@ -16,7 +17,6 @@ angular.module('BigScreen.Portal')
         $scope.isActive = PortalService.isActive;
 
         $scope.time = new Date();
-        $scope.current = $state.current;
 
         $scope.menuOff = false;
 
@@ -84,7 +84,7 @@ angular.module('BigScreen.Portal')
          * @param  {[type]} true      [description]
          * @return {[type]}           [description]
          */
-        $rootScope.$watch('portalNavs', function(newVal) {
+        $scope.$watch('portalNavs', function(newVal) {
             if (!newVal || newVal.length == 0) {
                 $scope.turnOnMenu();
             } else {
@@ -92,10 +92,9 @@ angular.module('BigScreen.Portal')
             }
         }, true);
 
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options) {
+        $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options) {
             $scope.isVIP = $state.includes('app.Portal.VIP');
             $scope.picId = $state.params.id;
-            console.log($scope.picId);
             checkState();
         });
 
@@ -105,19 +104,18 @@ angular.module('BigScreen.Portal')
                 nav = $scope.portalNavs[i];
                 nav.isActive = (nav.state.name == $state.current.name);
             }
-            $scope.current = $state.current;
+            $scope.portalTitle = $state.current.getName();
         }
 
-        $rootScope.$on('new VIP', function(e, vip) {
+        $scope.$on('new VIP', function(e, vip) {
             GeofenceService.rotative = true;
             $state.go('app.Portal.VIP', { name: vip, id: 1 });
         });
 
         $scope.$on('$destroy', function() {
-            if (angular.isDefined(stop)) {
-                $interval.cancel(stop);
-                stop = undefined;
-            }
+            if (!angular.isDefined(stop)) return;
+            $interval.cancel(stop);
+            stop = undefined;
         });
     }
 ]);
