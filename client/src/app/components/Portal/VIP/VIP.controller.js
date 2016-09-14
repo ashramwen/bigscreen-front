@@ -5,6 +5,10 @@ angular.module('BigScreen.Portal')
 .controller('VIPController', ['$scope', '$state', '$stateParams', '$interval', 'GeofenceService', function($scope, $state, $stateParams, $interval, GeofenceService) {
     var index = $stateParams.id;
     var vip = GeofenceService.vip;
+    if (!vip) {
+        $state.go('^.OfficeSpace');
+        return;
+    }
     var stop = $interval(function() {
         if (!GeofenceService.rotative) return;
         if (index === vip.pics.length) {
