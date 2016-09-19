@@ -114,30 +114,27 @@ angular.module('BigScreen.AppShared')
         name: 'Bill',
         key: '0bea9fe760aaa85df7d953d6ab38d2e56692ddd8',
         pics: [
-            { text: 'Intro of Geofence Tech on Beehive', img: 'VIP_01.png' },
+            { text: 'Introduction of Geofence Tech on Beehive', img: 'VIP_01.png' },
             { text: '置业项目 x 智能楼宇平台展建', img: 'VIP_02.png' },
-            { text: '置业部办公室 — 实验室设备与系统集成', img: 'VIP_03.png' },
-            { text: '智能楼宇管理平台 & API Proxy Store', img: 'VIP_04.png' }
+            { text: '实验室大数据', img: 'VIP_07.png' }
         ]
     }, {
         priority: 2,
         name: 'Dolf',
         key: 'a84feeebde4e496389b9161d7d64e565645b759f',
         pics: [
-            { text: 'Intro of Geofence Tech on Beehive', img: 'VIP_01.png' },
-            { text: '置业项目 x 智能楼宇平台展建', img: 'VIP_02.png' },
-            { text: '置业部办公室 — 实验室设备与系统集成', img: 'VIP_03.png' },
-            { text: '智能楼宇管理平台 & API Proxy Store', img: 'VIP_04.png' }
+            { text: 'Introduction of Geofence Tech on Beehive', img: 'VIP_01.png' },
+            { text: '智能楼宇管理平台 & API Proxy Store', img: 'VIP_04.png' },
+            { text: '优惠讯息推送', img: 'VIP_05.png' }
         ]
     }, {
         priority: 3,
         name: 'oldKim',
         key: 'a2e3a03c81aa83c5ac451b195d2f8d4b0eb37c97',
         pics: [
-            { text: 'Intro of Geofence Tech on Beehive', img: 'VIP_01.png' },
-            { text: '置业项目 x 智能楼宇平台展建', img: 'VIP_02.png' },
+            { text: 'Introduction of Geofence Tech on Beehive', img: 'VIP_01.png' },
             { text: '置业部办公室 — 实验室设备与系统集成', img: 'VIP_03.png' },
-            { text: '智能楼宇管理平台 & API Proxy Store', img: 'VIP_04.png' }
+            { text: '近期活动资讯', img: 'VIP_06.png' }
         ]
     }];
 
