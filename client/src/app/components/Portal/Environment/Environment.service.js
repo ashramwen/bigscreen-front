@@ -17,7 +17,7 @@ angular.module('BigScreen.Portal')
             }
         },
         getThingsLatestStatus: {
-            url: thirdPartyAPIUrl + 'ES/ThingsLatestStatusQuery',
+            url: thirdPartyAPIUrl + 'dataUtilization/ThingsLatestStatusQuery',
             method: 'POST',
             headers: {
                 'Authorization': 'Bearer super_token',

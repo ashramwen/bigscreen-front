@@ -43,6 +43,7 @@ angular.module('BigScreen.AppShared')
                 }
             }
         });
+        // poi.get();
         // return poi.get().$promise;
         setTimeout(function() {
             q.resolve({

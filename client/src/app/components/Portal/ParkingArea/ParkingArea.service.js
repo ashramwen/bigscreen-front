@@ -10,17 +10,17 @@ angular.module('BigScreen.Portal')
         interval: '1h'
     }, {
         getCarInFrequency: {
-            url: thirdPartyAPIUrl + 'carparking/CarInFrequency',
+            url: thirdPartyAPIUrl + 'dataUtilization/CarInFrequency',
             method: 'GET',
             headers: { 'apiKey': thirdPartyAPIKey }
         },
         getCarOutFrequency: {
-            url: thirdPartyAPIUrl + 'carparking/CarOutFrequency',
+            url: thirdPartyAPIUrl + 'dataUtilization/CarOutFrequency',
             method: 'GET',
             headers: { 'apiKey': thirdPartyAPIKey },
         },
         leaveAvgTime: {
-            url: thirdPartyAPIUrl + 'carparking/leaveAvgTime',
+            url: thirdPartyAPIUrl + 'dataUtilization/leaveAvgTime',
             method: 'GET',
             headers: { 'apiKey': thirdPartyAPIKey },
             params: {
