@@ -4,12 +4,14 @@ angular.module('BigScreen.AppShared')
 
 .factory('GeofenceService', ['$rootScope', '$resource', '$q', '$interval', function($rootScope, $resource, $q, $interval) {
 
-    function searchPolygon(lng, lat, scope) {
+    function searchPolygon(poi, current) {
+        if (poi.floor !== current.floor) return false;
+        var scope = current.scope;
         var size = scope.length;
         var count = 0;
         for (var i = 0; i < size; i++) {
             var nextI = (i + 1) % size;
-            var inRightSide = isInRightSide(lng, lat, scope[i].lng, scope[i].lat, scope[nextI].lng, scope[nextI].lat);
+            var inRightSide = isInRightSide(poi.lng, poi.lat, scope[i].lng, scope[i].lat, scope[nextI].lng, scope[nextI].lat);
             if (!inRightSide) break;
             count++;
         }
@@ -43,12 +45,13 @@ angular.module('BigScreen.AppShared')
                 }
             }
         });
-        // poi.get();
+        poi.get();
         // return poi.get().$promise;
         setTimeout(function() {
             q.resolve({
                 lng: 120.028456,
-                lat: 30.278226
+                lat: 30.278226,
+                floor: 8
             });
         }, 100);
         return q.promise;
@@ -93,6 +96,7 @@ angular.module('BigScreen.AppShared')
 
     var scopes = [{
         location: '打印室',
+        floor: 8,
         scope: [
             { lng: 120.028441, lat: 30.278226 },
             { lng: 120.028485, lat: 30.278236 },
@@ -101,6 +105,7 @@ angular.module('BigScreen.AppShared')
         ]
     }, {
         location: '公共区域',
+        floor: 8,
         scope: [
             { lng: 120.028353, lat: 30.278305 },
             { lng: 120.028411, lat: 30.278317 },
@@ -153,7 +158,7 @@ angular.module('BigScreen.AppShared')
         scopes: scopes,
         isIn: function(poi) {
             if (!this.current) return false;
-            return searchPolygon(poi.lng, poi.lat, this.current.scope);
+            return searchPolygon(poi, this.current);
         }
     }
 
