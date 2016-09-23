@@ -30,7 +30,7 @@ angular.module('BigScreen.AppShared')
         var poi = $resource(thirdPartyAPIUrl, {}, {
             get: {
                 url: thirdPartyAPIUrl + 'locationGeo/searchUser',
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Authorization': 'Bearer super_token',
                     'apiKey': thirdPartyAPIKey
@@ -39,22 +39,43 @@ angular.module('BigScreen.AppShared')
                     userID: vip.key,
                     startDateTime: 0,
                     endDateTime: 9999999999999,
-                    size: 50,
+                    size: 1,
                     from: 0,
-                    inv: 1
+                    inv: 1,
+                    orderByTimestamp: 'desc'
                 }
             }
         });
-        poi.get();
+        poi.get({}, function(res) {
+            var a = 1;
+            q.resolve(parsePOI(res.hits));
+        });
         // return poi.get().$promise;
-        setTimeout(function() {
-            q.resolve({
-                lng: 120.028456,
-                lat: 30.278226,
-                floor: 8
-            });
-        }, 100);
+        // setTimeout(function() {
+        //     q.resolve({
+        //         lng: 120.028456,
+        //         lat: 30.278226,
+        //         floor: 8
+        //     });
+        // }, 100);
         return q.promise;
+    }
+
+    function parsePOI(data) {
+        var poi = {
+            lng: 0,
+            lat: 0,
+            floor: 0
+        };
+        try {
+            if (data.total === 0) return poi;
+            poi.lng = data.hits[0]['_source'].object.y;
+            poi.lat = data.hits[0]['_source'].object.x;
+            poi.floor = data.hits[0]['_source'].object.floor;
+        } catch (err) {
+            console.log('poi data error.')
+        }
+        return poi;
     }
 
     function detectPOI() {
@@ -79,19 +100,6 @@ angular.module('BigScreen.AppShared')
             q.resolve();
         });
         return q.promise;
-    }
-
-    function detectVIP(i, poi) {
-        var vip = vips[i];
-        // if (!poi.hits.total) return false;
-        GeofenceService.isNear = GeofenceService.isIn(poi);
-        if (GeofenceService.isNear && GeofenceService.vip !== vip.name) {
-            console.log(vip.name);
-            GeofenceService.vip = vip;
-            $rootScope.$broadcast('new VIP', GeofenceService.vip.name);
-            return true;
-        }
-        return false;
     }
 
     var scopes = [{
@@ -157,7 +165,6 @@ angular.module('BigScreen.AppShared')
         last: undefined,
         scopes: scopes,
         isIn: function(poi) {
-            if (!this.current) return false;
             return searchPolygon(poi, this.current);
         }
     }
