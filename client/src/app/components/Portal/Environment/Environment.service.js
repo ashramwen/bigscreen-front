@@ -53,6 +53,11 @@ angular.module('BigScreen.Portal')
             }
         });
         population.beehive = population.total - population.guest;
+
+        // for test
+        // population.beehive = 22;
+        // population.guest = 14;
+
         population.beehive_display = calNumber(population.beehive);
         population.guest_display = calNumber(population.guest);
         return population;
