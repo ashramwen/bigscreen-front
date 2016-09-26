@@ -37,7 +37,7 @@ angular.module('BigScreen.AppShared')
                 },
                 params: {
                     userID: vip.key,
-                    startDateTime: 0,
+                    startDateTime: (new Date().valueOf() - 10000),
                     endDateTime: 9999999999999,
                     size: 1,
                     from: 0,
