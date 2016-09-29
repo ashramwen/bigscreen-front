@@ -37,7 +37,8 @@ angular.module('BigScreen.AppShared')
                 },
                 params: {
                     userID: vip.key,
-                    startDateTime: (new Date().valueOf() - 10000),
+                    // startDateTime: 0,
+                    startDateTime: (new Date().valueOf() - 30000),
                     endDateTime: 9999999999999,
                     size: 1,
                     from: 0,
@@ -69,8 +70,8 @@ angular.module('BigScreen.AppShared')
         };
         try {
             if (data.total === 0) return poi;
-            poi.lng = data.hits[0]['_source'].object.y;
-            poi.lat = data.hits[0]['_source'].object.x;
+            poi.lng = data.hits[0]['_source'].object.x;
+            poi.lat = data.hits[0]['_source'].object.y;
             poi.floor = data.hits[0]['_source'].object.floor;
         } catch (err) {
             console.log('poi data error.')
@@ -106,19 +107,19 @@ angular.module('BigScreen.AppShared')
         location: '打印室',
         floor: 8,
         scope: [
-            { lng: 120.028441, lat: 30.278226 },
-            { lng: 120.028485, lat: 30.278236 },
-            { lng: 120.028501, lat: 30.278192 },
-            { lng: 120.028456, lat: 30.278181 }
+            { lng: 120.02849, lat: 30.27817 },
+            { lng: 120.028462, lat: 30.278243 },
+            { lng: 120.028538, lat: 30.278272 },
+            { lng: 120.028571, lat: 30.278195 }
         ]
     }, {
         location: '公共区域',
         floor: 8,
         scope: [
-            { lng: 120.028353, lat: 30.278305 },
-            { lng: 120.028411, lat: 30.278317 },
-            { lng: 120.028438, lat: 30.278254 },
-            { lng: 120.028378, lat: 30.278240 }
+            { lng: 120.028391, lat: 30.278142 },
+            { lng: 120.02836, lat: 30.278222 },
+            { lng: 120.028519, lat: 30.278262 },
+            { lng: 120.028547, lat: 30.278188 }
         ]
     }];
 

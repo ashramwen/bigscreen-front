@@ -21,6 +21,6 @@
             'thirdPartyAPIUrl': 'http://api.openibplatform.com/beehive/',
             'thirdPartyAPIKey': '138ef89effc5be05830170266763dbba8ac0be0f'
         },
-        'ENV': 'DEV'
+        'ENV': 'QA'
     };
 })();
