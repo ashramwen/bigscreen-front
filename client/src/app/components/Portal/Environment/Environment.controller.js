@@ -132,7 +132,7 @@ angular.module('BigScreen.Portal')
                         }
                     }
                 }, {
-                    value: states.space,
+                    value: states.space - states.pir,
                     name: '空',
                     itemStyle: {
                         normal: {
