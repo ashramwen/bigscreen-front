@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('EnvironmentController', ['$scope', '$interval', 'EnvironmentService', 'PopulationChart', function($scope, $interval, EnvironmentService, PopulationChart) {
+.controller('EnvironmentController', ['$scope', '$interval', 'EnvironmentService', function($scope, $interval, EnvironmentService) {
 
     $scope.population = {
         total: 0,
@@ -12,24 +12,29 @@ angular.module('BigScreen.Portal')
         guest_display: 0
     }
 
+    $scope.usage = 0;
+
     $scope.status = {
         temp: NaN,
         co2: NaN,
         pm25: NaN
     }
 
+    var myChart = echarts.init(document.getElementById('population-chart'));
     $scope.init = function() {
-        PopulationChart.init(document.getElementById('population-chart')).then(function(res) {
+        // show people
+        EnvironmentService.showPeople().then(function(res) {
             $scope.population = res;
-        }, function(err) {
-            console.log('Initialize failed: invalid dom.', err);
         });
 
-        EnvironmentService.getThingsLatestStatus({}, {
-            'index': '192b49ce',
-            'startDateTime': moment().startOf('day').valueOf(),
-            'endDateTime': 9999999999999
-        }).$promise.then(function(res) {
+        // space usage
+        EnvironmentService.usage().then(function(res) {
+            $scope.usage = res.pir / res.space;
+            myChart.setOption(chartOption(res));
+        });
+
+        // right side sensor state
+        EnvironmentService.getThingsLatestStatus().then(function(res) {
             getStatus(res);
         });
     }
@@ -95,5 +100,47 @@ angular.module('BigScreen.Portal')
         } catch (e) {
             return undefined;
         }
+    }
+
+    function chartOption(states) {
+        return {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            series: [{
+                name: '空间利用率',
+                type: 'pie',
+                radius: ['30%', '70%'],
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false
+                    }
+                },
+                data: [{
+                    value: states.pir,
+                    name: '人员',
+                    itemStyle: {
+                        normal: {
+                            color: '#48abdd'
+                        }
+                    }
+                }, {
+                    value: states.space,
+                    name: '空',
+                    itemStyle: {
+                        normal: {
+                            color: '#cae2ef'
+                        }
+                    }
+                }]
+            }]
+        };
     }
 }]);

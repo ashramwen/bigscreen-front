@@ -89,4 +89,10 @@ angular.module('BigScreen.AppShared')
         (correction === undefined) && (correction = 0);
         return isNaN(input) ? 0 : input + correction;
     };
+})
+
+.filter('percent', function() {
+    return function(input) {
+        return numeral(input).format('0.[00]%');
+    };
 });

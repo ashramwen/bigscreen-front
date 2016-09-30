@@ -3,7 +3,7 @@
 angular.module('BigScreen.Portal')
 
 .factory('EnvironmentService', ['$resource', '$q', function($resource, $q) {
-    return $resource(thirdPartyAPIUrl, {}, {
+    var query = $resource(thirdPartyAPIUrl, {}, {
         getFacialIdentify: {
             url: thirdPartyAPIUrl + 'facialIdentify/aggregate',
             method: 'GET',
@@ -23,14 +23,35 @@ angular.module('BigScreen.Portal')
                 'Authorization': 'Bearer super_token',
                 'apiKey': thirdPartyAPIKey
             },
-            params: {}
+            params: {
+                'index': '192b49ce',
+                'startDateTime': moment().startOf('day').valueOf(),
+                'endDateTime': 9999999999999
+            }
+        },
+        searchThings: {
+            url: thirdPartyAPIUrl + 'locationTag/searchThings',
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer super_token',
+                'apiKey': thirdPartyAPIKey
+            },
+            transformResponse: function(data) {
+                return { things: angular.fromJson(data) }
+            }
+        },
+        detectPIR: {
+            url: thirdPartyAPIUrl + 'EnvironmentSensor/PIR',
+            method: 'POST',
+            isArray: true,
+            headers: {
+                'Authorization': 'Bearer super_token',
+                'apiKey': thirdPartyAPIKey
+            }
         }
     });
-}])
 
-.factory('PopulationChart', ['$rootScope', '$q', 'EnvironmentService', function($rootScope, $q, EnvironmentService) {
-
-    function parseData(buckets, total) {
+    function parseFacialData(buckets, total) {
         var population = {
             total: 0,
             beehive: 0,
@@ -79,61 +100,45 @@ angular.module('BigScreen.Portal')
         return (count > 10) ? 10 : count;
     }
 
-    var option = {
-        tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b}: {c} ({d}%)"
-        },
-        series: [{
-            name: '空间利用率',
-            type: 'pie',
-            radius: ['30%', '70%'],
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-            data: [{
-                value: 335,
-                name: '人员',
-                itemStyle: {
-                    normal: {
-                        color: '#cae2ef'
-                    }
-                }
-            }, {
-                value: 310,
-                name: '空',
-                itemStyle: {
-                    normal: {
-                        color: '#48abdd'
-                    }
-                }
-            }]
-        }]
-    };
-
-    var myChart;
-
     return {
-        init: function(elem, population) {
+        getThingsLatestStatus: function() {
             var q = $q.defer();
-            EnvironmentService.getFacialIdentify().$promise.then(function(res) {
-                if (!elem) {
-                    q.reject(elem);
-                    return;
-                }
-                myChart = echarts.init(elem);
-                myChart.setOption(option);
+            query.getThingsLatestStatus().$promise.then(function(res) {
+                q.resolve(res);
+            }, function(err) { q.reject(err); });
+            return q.promise;
+        },
+        showPeople: function() {
+            var q = $q.defer();
+            query.getFacialIdentify().$promise.then(function(res) {
                 try {
-                    q.resolve(parseData(res.aggregations.action.buckets));
+                    q.resolve(parseFacialData(res.aggregations.action.buckets));
                 } catch (e) {
                     console.log('no facial identify data.')
-                    q.resolve(parseData([]));
+                    q.resolve(parseFacialData([]));
                 }
-            }, function() {
-                q.reject();
-            });
+            }, function(err) { q.reject(err); });
+            return q.promise;
+        },
+        usage: function() {
+            var q = $q.defer();
+            query.searchThings({
+                location: '0807W',
+                includeSubLevel: true,
+                type: 'EnvironmentSensor'
+            }).$promise.then(function(res) {
+                return query.detectPIR({ thingList: res.things }).$promise;
+            }).then(function(res) {
+                var _pir = 0;
+                res.forEach(function(thing) {
+                    if (thing.states.PIR) _pir++;
+                });
+                var a = 1;
+                q.resolve({
+                    pir: _pir,
+                    space: res.length
+                });
+            }, function(err) { q.reject(err); });
             return q.promise;
         }
     }
