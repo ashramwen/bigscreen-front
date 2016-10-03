@@ -12,8 +12,8 @@ angular.module('BigScreen.Portal')
                 'apiKey': thirdPartyAPIKey
             },
             params: {
-                startDateTime: moment().startOf('day').valueOf() / 1000,
-                endDateTime: moment().endOf('day').millisecond(0).valueOf() / 1000
+                startDateTime: moment().startOf('day').valueOf(),
+                endDateTime: moment().endOf('day').millisecond(0).valueOf()
             }
         },
         getThingsLatestStatus: {
@@ -24,7 +24,7 @@ angular.module('BigScreen.Portal')
                 'apiKey': thirdPartyAPIKey
             },
             params: {
-                'index': '192b49ce',
+                'index': '493e83c9',
                 'startDateTime': moment().startOf('day').valueOf(),
                 'endDateTime': 9999999999999
             }

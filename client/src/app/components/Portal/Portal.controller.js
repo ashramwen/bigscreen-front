@@ -53,19 +53,24 @@ angular.module('BigScreen.Portal')
         }
 
         $scope.changeNav = function(nav) {
+            $interval.cancel(stop);
+            stop = $interval(rotation, 60000);
             $scope.isOpen = false;
             $state.go(!nav.state.abstract ? nav.state.name : nav.state.redirectTo, $state.params);
         }
 
+
         var oneHr = 3600000;
         // oneHr = 10000;
-        var stop = $interval(function() {
+        var stop = $interval(rotation, 60000);
+
+        function rotation() {
             $scope.time = moment().startOf('minute').valueOf();
             $rootScope.$broadcast('theMin', moment($scope.time));
             if ($scope.time % oneHr === 0)
                 $rootScope.$broadcast('theHour');
             rotateState();
-        }, 60000);
+        }
 
         function rotateState() {
             if (!GeofenceService.rotative) return;
