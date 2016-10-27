@@ -2,13 +2,13 @@
 
 angular.module('BigScreen.Portal')
 
-.factory('BookingService', ['$resource', '$q', function($resource, $q) {
+.factory('BookingService', ['$resource', '$q', 'SessionService', function($resource, $q, SessionService) {
     var Booking = $resource(thirdPartyAPIUrl + 'dataUtilization/fetchBookListByRoomId', {
         sign: '@sign',
         id: '@id'
     }, {
         get: {
-            headers: { 'apiKey': thirdPartyAPIKey }
+            headers: { 'Authorization': 'Bearer ' + SessionService.getPortalAdmin().accessToken, 'apiKey': thirdPartyAPIKey }
         }
     });
 

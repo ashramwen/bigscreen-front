@@ -23,12 +23,14 @@ MyApp.config(function($httpProvider, $stateProvider, $urlRouterProvider, $logPro
                     MyApp.utils.whenLoaded();
                 return response;
             },
-            responseError: function(response) {
+            responseError: function(response, a, b) {
+                console.warn(response);
                 if (!response.config.params || !response.config.params['inv'])
                     MyApp.utils.whenLoaded();
-                if (response.status == 401) {
-                    //window.location = 'index.html#/app/secure/UserLogin';
-                }
+                if (response.data && response.data.errorCode === 'TOKEN_TIME_OUT')
+                    window.location = '/bigscreen-front';
+                if (response.status === 401 || response.status === 403)
+                    window.location = '/bigscreen-front';
                 return $q.reject(response);
             }
         };

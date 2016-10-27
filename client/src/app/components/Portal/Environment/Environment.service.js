@@ -1,16 +1,12 @@
 'use strict';
 
-angular.module('BigScreen.Portal')
-
-.factory('EnvironmentService', ['$resource', '$q', function($resource, $q) {
+angular.module('BigScreen.Portal').factory('EnvironmentService', ['$resource', '$q', 'SessionService', function ($resource, $q, SessionService) {
+    var _user = SessionService.getPortalAdmin();
     var query = $resource(thirdPartyAPIUrl, {}, {
         getFacialIdentify: {
             url: thirdPartyAPIUrl + 'facialIdentify/aggregate',
             method: 'GET',
-            headers: {
-                'Authorization': 'Bearer super_token',
-                'apiKey': thirdPartyAPIKey
-            },
+            headers: { 'Authorization': 'Bearer ' + _user.accessToken, 'apiKey': thirdPartyAPIKey },
             params: {
                 startDateTime: moment().startOf('day').valueOf(),
                 endDateTime: moment().endOf('day').millisecond(0).valueOf()
@@ -19,12 +15,9 @@ angular.module('BigScreen.Portal')
         getThingsLatestStatus: {
             url: thirdPartyAPIUrl + 'dataUtilization/ThingsLatestStatusQuery',
             method: 'POST',
-            headers: {
-                'Authorization': 'Bearer super_token',
-                'apiKey': thirdPartyAPIKey
-            },
+            headers: { 'Authorization': 'Bearer ' + _user.accessToken, 'apiKey': thirdPartyAPIKey },
             params: {
-                'index': '493e83c9',
+                // 'index': '493e83c9',
                 'startDateTime': moment().startOf('day').valueOf(),
                 'endDateTime': 9999999999999
             }
@@ -32,11 +25,8 @@ angular.module('BigScreen.Portal')
         searchThings: {
             url: thirdPartyAPIUrl + 'locationTag/searchThings',
             method: 'POST',
-            headers: {
-                'Authorization': 'Bearer super_token',
-                'apiKey': thirdPartyAPIKey
-            },
-            transformResponse: function(data) {
+            headers: { 'Authorization': 'Bearer ' + _user.accessToken, 'apiKey': thirdPartyAPIKey },
+            transformResponse: function (data) {
                 return { things: angular.fromJson(data) }
             }
         },
@@ -44,10 +34,7 @@ angular.module('BigScreen.Portal')
             url: thirdPartyAPIUrl + 'EnvironmentSensor/PIR',
             method: 'POST',
             isArray: true,
-            headers: {
-                'Authorization': 'Bearer super_token',
-                'apiKey': thirdPartyAPIKey
-            }
+            headers: { 'Authorization': 'Bearer ' + _user.accessToken, 'apiKey': thirdPartyAPIKey }
         }
     });
 
@@ -59,7 +46,7 @@ angular.module('BigScreen.Portal')
             guest: 0,
             guest_display: 0
         };
-        buckets.forEach(function(bucket) {
+        buckets.forEach(function (bucket) {
             switch (bucket.key) {
                 case 'east_in':
                 case 'south_in':
@@ -79,6 +66,9 @@ angular.module('BigScreen.Portal')
         // population.beehive = 22;
         // population.guest = 14;
 
+        population.beehive = (population.beehive < 0 ? 0 : population.beehive);
+        population.guest = (population.guest < 0 ? 0 : population.guest);
+
         population.beehive_display = calNumber(population.beehive);
         population.guest_display = calNumber(population.guest);
         return population;
@@ -86,7 +76,7 @@ angular.module('BigScreen.Portal')
 
     function getNonBeehiveNumber(bucket) {
         var count = 0;
-        bucket.beehive_user_count.buckets.forEach(function(b) {
+        bucket.beehive_user_count.buckets.forEach(function (b) {
             if (b.key !== 'non_beehive_user') return;
             count = b.doc_count;
             return true;
@@ -101,44 +91,46 @@ angular.module('BigScreen.Portal')
     }
 
     return {
-        getThingsLatestStatus: function() {
+        getThingsLatestStatus: function () {
             var q = $q.defer();
-            query.getThingsLatestStatus().$promise.then(function(res) {
+            query.getThingsLatestStatus().$promise.then(function (res) {
                 q.resolve(res);
-            }, function(err) { q.reject(err); });
+            }, function (err) { q.reject(err); });
             return q.promise;
         },
-        showPeople: function() {
+        showPeople: function () {
             var q = $q.defer();
-            query.getFacialIdentify().$promise.then(function(res) {
+            query.getFacialIdentify().$promise.then(function (res) {
                 try {
                     q.resolve(parseFacialData(res.aggregations.action.buckets));
                 } catch (e) {
                     console.log('no facial identify data.')
                     q.resolve(parseFacialData([]));
                 }
-            }, function(err) { q.reject(err); });
+            }, function (err) { q.reject(err); });
             return q.promise;
         },
-        usage: function() {
+        usage: function () {
             var q = $q.defer();
             query.searchThings({
                 location: '0807W',
                 includeSubLevel: true,
                 type: 'EnvironmentSensor'
-            }).$promise.then(function(res) {
-                return query.detectPIR({ thingList: res.things }).$promise;
-            }).then(function(res) {
+            }).$promise.then(function (res) {
+                var _thingList = res.things.map(function (o) {
+                    return o.thingID;
+                });
+                return query.detectPIR({ thingList: _thingList }).$promise;
+            }).then(function (res) {
                 var _pir = 0;
-                res.forEach(function(thing) {
+                res.forEach(function (thing) {
                     if (thing.states.PIR) _pir++;
                 });
-                var a = 1;
                 q.resolve({
                     pir: _pir,
                     space: res.length
                 });
-            }, function(err) { q.reject(err); });
+            }, function (err) { q.reject(err); });
             return q.promise;
         }
     }

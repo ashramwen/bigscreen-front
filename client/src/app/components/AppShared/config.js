@@ -4,7 +4,7 @@
  * created by George Lin @ Kii
  */
 
-(function () {
+(function() {
     var siteUrl = appConfig[appConfig.ENV].siteUrl;
     window.thirdPartyAPIUrl = appConfig[appConfig.ENV].thirdPartyAPIUrl;
     window.thirdPartyAPIKey = appConfig[appConfig.ENV].thirdPartyAPIKey;
@@ -33,19 +33,19 @@
         'SYSTEM_PERMISSION': '/sys/permissionTree',
         'USER_SYNC': '/usersync',
         'SCHEMA': '/industrytemplate',
-        'REPORTS': '/reports' 
+        'REPORTS': '/reports'
     };
 
 
     /*
      * init api urls
      */
-    for(var apiName in window.MyAPIs){
-        window.MyAPIs[apiName] = apiSuffix +  window.MyAPIs[apiName];
+    for (var apiName in window.MyAPIs) {
+        window.MyAPIs[apiName] = apiSuffix + window.MyAPIs[apiName];
     }
 
     window.MyAPIs['CLOUD_THING_IF'] = cloudUrl + '/thing-if';
-    window.webSocketPath =  appConfig[appConfig.ENV].wsUrl;
+    window.webSocketPath = appConfig[appConfig.ENV].wsUrl;
 
     /*
      * tag used as session key
