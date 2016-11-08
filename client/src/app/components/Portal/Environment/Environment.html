@@ -8,13 +8,13 @@
             </div>
             <div class="pull-left bar-wrap">
                 <div class="bar">
-                    <span class="desc">照明+空调</span> <span class="value">120 W</span>
+                    <span class="desc">照明+空调</span> <span class="value">{{electricity.airLighting/1000}} KWh</span>
                     <div class="progress">
                         <div class="progress-bar light" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%"></div>
                     </div>
                 </div>
                 <div class="bar">
-                    <span class="desc">插座</span> <span class="value">588 W</span>
+                    <span class="desc">插座</span> <span class="value">{{electricity.socket/1000}} KWh</span>
                     <div class="progress">
                         <div class="progress-bar socket" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100" style="width: 55%"></div>
                     </div>

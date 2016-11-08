@@ -20,6 +20,11 @@ angular.module('BigScreen.Portal')
         pm25: NaN
     }
 
+    $scope.electricity = {
+        airLighting: 0,
+        socket: 0
+    }
+
     var myChart = echarts.init(document.getElementById('population-chart'));
     $scope.init = function() {
         // show people
@@ -36,6 +41,10 @@ angular.module('BigScreen.Portal')
         // right side sensor state
         EnvironmentService.getThingsLatestStatus().then(function(res) {
             getStatus(res);
+        });
+
+        EnvironmentService.getElectricMeter().then(function(data) {
+            $scope.electricity = data;
         });
     }
 
