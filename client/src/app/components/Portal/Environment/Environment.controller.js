@@ -43,6 +43,7 @@ angular.module('BigScreen.Portal')
             getStatus(res);
         });
 
+        // get electric meter data
         EnvironmentService.getElectricMeter().then(function(data) {
             $scope.electricity = data;
         });
