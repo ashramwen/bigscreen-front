@@ -89,6 +89,10 @@ gulp.task('misc', function() {
 });
 
 gulp.task('clean', function(done) {
+    $.del([paths.tmp + '/'], done);
+});
+
+gulp.task('cleanDist', function(done) {
     $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
@@ -103,5 +107,12 @@ gulp.task('sass', function() {
         .pipe(gulp.dest(paths.src + '/css'));
 });
 
-gulp.task('dist', ['html', 'images', 'misc', 'fonts', 'config']);
+gulp.task('buildDist', ['html', 'images', 'misc', 'fonts', 'config']);
 gulp.task('build', ['sass', 'inject', 'partials', 'watch']);
+
+gulp.task('dist', ['cleanDist'], function() {
+    gulp.start(['beforeDist']);
+});
+gulp.task('beforeDist', ['sass', 'config', 'inject', 'partials'], function() {
+    gulp.start(['buildDist']);
+});
