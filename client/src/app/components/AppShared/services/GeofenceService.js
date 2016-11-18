@@ -34,8 +34,8 @@ angular.module('BigScreen.AppShared')
                 headers: { 'Authorization': 'Bearer ' + SessionService.getPortalAdmin().accessToken, 'apiKey': thirdPartyAPIKey },
                 params: {
                     userID: vip.key,
-                    startDateTime: 0,
-                    // startDateTime: (new Date().valueOf() - 30000),
+                    // startDateTime: 0,
+                    startDateTime: (new Date().valueOf() - 30000),
                     endDateTime: 9999999999999,
                     size: 1,
                     from: 0,

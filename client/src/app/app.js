@@ -27,7 +27,11 @@ MyApp.config(function($httpProvider, $stateProvider, $urlRouterProvider, $logPro
                 console.warn(response);
                 if (!response.config.params || !response.config.params['inv'])
                     MyApp.utils.whenLoaded();
+                if (response.status === 502 && response.data === 'UNAUTHORIZED')
+                    window.location = '/bigscreen-front';
                 if (response.data && response.data.errorCode === 'TOKEN_TIME_OUT')
+                    window.location = '/bigscreen-front';
+                if (response.data && response.data.errorCode === 'LOGIN_TOKEN_INVALID')
                     window.location = '/bigscreen-front';
                 if (response.status === 401 || response.status === 403)
                     window.location = '/bigscreen-front';
