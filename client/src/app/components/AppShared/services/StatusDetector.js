@@ -6,8 +6,8 @@ angular.module('BigScreen.AppShared')
     return {
         detectSpecificType: function(room, type) {
             switch (type) {
-                case 'AirCondition':
-                    this.detectAirCondition(room)
+                case 'FreshAir':
+                    this.detectFreshAir(room)
                     break;
                 case 'EnvironmentSensor':
                     this.detectPIR(room)
@@ -19,7 +19,7 @@ angular.module('BigScreen.AppShared')
         },
         detectAll: function(room) {
             this.detectLighting(room);
-            this.detectAirCondition(room);
+            this.detectFreshAir(room);
             this.detectPIR(room);
         },
         detectLighting: function(room) {
@@ -30,10 +30,10 @@ angular.module('BigScreen.AppShared')
                 room.light = room.light | thing.status.Power;
             });
         },
-        detectAirCondition: function(room) {
-            if (!room.things.hasOwnProperty('AirCondition')) return;
+        detectFreshAir: function(room) {
+            if (!room.things.hasOwnProperty('FreshAir')) return;
             room.air = 0;
-            room.things['AirCondition'].forEach(function(thing) {
+            room.things['FreshAir'].forEach(function(thing) {
                 if (!thing.status) return;
                 room.air = room.air | thing.status.Power;
             });

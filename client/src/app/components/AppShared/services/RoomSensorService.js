@@ -22,7 +22,7 @@ angular.module('BigScreen.AppShared')
         });
     }
 
-    var surscribeField = ['AirCondition', 'EnvironmentSensor', 'Lighting'];
+    var surscribeField = ['FreshAir', 'EnvironmentSensor', 'Lighting'];
 
     return {
         run: function(room) {
