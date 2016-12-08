@@ -25,7 +25,8 @@ angular.module('BigScreen.Portal')
         socket: 0
     }
 
-    var myChart = echarts.init(document.getElementById('population-chart'));
+    var pirChart = echarts.init(document.getElementById('population-chart'));
+    var electricityChart = echarts.init(document.getElementById('electricity-chart'));
     $scope.init = function() {
         // show people
         EnvironmentService.showPeople().then(function(res) {
@@ -35,7 +36,7 @@ angular.module('BigScreen.Portal')
         // space usage
         EnvironmentService.usage().then(function(res) {
             $scope.usage = res.pir / res.space;
-            myChart.setOption(chartOption(res));
+            pirChart.setOption(pirChartOption(res));
         });
 
         // right side sensor state
@@ -43,9 +44,15 @@ angular.module('BigScreen.Portal')
             getStatus(res);
         });
 
-        // get electric meter data
-        EnvironmentService.getElectricMeter().then(function(data) {
+        // get electric meter Wh
+        // EnvironmentService.getElectricMeter().then(function(data) {
+        //     $scope.electricity = data;
+        // });
+
+        // get electric meter P
+        EnvironmentService.getElectricMeterP().then(function(data) {
             $scope.electricity = data;
+            electricityChart.setOption(electricChartOption(data));
         });
     }
 
@@ -112,7 +119,75 @@ angular.module('BigScreen.Portal')
         }
     }
 
-    function chartOption(states) {
+    function electricChartOption(data) {
+        return {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{b}: {c} kW ({d}%)"
+            },
+            legend: {
+                // orient: 'vertical',
+                // x: 'right',
+                // data: ['照明+空调', '插座'],
+                // textStyle: {
+                //     fontSize: 18
+                // }
+                // formatter: function(name) {
+                //     var oa = option.series[0].data;
+                //     var num = oa[0].value + oa[1].value;
+                //     for (var i = 0; i < option.series[0].data.length; i++) {
+                //         if (name == oa[i].name) {
+                //             return name + '     ' + oa[i].value + '     ' + (oa[i].value / num * 100).toFixed(2) + '%';
+                //         }
+                //     }
+                // }
+            },
+            series: [{
+                name: '能耗分析',
+                type: 'pie',
+                radius: '55%',
+                center: ['50%', '50%'],
+                data: [{
+                    value: Math.round(data.airLighting),
+                    name: '照明+空调',
+                    itemStyle: {
+                        normal: {
+                            color: '#ff6600'
+                        }
+                    },
+                    selected: true
+                }, {
+                    value: Math.round(data.socket),
+                    name: '插座',
+                    itemStyle: {
+                        normal: {
+                            color: '#2aabe2'
+                        }
+                    }
+                }],
+                label: {
+                    normal: {
+                        show: true,
+                        // position: 'inside',
+                        formatter: '{b}\n{c} kW',
+                        textStyle: {
+                            fontSize: 24
+                        }
+                    },
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                },
+                labelLine: {
+                    show: true
+                }
+            }]
+        };
+    }
+
+    function pirChartOption(states) {
         return {
             tooltip: {
                 trigger: 'item',

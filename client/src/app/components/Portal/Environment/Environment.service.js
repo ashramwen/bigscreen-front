@@ -60,6 +60,15 @@ angular.module('BigScreen.Portal')
                 'Authorization': 'Bearer ' + _user.accessToken,
                 'apiKey': thirdPartyAPIKey
             }
+        },
+        getElectricMeterP: {
+            url: thirdPartyAPIUrl + 'ElectricMeter/P',
+            method: 'POST',
+            isArray: true,
+            headers: {
+                'Authorization': 'Bearer ' + _user.accessToken,
+                'apiKey': thirdPartyAPIKey
+            }
         }
     });
 
@@ -143,10 +152,18 @@ angular.module('BigScreen.Portal')
         return population;
     }
 
+    function sumP(res) {
+        return sum(res, 'P');
+    }
+
     function sumWh(res) {
-        var kWh = {
-            airLighting: 0,
-            socket: 0,
+        return sum(res, 'Wh');
+    }
+
+    function sum(res, column) {
+        var ret = {
+            airLighting: numeral(),
+            socket: numeral(),
         };
         res.forEach(function(o) {
             switch (o.globalThingID) {
@@ -154,15 +171,18 @@ angular.module('BigScreen.Portal')
                 case 5495:
                 case 4928:
                 case 5496:
-                    kWh.airLighting += o.states.Wh | 0;
+                    ret.airLighting.add(o.states[column] || 0);
                     break;
-                case 5498:
-                case 5497:
-                    kWh.socket += o.states.Wh | 0;
+                case 5498: //0807W-Z00-N-003
+                case 5497: //0807W-Z00-N-035
+                    ret.socket.add(o.states[column] || 0);
                     break;
             }
         });
-        return kWh;
+        return {
+            airLighting: ret.airLighting.value(),
+            socket: ret.socket.value()
+        };
     }
 
     return {
@@ -220,6 +240,15 @@ angular.module('BigScreen.Portal')
             var q = $q.defer();
             query.getElectricMeter({}, { 'thingList': [5494, 5495, 4928, 5496, 5498, 5497] }).$promise.then(function(res) {
                 q.resolve(sumWh(res));
+            }, function(err) {
+                q.reject(err);
+            });
+            return q.promise;
+        },
+        getElectricMeterP: function() {
+            var q = $q.defer();
+            query.getElectricMeterP({}, { 'thingList': [5494, 5495, 4928, 5496, 5498, 5497] }).$promise.then(function(res) {
+                q.resolve(sumP(res));
             }, function(err) {
                 q.reject(err);
             });
