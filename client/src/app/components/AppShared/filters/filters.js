@@ -77,10 +77,12 @@ angular.module('BigScreen.AppShared')
 .filter('pm25Level', function() {
     return function(input) {
         if (isNaN(input)) return '';
-        if (input <= 35) return '低/';
-        if (input <= 53) return '中/';
-        if (input <= 70) return '高/';
-        return '极高/';
+        if (input <= 35) return '优/';
+        if (input <= 75) return '良/';
+        if (input <= 115) return '轻度污染/';
+        if (input <= 150) return '中度污染/';
+        if (input <= 250) return '重度污染/';
+        return '严重污染/';
     };
 })
 
