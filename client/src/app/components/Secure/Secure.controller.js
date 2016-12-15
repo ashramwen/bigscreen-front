@@ -2,13 +2,16 @@
 
 angular.module('BigScreen.Secure')
 
-.controller('SecureController', ['$scope', '$rootScope', '$state', 'AppUtils', 'SecurityService', 'SessionService', function($scope, $rootScope, $state, AppUtils, SecurityService, SessionService) {
+.controller('SecureController', ['$timeout', '$state', 'AppUtils', 'SecurityService', 'SessionService', function($timeout, $state, AppUtils, SecurityService, SessionService) {
     AppUtils.showLoading();
 
     SecurityService.login().then(function(portalAdmin) {
         SessionService.setPortalAdmin(portalAdmin);
-        // $state.go('app.Portal.OfficeSpace');
         AppUtils.hideLoading();
+
+        $timeout(function() {
+            $state.go('app.Portal.OfficeSpace');
+        }, 5000);
     }, function(error) {
         console.log(error);
         AppUtils.hideLoading();
