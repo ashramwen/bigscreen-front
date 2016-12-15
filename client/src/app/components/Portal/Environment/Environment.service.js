@@ -133,10 +133,17 @@ angular.module('BigScreen.Portal')
             guest: 0,
             guest_display: 0
         };
+        var eastList;
+        var southList;
         buckets.forEach(function(bucket) {
             switch (bucket.key) {
                 case 'east_in':
+                    eastList = bucket.beehive_user_count.buckets;
+                    population.guest += getNonBeehiveNumber(bucket);
+                    population.beehive += bucket.beehive_user_count.buckets.length - 1;
+                    break;
                 case 'south_in':
+                    southList = bucket.beehive_user_count.buckets;
                     population.guest += getNonBeehiveNumber(bucket);
                     population.beehive += bucket.beehive_user_count.buckets.length - 1;
                     break;
@@ -147,6 +154,14 @@ angular.module('BigScreen.Portal')
             }
         });
 
+        var dup = _.intersectionBy(eastList, southList, 'key');
+        var dup_count = dup.length;
+        if (dup.find(function(o) {
+                return o.key === 'non_beehive_user';
+            })) {
+            dup_count--;
+        }
+        // population.beehive -= dup_count;
         population.beehive_display = calNumber(population.beehive);
         population.guest_display = calNumber(population.guest);
         return population;
