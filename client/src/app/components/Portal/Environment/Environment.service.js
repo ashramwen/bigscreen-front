@@ -161,7 +161,7 @@ angular.module('BigScreen.Portal')
             })) {
             dup_count--;
         }
-        // population.beehive -= dup_count;
+        population.beehive -= dup_count;
         population.beehive_display = calNumber(population.beehive);
         population.guest_display = calNumber(population.guest);
         return population;
