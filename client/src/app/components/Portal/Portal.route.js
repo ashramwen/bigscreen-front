@@ -28,10 +28,10 @@ angular.module('BigScreen.Portal')
                 return '办公环境监控';
             }
         })
-        .state('app.Portal.OfficeUsage', {
-            url: '/OfficeUsage',
-            templateUrl: 'app/components/Portal/OfficeUsage/OfficeUsage.html',
-            controller: 'OfficeUsageController',
+        .state('app.Portal.MeetingRoom', {
+            url: '/MeetingRoom',
+            templateUrl: 'app/components/Portal/MeetingRoom/MeetingRoom.html',
+            controller: 'MeetingRoomController',
             getName: function() {
                 return '会议室';
             }

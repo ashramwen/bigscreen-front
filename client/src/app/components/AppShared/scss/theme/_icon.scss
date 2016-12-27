@@ -1,27 +1,38 @@
 .icon {
-    @include bg-image("icon_officespace.png");
-    &.air {
-        width: 51px;
-        height: 28px;
-        margin-bottom: 2px;
-        &.off {
-            background-position: 0 -28px;
+    &.icon-room {
+        @include bg-image("icon_sensor_status.png");
+        &.air {
+            width: 70px;
+            height: 41px;
+            margin-bottom: 2px;
+            &.off {
+                background-position: -70px 0;
+            }
+            &.broken {
+                background-position: -140px 0;
+            }
         }
-    }
-    &.light {
-        background-position: -51px 0;
-        width: 41px;
-        height: 40px;
-        &.off {
-            background-position: -51px -40px;
+        &.light {
+            background-position: 0 -41px;
+            width: 75px;
+            height: 78px;
+            &.off {
+                background-position: -75px -41px;
+            }
+            &.broken {
+                background-position: -150px -41px;
+            }
         }
-    }
-    &.person {
-        background-position: -92px 0;
-        width: 16px;
-        height: 36px;
-        &.off {
-            background-position: -92px -36px;
+        &.person {
+            background-position: 0 -119px;
+            width: 36px;
+            height: 86px;
+            &.off {
+                background-position: -36px -119px;
+            }
+            &.broken {
+                background-position: -72px -119px;
+            }
         }
     }
 }

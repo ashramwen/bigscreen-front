@@ -56,7 +56,7 @@ angular.module('BigScreen.Portal')
             icon: 'fa-tachometer'
         }, {
             name: '会议室',
-            state: $state.get('app.Portal.OfficeUsage'),
+            state: $state.get('app.Portal.MeetingRoom'),
             icon: 'fa-th-list'
         }, {
             name: '智能停车场',

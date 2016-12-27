@@ -88,12 +88,12 @@
         }
     }
     .room-foot {
-        height: 63px;
+        height: 100px;
         padding-bottom: 23px;
         .icon-wrap {
             margin-left: auto;
             margin-right: auto;
-            width: 146px;
+            width: 100%;
             height: 100%;
         }
         .icon {
@@ -103,8 +103,8 @@
             display: inline-block;
             width: 1px;
             height: 40px;
-            margin-left: 5px;
-            margin-right: 5px;
+            margin-left: 2px;
+            margin-right: 3px;
             // margin-bottom: 10px;
             background-color: #c8c7c0;
         }

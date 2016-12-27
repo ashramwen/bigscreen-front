@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('OfficeUsageController', ['$scope', 'BookingService', function($scope, BookingService) {
+.controller('MeetingRoomController', ['$scope', 'BookingService', function($scope, BookingService) {
 
     // 今日已满
 

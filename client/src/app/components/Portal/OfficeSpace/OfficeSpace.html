@@ -1,9 +1,11 @@
 <div class="app-portal-officespace">
-    <img class="bg" src="images/bg_officespace.png" alt="">
-    <div class="room-row">
-        <app-room ng-repeat="r in firstRooms" room="r"></app-room>
-    </div>
-    <div class="room-row second">
-        <app-room ng-repeat="r in secondRooms track by r.location" room="r" class="sm"></app-room>
-    </div>
+  <img class="bg" src="images/bg_officespace.png" alt="">
+  <div class="room-row">
+    <app-room ng-repeat="r in firstRooms" room="r"></app-room>
+  </div>
+  <div class="room-row second">
+    <app-room ng-repeat="r in secondRooms track by r.location" room="r" class="sm"></app-room>
+  </div>
+  <div class="status"><img src="images/icon_description.png" width="748" height="71" alt=""></div>
+  </div>
 </div>
