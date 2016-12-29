@@ -1,0 +1,54 @@
+@import 'src/app/components/AppShared/scss/global.scss';
+.smiley-face {
+    .pulse {
+        position: relative;
+        width: 68px;
+        height: 68px;
+        box-shadow: 0 0 0 0 rgb( 220, 243, 216);
+        border-radius: 50%;
+        background-color: #2bce10;
+        background-size: cover;
+        background-repeat: no-repeat;
+        @include animation(pulse 1.25s infinite linear);
+        // @include animation(pulse 2.25s infinite cubic-bezier(0.66, 0, 0, 1));
+        // &:hover {
+        //     @include animation(none);
+        // }
+        &.good {
+            background-color: #2bce10;
+            box-shadow: 0 0 0 0 rgb( 220, 243, 216);
+        }
+        &.normal {
+            background-color: #2aabe2;
+            box-shadow: 0 0 0 0 rgb( 220, 240, 248);
+        }
+        &.bad {
+            background-color: #ff6600;
+            box-shadow: 0 0 0 0 rgb( 251, 228, 213);
+        }
+    }
+}
+
+@-webkit-keyframes pulse {
+    to {
+        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+    }
+}
+
+@-moz-keyframes pulse {
+    to {
+        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+    }
+}
+
+@-ms-keyframes pulse {
+    to {
+        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+    }
+}
+
+@keyframes pulse {
+    to {
+        box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);
+    }
+}

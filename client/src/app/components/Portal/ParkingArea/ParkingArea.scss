@@ -6,42 +6,42 @@
         color: #2aabe2 !important;
     }
     .row {
-        margin-bottom: 50px;
+        margin-bottom: 30px;
         &:last-child {
             margin-bottom: initial;
         }
-        > * {
+        >* {
             float: left;
             margin-right: 5px;
             color: #666;
         }
         .title {
-            font-size: 36px;
-            line-height: 36px;
+            font-size: 40px;
+            line-height: 40px;
         }
         .hint {
             margin-left: 15px;
             margin-right: 30px;
         }
         .remark {
-            margin: 15px 0;
-            font-size: 20px;
+            margin-left: 56px;
+            color: #333;
+            font-size: 25px;
+            line-height: 25px;
             span {
-                font-size: 26px;
+                color: #2292c9;
+                font-size: 31px;
             }
         }
         .desc {
             position: relative;
             height: 36px;
-            width: 250px;
-            > div {
+            width: 350px;
+            >div {
                 position: absolute;
                 bottom: 0;
-                font-size: 20px;
+                font-size: 24px;
             }
-        }
-        .progress-bar {
-            background-color: #2aabe2;
         }
         #parking-chart {
             margin-left: -50px;

@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('EnvironmentController', ['$scope', '$interval', 'EnvironmentService', function($scope, $interval, EnvironmentService) {
+.controller('EnvironmentController', ['$scope', '$interval', 'EnvironmentService', function ($scope, $interval, EnvironmentService) {
 
     $scope.population = {
         total: 0,
@@ -27,20 +27,20 @@ angular.module('BigScreen.Portal')
 
     var pirChart = echarts.init(document.getElementById('population-chart'));
     var electricityChart = echarts.init(document.getElementById('electricity-chart'));
-    $scope.init = function() {
+    $scope.init = function () {
         // show people
-        EnvironmentService.showPeople().then(function(res) {
+        EnvironmentService.showPeople().then(function (res) {
             $scope.population = res;
         });
 
         // space usage
-        EnvironmentService.usage().then(function(res) {
+        EnvironmentService.usage().then(function (res) {
             $scope.usage = res.pir / res.space;
             pirChart.setOption(pirChartOption(res));
         });
 
         // right side sensor state
-        EnvironmentService.getThingsLatestStatus().then(function(res) {
+        EnvironmentService.getThingsLatestStatus().then(function (res) {
             getStatus(res);
         });
 
@@ -50,17 +50,18 @@ angular.module('BigScreen.Portal')
         // });
 
         // get electric meter P
-        EnvironmentService.getElectricMeterP().then(function(data) {
+        EnvironmentService.getElectricMeterP().then(function (data) {
             $scope.electricity = data;
             electricityChart.setOption(electricChartOption(data));
+            $scope.electricityReady = true;
         });
     }
 
-    var stop = $interval(function() {
+    var stop = $interval(function () {
         $scope.init();
     }, 60000);
 
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
         if (angular.isDefined(stop)) {
             $interval.cancel(stop);
             stop = undefined;
@@ -78,7 +79,7 @@ angular.module('BigScreen.Portal')
             var pm25;
             var pm25Total = 0;
             var pm25Count = 0;
-            res.aggregations.group_by_target.buckets.forEach(function(thing) {
+            res.aggregations.group_by_target.buckets.forEach(function (thing) {
                 // console.log(thing.key);
                 temp = getStateValue(thing, 'Temp');
                 if (temp !== undefined) {
@@ -143,9 +144,10 @@ angular.module('BigScreen.Portal')
                 // }
             },
             series: [{
+                // center: ['50%', '30%'],
                 name: '能耗分析',
                 type: 'pie',
-                radius: '60%',
+                // radius: '60%',
                 data: [{
                     value: Math.round(data.airLighting),
                     name: '照明+空调',

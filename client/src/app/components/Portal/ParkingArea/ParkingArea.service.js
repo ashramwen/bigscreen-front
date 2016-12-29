@@ -80,24 +80,32 @@ angular.module('BigScreen.Portal')
         tooltip: {
             trigger: 'axis'
         },
-        legend: {
-            data: ['进入高峰', '驶出高峰'],
-            textStyle: {
-                fontSize: 24
-            }
-        },
+        // legend: {
+        //     data: ['进入高峰', '驶出高峰'],
+        //     textStyle: {
+        //         fontSize: 24
+        //     }
+        // },
         xAxis: {
             type: 'category',
             boundaryGap: false,
             data: [],
-            // axisLabel: {
-            //     formatter: function(value, index) {
-            //         return moment(value).format('H:mm');
-            //     }
-            // }
+            axisLabel: {
+                textStyle: {
+                    fontSize: 24
+                }
+                // formatter: function(value, index) {
+                //     return moment(value).format('H:mm');
+                // }
+            }
         },
         yAxis: {
-            type: 'value'
+            type: 'value',
+            axisLabel: {
+                textStyle: {
+                    fontSize: 24
+                }
+            }
         },
         series: [{
             name: '进入高峰',
@@ -121,17 +129,24 @@ angular.module('BigScreen.Portal')
                 }
             },
             markPoint: {
+                symbol: 'path://M 5.477 69.249 l 89.081 9.082 v 46.07 c 0 5.522 4.477 10 10 10 h 304 c 5.522 0 10 -4.478 10 -10 v -112 c 0 -5.523 -4.478 -10 -10 -10 h -304 c -5.523 0 -10 4.477 -10 10 v 46.07',
+                symbolSize: [156, 70],
+                symbolOffset: ['78', 0],
                 label: {
                     normal: {
                         textStyle: {
                             fontSize: 24
+                        },
+                        position: 'insideRight',
+                        formatter: function(max) {
+                            var time = data.x[max.data.coord[0]];
+                            return '进入高峰 \n' + max.value + '  ' + time + ' ';
                         }
                     }
                 },
-                symbolSize: 80,
                 data: [{
                     type: 'max',
-                    name: '最大值',
+                    name: '最大值'
                 }]
             }
         }, {
@@ -155,19 +170,26 @@ angular.module('BigScreen.Portal')
                 }
             },
             markPoint: {
+                symbol: 'path://M 5.477 69.249 l 89.081 9.082 v 46.07 c 0 5.522 4.477 10 10 10 h 304 c 5.522 0 10 -4.478 10 -10 v -112 c 0 -5.523 -4.478 -10 -10 -10 h -304 c -5.523 0 -10 4.477 -10 10 v 46.07',
+                symbolSize: [156, 70],
+                symbolOffset: ['78', 0],
                 label: {
                     normal: {
                         textStyle: {
                             fontSize: 24
+                        },
+                        position: 'insideRight',
+                        formatter: function(max) {
+                            var time = data.x[max.data.coord[0]];
+                            return '驶出高峰 \n' + max.value + '  ' + time + ' ';
                         }
                     }
                 },
-                symbolSize: 80,
                 data: [{
                     type: 'max',
                     name: '最大值'
                 }]
-            },
+            }
         }]
     };
 
@@ -197,6 +219,7 @@ angular.module('BigScreen.Portal')
     }
 
     var myChart;
+    var data;
     var ParkingChart = {
         init: function (elem) {
             myChart = echarts.init(elem);
@@ -204,7 +227,7 @@ angular.module('BigScreen.Portal')
         },
         setData: function () {
             ParkingService.getCarInOut().then(function (res) {
-                var data = parseData(res[0], res[1]);
+                data = parseData(res[0], res[1]);
                 myChart.setOption({
                     xAxis: {
                         data: data.x

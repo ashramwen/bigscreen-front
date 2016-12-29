@@ -3,52 +3,25 @@
     padding: 0 18px;
     height: 800px;
     color: #333;
+    .title {
+        height: 40px;
+        line-height: 40px;
+        font-size: 40px;
+    }
     >.pull-left {
         width: 1072px;
     }
     .wrap {
         padding-left: 112px;
     }
-    .title-wrap {
-        height: 111px;
-        line-height: 111px;
-        font-size: 35px;
-    }
     .electricity-wrap {
-        height: 296px;
-        border-top: 1px dashed #999;
+        // border-top: 1px dashed #999;
+        padding-top: 40px;
         border-bottom: 1px dashed #999;
-        .pull-left {
-            height: 100%;
-            font-size: 21px;
-        }
-        .helper {
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
-        }
-        img {
-            vertical-align: middle;
-        }
-        .bar-wrap {
-            // padding-top: 64px;
-            // padding-left: 114px;
-            .bar {
-                &:last-child {
-                    margin-top: 50px;
-                }
-                .desc {
-                    display: inline-block;
-                    width: 162px;
-                }
-                .value {
-                    font-size: 27px;
-                }
-                .progress {
-                    margin-top: 15px;
-                    width: 400px;
-                }
-            }
+        .electricity {
+            margin: 0 auto;
+            width: 510px;
+            height: 370px;
         }
     }
     .population-wrap {
@@ -58,12 +31,11 @@
         }
         .population {
             width: 450px;
-            font-size: 20px;
+            font-size: 24px;
         }
         .title {
-            line-height: 35px;
-            font-size: 35px;
-            padding-top: 78px;
+            padding-top: 48px;
+            margin-bottom: 40px;
         }
         .people {
             position: relative;
@@ -105,18 +77,18 @@
             }
         }
         .usage {
-            padding-top: 155px;
-            padding-left: 60px;
+            padding-top: 55px;
+            padding-left: 20px;
             .tip {
-                width: 228px;
+                width: 246px;
                 height: 39px;
-                font-size: 20px;
+                font-size: 24px;
                 line-height: 20px;
-                @include bg-image("icon_tip.png");
                 background-repeat: no-repeat;
-                background-position: 101px 3px;
-                margin-top: 128px;
-                margin-right: -42px;
+                background-position: 120px 3px;
+                margin-top: 170px;
+                margin-right: -60px;
+                @include bg-image("icon_tip.png");
             }
         }
     }
@@ -127,20 +99,24 @@
         border-left: 1px dashed #999;
         padding-left: 78px;
         padding-top: 40px;
+        hr {
+            border-top: 1px dashed #999;
+        }
         .title {
-            height: 250px;
+            height: 130px;
             font-size: 35px;
         }
         .type {
-            height: 61px;
-            font-size: 20px;
-            line-height: 20px;
+            height: 73px;
+            line-height: 73px;
+            font-size: 30px;
+            margin-top: 40px;
             margin-bottom: 40px;
             &:before {
                 content: ' ';
                 float: left;
-                width: 60px;
-                height: 61px;
+                width: 75px;
+                height: 73px;
                 margin-right: 17px;
                 @include bg-image("icon_type.png");
             }
@@ -151,7 +127,7 @@
             }
             &.co2 {
                 &:before {
-                    background-position: 0 -61px;
+                    background-position: -75px 0;
                 }
                 .progress-bar {
                     background-color: #ff6600;
@@ -159,18 +135,21 @@
             }
             &.pm25 {
                 &:before {
-                    background-position: 0 -122px;
+                    background-position: -150px 0;
                 }
                 .progress-bar {
                     background-color: #2bce10;
                 }
             }
             .text {
-                padding-top: 14px;
+                width: 180px;
             }
             .progress {
                 margin-top: 10px;
                 width: 467px;
+            }
+            .smiley-face {
+                margin-right: 20px;
             }
         }
         .foot {
@@ -197,12 +176,13 @@
         }
     }
     #electricity-chart {
-        padding-left: 30px;
-        width: 540px;
-        height: 294px;
+        margin-top: -55px;
+        width: 600px;
+        height: 400px;
     }
     #population-chart {
-        width: 180px;
-        height: 180px;
+        margin-top: -40px;
+        width: 280px;
+        height: 280px;
     }
 }

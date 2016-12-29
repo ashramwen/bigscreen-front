@@ -63,3 +63,10 @@ $click-cursor: pointer;
   -o-filter: $filter;
   -ms-filter: $filter;
 }
+
+@mixin animation($animation) {
+    -webkit-animation: $animation;
+    -moz-animation: $animation;
+    -ms-animation: $animation;
+    animation: $animation;
+}
