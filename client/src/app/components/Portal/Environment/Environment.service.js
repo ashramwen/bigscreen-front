@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.factory('EnvironmentService', ['$resource', '$q', 'SessionService', function($resource, $q, SessionService) {
+.factory('EnvironmentService', ['$resource', '$q', 'SessionService', function ($resource, $q, SessionService) {
     var _user = SessionService.getPortalAdmin();
     var query = $resource(thirdPartyAPIUrl, {}, {
         getFacialIdentify: {
@@ -13,8 +13,8 @@ angular.module('BigScreen.Portal')
                 'apiKey': thirdPartyAPIKey
             },
             params: {
-                startDateTime: moment().startOf('day').valueOf(),
-                endDateTime: moment().endOf('day').millisecond(0).valueOf()
+                startDateTime: '@startDateTime',
+                endDateTime: '@endDateTime'
             }
         },
         getThingsLatestStatus: {
@@ -26,8 +26,8 @@ angular.module('BigScreen.Portal')
             },
             params: {
                 // 'index': '493e83c9',
-                'startDateTime': moment().startOf('day').valueOf(),
-                'endDateTime': 9999999999999
+                'startDateTime': '@startDateTime',
+                'endDateTime': '@endDateTime'
             }
         },
         searchThings: {
@@ -37,7 +37,7 @@ angular.module('BigScreen.Portal')
                 'Authorization': 'Bearer ' + _user.accessToken,
                 'apiKey': thirdPartyAPIKey
             },
-            transformResponse: function(data) {
+            transformResponse: function (data) {
                 return {
                     things: angular.fromJson(data)
                 }
@@ -74,7 +74,7 @@ angular.module('BigScreen.Portal')
 
     function getNonBeehiveNumber(bucket) {
         var count = 0;
-        bucket.beehive_user_count.buckets.forEach(function(b) {
+        bucket.beehive_user_count.buckets.forEach(function (b) {
             if (b.key !== 'non_beehive_user') return;
             count = b.doc_count;
             return true;
@@ -97,7 +97,7 @@ angular.module('BigScreen.Portal')
             guest: 0,
             guest_display: 0
         };
-        buckets.forEach(function(bucket) {
+        buckets.forEach(function (bucket) {
             switch (bucket.key) {
                 case 'east_in':
                 case 'south_in':
@@ -135,7 +135,7 @@ angular.module('BigScreen.Portal')
         };
         var eastList;
         var southList;
-        buckets.forEach(function(bucket) {
+        buckets.forEach(function (bucket) {
             switch (bucket.key) {
                 case 'east_in':
                     eastList = bucket.beehive_user_count.buckets;
@@ -156,7 +156,7 @@ angular.module('BigScreen.Portal')
 
         var dup = _.intersectionBy(eastList, southList, 'key');
         var dup_count = dup.length;
-        if (dup.find(function(o) {
+        if (dup.find(function (o) {
                 return o.key === 'non_beehive_user';
             })) {
             dup_count--;
@@ -180,7 +180,7 @@ angular.module('BigScreen.Portal')
             airLighting: numeral(),
             socket: numeral(),
         };
-        res.forEach(function(o) {
+        res.forEach(function (o) {
             switch (o.globalThingID) {
                 case 5494:
                 case 5495:
@@ -201,70 +201,80 @@ angular.module('BigScreen.Portal')
     }
 
     return {
-        getThingsLatestStatus: function() {
+        getThingsLatestStatus: function () {
             var q = $q.defer();
-            query.getThingsLatestStatus().$promise.then(function(res) {
+            query.getThingsLatestStatus({
+                'startDateTime': moment().startOf('day').valueOf(),
+                'endDateTime': 9999999999999
+            }).$promise.then(function (res) {
                 q.resolve(res);
-            }, function(err) {
+            }, function (err) {
                 q.reject(err);
             });
             return q.promise;
         },
-        showPeople: function() {
+        showPeople: function () {
             var q = $q.defer();
-            query.getFacialIdentify().$promise.then(function(res) {
+            query.getFacialIdentify({
+                startDateTime: moment().startOf('day').valueOf(),
+                endDateTime: moment().endOf('day').millisecond(0).valueOf()
+            }).$promise.then(function (res) {
                 try {
                     q.resolve(calculateComeInPeople(res.aggregations.action.buckets));
                 } catch (e) {
                     console.log('no facial identify data.')
                     q.resolve(calculateComeInPeople([]));
                 }
-            }, function(err) {
+            }, function (err) {
                 q.reject(err);
             });
             return q.promise;
         },
-        usage: function() {
+        usage: function () {
             var q = $q.defer();
             query.searchThings({
                 location: '0807W',
                 includeSubLevel: true,
                 type: 'EnvironmentSensor'
-            }).$promise.then(function(res) {
-                var _thingList = res.things.map(function(o) {
+            }).$promise.then(function (res) {
+                var _thingList = res.things.map(function (o) {
                     return o.thingID;
                 });
                 return query.detectPIR({
                     thingList: _thingList
                 }).$promise;
-            }).then(function(res) {
+            }).then(function (res) {
                 var _pir = 0;
-                res.forEach(function(thing) {
+                res.forEach(function (thing) {
                     if (thing.states.PIR) _pir++;
                 });
                 q.resolve({
                     pir: _pir,
                     space: res.length
                 });
-            }, function(err) {
+            }, function (err) {
                 q.reject(err);
             });
             return q.promise;
         },
-        getElectricMeter: function() {
+        getElectricMeter: function () {
             var q = $q.defer();
-            query.getElectricMeter({}, { 'thingList': [5494, 5495, 4928, 5496, 5498, 5497] }).$promise.then(function(res) {
+            query.getElectricMeter({}, {
+                'thingList': [5494, 5495, 4928, 5496, 5498, 5497]
+            }).$promise.then(function (res) {
                 q.resolve(sumWh(res));
-            }, function(err) {
+            }, function (err) {
                 q.reject(err);
             });
             return q.promise;
         },
-        getElectricMeterP: function() {
+        getElectricMeterP: function () {
             var q = $q.defer();
-            query.getElectricMeterP({}, { 'thingList': [5494, 5495, 4928, 5496, 5498, 5497] }).$promise.then(function(res) {
+            query.getElectricMeterP({}, {
+                'thingList': [5494, 5495, 4928, 5496, 5498, 5497]
+            }).$promise.then(function (res) {
                 q.resolve(sumP(res));
-            }, function(err) {
+            }, function (err) {
                 q.reject(err);
             });
             return q.promise;
