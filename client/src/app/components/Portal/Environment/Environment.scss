@@ -112,7 +112,7 @@
             font-size: 30px;
             margin-top: 40px;
             margin-bottom: 40px;
-            &:before {
+            &::before {
                 content: ' ';
                 float: left;
                 width: 75px;
@@ -126,7 +126,7 @@
                 }
             }
             &.co2 {
-                &:before {
+                &::before {
                     background-position: -75px 0;
                 }
                 .progress-bar {
@@ -134,7 +134,7 @@
                 }
             }
             &.pm25 {
-                &:before {
+                &::before {
                     background-position: -150px 0;
                 }
                 .progress-bar {

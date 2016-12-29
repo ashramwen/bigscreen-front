@@ -168,7 +168,7 @@ button.btn.btn-inverse {
 @mixin progressButtonColor($btnColor) {
   border-radius: 0;
   .content {
-    &:after, &:before {
+    &::after, &::before {
       color: darken($btnColor, 40);
     }
   }

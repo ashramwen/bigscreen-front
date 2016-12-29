@@ -49,7 +49,7 @@
     border-top-color: $danger;
     transform: translate3d(0, 0, 0);
     animation: spin 2s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
-    &:before {
+    &::before {
       content: "";
       position: absolute;
       top: 5px;
@@ -62,7 +62,7 @@
       -webkit-animation: spin 3s linear infinite; /* Chrome, Opera 15+, Safari 5+ */
       animation: spin 3s linear infinite; /* Chrome, Firefox 16+, IE 10+, Opera */
     }
-    &:after {
+    &::after {
       content: "";
       position: absolute;
       top: 15px;

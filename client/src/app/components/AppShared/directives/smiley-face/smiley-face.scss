@@ -9,6 +9,7 @@
         background-color: #2bce10;
         background-size: cover;
         background-repeat: no-repeat;
+        background-image: url('../../../../../images/icon_smiley_face.png');
         @include animation(pulse 1.25s infinite linear);
         // @include animation(pulse 2.25s infinite cubic-bezier(0.66, 0, 0, 1));
         // &:hover {
@@ -20,10 +21,12 @@
         }
         &.normal {
             background-color: #2aabe2;
+            background-position: -68px 0;
             box-shadow: 0 0 0 0 rgb( 220, 240, 248);
         }
         &.bad {
             background-color: #ff6600;
+            background-position: -136px 0;
             box-shadow: 0 0 0 0 rgb( 251, 228, 213);
         }
     }
