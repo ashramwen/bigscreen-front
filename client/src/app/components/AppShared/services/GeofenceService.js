@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.AppShared')
 
-.factory('GeofenceService', ['$rootScope', '$resource', '$q', '$interval', 'SessionService', function($rootScope, $resource, $q, $interval, SessionService) {
+.factory('GeofenceService', ['$rootScope', '$resource', '$q', '$interval', 'SessionService', function ($rootScope, $resource, $q, $interval, SessionService) {
 
     function searchPolygon(poi, current) {
         if (poi.floor !== current.floor) return false;
@@ -31,11 +31,14 @@ angular.module('BigScreen.AppShared')
             get: {
                 url: thirdPartyAPIUrl + 'locationGeo/searchUser',
                 method: 'POST',
-                headers: { 'Authorization': 'Bearer ' + SessionService.getPortalAdmin().accessToken, 'apiKey': thirdPartyAPIKey },
+                headers: {
+                    'Authorization': 'Bearer ' + SessionService.getPortalAdmin().accessToken,
+                    'apiKey': thirdPartyAPIKey
+                },
                 params: {
                     userID: vip.key,
                     // startDateTime: 0,
-                    startDateTime: (new Date().valueOf() - 30000),
+                    startDateTime: '@startDateTime',
                     endDateTime: 9999999999999,
                     size: 1,
                     from: 0,
@@ -44,7 +47,9 @@ angular.module('BigScreen.AppShared')
                 }
             }
         });
-        poi.get({}, function(res) {
+        poi.get({
+            startDateTime: (new Date().valueOf() - 30000)
+        }, function (res) {
             var a = 1;
             q.resolve(parsePOI(res.hits));
         });
@@ -78,10 +83,10 @@ angular.module('BigScreen.AppShared')
 
     function detectPOI() {
         var q = $q.defer();
-        $q.all([getPOI(0), getPOI(1), getPOI(2)]).then(function(res) {
+        $q.all([getPOI(0), getPOI(1), getPOI(2)]).then(function (res) {
             GeofenceService.isNear = false;
             var newVip;
-            vips.forEach(function(vip, i) {
+            vips.forEach(function (vip, i) {
                 vip.isIn = GeofenceService.isIn(res[i]);
                 GeofenceService.isNear = GeofenceService.isNear || vip.isIn;
                 if (vip.isIn && !newVip)
@@ -103,21 +108,35 @@ angular.module('BigScreen.AppShared')
     var scopes = [{
         location: '打印室',
         floor: 8,
-        scope: [
-            { lng: 120.02849, lat: 30.27817 },
-            { lng: 120.028462, lat: 30.278243 },
-            { lng: 120.028538, lat: 30.278272 },
-            { lng: 120.028571, lat: 30.278195 }
-        ]
+        scope: [{
+            lng: 120.02849,
+            lat: 30.27817
+        }, {
+            lng: 120.028462,
+            lat: 30.278243
+        }, {
+            lng: 120.028538,
+            lat: 30.278272
+        }, {
+            lng: 120.028571,
+            lat: 30.278195
+        }]
     }, {
         location: '公共区域',
         floor: 8,
-        scope: [
-            { lng: 120.028391, lat: 30.278142 },
-            { lng: 120.02836, lat: 30.278222 },
-            { lng: 120.028519, lat: 30.278262 },
-            { lng: 120.028547, lat: 30.278188 }
-        ]
+        scope: [{
+            lng: 120.028391,
+            lat: 30.278142
+        }, {
+            lng: 120.02836,
+            lat: 30.278222
+        }, {
+            lng: 120.028519,
+            lat: 30.278262
+        }, {
+            lng: 120.028547,
+            lat: 30.278188
+        }]
     }];
 
     var priority = -1;
@@ -125,44 +144,59 @@ angular.module('BigScreen.AppShared')
         priority: 1,
         name: 'Bill',
         key: '0bea9fe760aaa85df7d953d6ab38d2e56692ddd8',
-        pics: [
-            { text: 'Introduction of Geofence Tech on Beehive', img: 'VIP_01.png' },
-            { text: '置业项目 x 智能楼宇平台展建', img: 'VIP_02.png' },
-            { text: '实验室大数据', img: 'VIP_07.png' }
-        ]
+        pics: [{
+            text: 'Introduction of Geofence Tech on Beehive',
+            img: 'VIP_01.png'
+        }, {
+            text: '置业项目 x 智能楼宇平台展建',
+            img: 'VIP_02.png'
+        }, {
+            text: '实验室大数据',
+            img: 'VIP_07.png'
+        }]
     }, {
         priority: 2,
         name: 'Dolf',
         key: 'a84feeebde4e496389b9161d7d64e565645b759f',
-        pics: [
-            { text: 'Introduction of Geofence Tech on Beehive', img: 'VIP_01.png' },
-            { text: '智能楼宇管理平台 & API Proxy Store', img: 'VIP_04.png' },
-            { text: '优惠讯息推送', img: 'VIP_05.png' }
-        ]
+        pics: [{
+            text: 'Introduction of Geofence Tech on Beehive',
+            img: 'VIP_01.png'
+        }, {
+            text: '智能楼宇管理平台 & API Proxy Store',
+            img: 'VIP_04.png'
+        }, {
+            text: '优惠讯息推送',
+            img: 'VIP_05.png'
+        }]
     }, {
         priority: 3,
         name: 'oldKim',
         key: 'a2e3a03c81aa83c5ac451b195d2f8d4b0eb37c97',
-        pics: [
-            { text: 'Introduction of Geofence Tech on Beehive', img: 'VIP_01.png' },
-            { text: '置业部办公室 — 实验室设备与系统集成', img: 'VIP_03.png' },
-            { text: '近期活动资讯', img: 'VIP_06.png' }
-        ]
+        pics: [{
+            text: 'Introduction of Geofence Tech on Beehive',
+            img: 'VIP_01.png'
+        }, {
+            text: '置业部办公室 — 实验室设备与系统集成',
+            img: 'VIP_03.png'
+        }, {
+            text: '近期活动资讯',
+            img: 'VIP_06.png'
+        }]
     }];
 
-    var stop = $interval(function() {
+    var stop = $interval(function () {
         if (!GeofenceService.current) return;
         detectPOI();
     }, 10000);
 
     var GeofenceService = {
-        rotative: false,
+        rotative: true,
         isNear: false,
         vip: undefined,
         current: undefined,
         last: undefined,
         scopes: scopes,
-        isIn: function(poi) {
+        isIn: function (poi) {
             return searchPolygon(poi, this.current);
         }
     }

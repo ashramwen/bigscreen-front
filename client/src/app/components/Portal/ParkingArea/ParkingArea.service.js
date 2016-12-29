@@ -3,35 +3,46 @@
 
 angular.module('BigScreen.Portal')
 
-.factory('ParkingService', ['SessionService', '$resource', '$q', function(SessionService, $resource, $q) {
+.factory('ParkingService', ['SessionService', '$resource', '$q', function (SessionService, $resource, $q) {
     var _user = SessionService.getPortalAdmin();
     var Parking = $resource(thirdPartyAPIUrl, {}, {
         getCarInFrequency: {
             url: thirdPartyAPIUrl + 'dataUtilization/CarInFrequency',
             method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + _user.accessToken, 'apiKey': thirdPartyAPIKey },
+            headers: {
+                'Authorization': 'Bearer ' + _user.accessToken,
+                'apiKey': thirdPartyAPIKey
+            },
             params: {
-                startTime: moment().startOf('hour').hour(8).valueOf(),
-                endTime: moment().startOf('hour').hour(20).valueOf(),
+                startTime: '@startTime',
+                endTime: '@endTime',
                 interval: '1h'
             }
         },
         getCarOutFrequency: {
             url: thirdPartyAPIUrl + 'dataUtilization/CarOutFrequency',
             method: 'GET',
-            headers: { 'Authorization': 'Bearer ' + _user.accessToken, 'apiKey': thirdPartyAPIKey },
+            headers: {
+                'Authorization': 'Bearer ' + _user.accessToken,
+                'apiKey': thirdPartyAPIKey
+            },
             params: {
-                startTime: moment().startOf('hour').hour(8).valueOf(),
-                endTime: moment().startOf('hour').hour(20).valueOf(),
+                startTime: '@startTime',
+                endTime: '@endTime',
                 interval: '1h'
             }
         },
         leaveAvgTime: {
             url: thirdPartyAPIUrl + 'dataUtilization/leaveAvgTime',
             method: 'POST',
-            headers: { 'Authorization': 'Bearer ' + _user.accessToken, 'apiKey': thirdPartyAPIKey },
-            transformResponse: function(data) {
-                return { time: angular.fromJson(data) }
+            headers: {
+                'Authorization': 'Bearer ' + _user.accessToken,
+                'apiKey': thirdPartyAPIKey
+            },
+            transformResponse: function (data) {
+                return {
+                    time: angular.fromJson(data)
+                }
             }
         }
     });
@@ -40,17 +51,22 @@ angular.module('BigScreen.Portal')
     var qOut = Parking.getCarOutFrequency;
 
     return {
-        getCarInOut: function() {
+        getCarInOut: function () {
+            var time = {
+                startTime: moment().startOf('hour').hour(8).valueOf(),
+                endTime: moment().startOf('hour').hour(20).valueOf()
+            };
+
             var deferred = $q.defer();
-            $q.all([qIn().$promise, qOut().$promise]).then(function(res) {
+            $q.all([qIn(time).$promise, qOut(time).$promise]).then(function (res) {
                 var ret = [res[0].aggregations.byHour.buckets, res[1].aggregations.byHour.buckets];
                 deferred.resolve(ret);
-            }, function() {
+            }, function () {
                 deferred.reject();
             });
             return deferred.promise;
         },
-        leaveAvgTime: function() {
+        leaveAvgTime: function () {
             return Parking.leaveAvgTime({}, {
                 startTime: moment().subtract(1, 'days').startOf('day').valueOf(),
                 endTime: moment().valueOf(),
@@ -59,37 +75,29 @@ angular.module('BigScreen.Portal')
     }
 }])
 
-.factory('ParkingChart', ['$rootScope', 'ParkingService', function($rootScope, ParkingService) {
+.factory('ParkingChart', ['$rootScope', 'ParkingService', function ($rootScope, ParkingService) {
     var option = {
         tooltip: {
             trigger: 'axis'
         },
-        // legend: {
-        //     data: ['进入高峰', '驶出高峰'],
-        //     textStyle: {
-        //         fontSize: 24
-        //     }
-        // },
+        legend: {
+            data: ['进入高峰', '驶出高峰'],
+            textStyle: {
+                fontSize: 24
+            }
+        },
         xAxis: {
             type: 'category',
             boundaryGap: false,
             data: [],
-            axisLabel: {
-                textStyle: {
-                    fontSize: 24
-                }
-                // formatter: function(value, index) {
-                //     return moment(value).format('H:mm');
-                // }
-            }
+            // axisLabel: {
+            //     formatter: function(value, index) {
+            //         return moment(value).format('H:mm');
+            //     }
+            // }
         },
         yAxis: {
-            type: 'value',
-            axisLabel: {
-                textStyle: {
-                    fontSize: 24
-                }
-            }
+            type: 'value'
         },
         series: [{
             name: '进入高峰',
@@ -113,24 +121,17 @@ angular.module('BigScreen.Portal')
                 }
             },
             markPoint: {
-                symbol: 'path://M 5.477 69.249 l 89.081 9.082 v 46.07 c 0 5.522 4.477 10 10 10 h 304 c 5.522 0 10 -4.478 10 -10 v -112 c 0 -5.523 -4.478 -10 -10 -10 h -304 c -5.523 0 -10 4.477 -10 10 v 46.07',
-                symbolSize: [156, 70],
-                symbolOffset: ['78', 0],
                 label: {
                     normal: {
                         textStyle: {
                             fontSize: 24
-                        },
-                        position: 'insideRight',
-                        formatter: function(max) {
-                            var time = data.x[max.data.coord[0]];
-                            return '进入高峰 \n' + max.value + '  ' + time + ' ';
                         }
                     }
                 },
+                symbolSize: 80,
                 data: [{
                     type: 'max',
-                    name: '最大值'
+                    name: '最大值',
                 }]
             }
         }, {
@@ -154,26 +155,19 @@ angular.module('BigScreen.Portal')
                 }
             },
             markPoint: {
-                symbol: 'path://M 5.477 69.249 l 89.081 9.082 v 46.07 c 0 5.522 4.477 10 10 10 h 304 c 5.522 0 10 -4.478 10 -10 v -112 c 0 -5.523 -4.478 -10 -10 -10 h -304 c -5.523 0 -10 4.477 -10 10 v 46.07',
-                symbolSize: [156, 70],
-                symbolOffset: ['78', 0],
                 label: {
                     normal: {
                         textStyle: {
                             fontSize: 24
-                        },
-                        position: 'insideRight',
-                        formatter: function(max) {
-                            var time = data.x[max.data.coord[0]];
-                            return '驶出高峰 \n' + max.value + '  ' + time + ' ';
                         }
                     }
                 },
+                symbolSize: 80,
                 data: [{
                     type: 'max',
                     name: '最大值'
                 }]
-            }
+            },
         }]
     };
 
@@ -181,10 +175,10 @@ angular.module('BigScreen.Portal')
         var x = genX(resIn, resOut);
         var dataIn = Array(x.length).fill(0);
         var dataOut = Array(x.length).fill(0);
-        resIn.forEach(function(data) {
+        resIn.forEach(function (data) {
             dataIn[x.indexOf(moment(data.key).format('H:00'))] = data.doc_count;
         });
-        resOut.forEach(function(data) {
+        resOut.forEach(function (data) {
             dataOut[x.indexOf(moment(data.key).format('H:00'))] = data.doc_count;
         });
         return {
@@ -197,21 +191,20 @@ angular.module('BigScreen.Portal')
     function genX(resIn, resOut) {
         var x = _.unionBy(resIn, resOut, 'key');
         x = _.map(x, 'key').sort();
-        return x.map(function(o) {
+        return x.map(function (o) {
             return moment(o).format('H:00');
         });
     }
 
     var myChart;
-    var data;
     var ParkingChart = {
-        init: function(elem) {
+        init: function (elem) {
             myChart = echarts.init(elem);
             myChart.setOption(option);
         },
-        setData: function() {
-            ParkingService.getCarInOut().then(function(res) {
-                data = parseData(res[0], res[1]);
+        setData: function () {
+            ParkingService.getCarInOut().then(function (res) {
+                var data = parseData(res[0], res[1]);
                 myChart.setOption({
                     xAxis: {
                         data: data.x

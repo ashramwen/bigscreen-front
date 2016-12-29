@@ -1,20 +1,18 @@
 <div class="room" ng-class="room.type">
-  <div class=" wrapper light">
-    <div class="icon icon-room light" ng-class="{'off': !room.light}"></div>
-    <span>维修中!</span>
-    <hr>
-  </div>
+    <div class="light-wrap">
+        <div class="icon light" ng-class="{'off': !room.light}"></div>
+        <span>维修中!</span>
+    </div>
 
-  <div class="wrapper air">
-    <div class="icon icon-room air" ng-class="{'off': !room.air}"></div>
-    <span>维修中!</span>
-  </div>
+    <div class="air-wrap">
+        <div class="icon air" ng-class="{'off': !room.air}"></div>
+        <span>维修中!</span>
+    </div>
 
-  <div class="wrapper person">
-    <div class="icon icon-room person" ng-class="{'off': !room.person}"></div>
-    <span>维修中!</span>
-  </div>
+    <div class="person-wrap">
+        <div class="icon person" ng-class="{'off': !room.person}"></div>
+    </div>
 
-  <div class="name">{{room.name}}</div>
-  <!--<div>{{room.location}}</div>-->
+    <div class="name">{{room.name}}</div>
+    <!--<div>{{room.location}}</div>-->
 </div>
