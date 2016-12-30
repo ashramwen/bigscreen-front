@@ -3,52 +3,11 @@
 
 angular.module('BigScreen.Portal')
 
-.factory('ParkingService', ['SessionService', '$resource', '$q', function (SessionService, $resource, $q) {
+.factory('ParkingAreaService', ['ApiService', 'SessionService', '$resource', '$q', function (ApiService, SessionService, $resource, $q) {
     var _user = SessionService.getPortalAdmin();
-    var Parking = $resource(thirdPartyAPIUrl, {}, {
-        getCarInFrequency: {
-            url: thirdPartyAPIUrl + 'dataUtilization/CarInFrequency',
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + _user.accessToken,
-                'apiKey': thirdPartyAPIKey
-            },
-            params: {
-                startTime: '@startTime',
-                endTime: '@endTime',
-                interval: '1h'
-            }
-        },
-        getCarOutFrequency: {
-            url: thirdPartyAPIUrl + 'dataUtilization/CarOutFrequency',
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + _user.accessToken,
-                'apiKey': thirdPartyAPIKey
-            },
-            params: {
-                startTime: '@startTime',
-                endTime: '@endTime',
-                interval: '1h'
-            }
-        },
-        leaveAvgTime: {
-            url: thirdPartyAPIUrl + 'dataUtilization/leaveAvgTime',
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + _user.accessToken,
-                'apiKey': thirdPartyAPIKey
-            },
-            transformResponse: function (data) {
-                return {
-                    time: angular.fromJson(data)
-                }
-            }
-        }
-    });
 
-    var qIn = Parking.getCarInFrequency;
-    var qOut = Parking.getCarOutFrequency;
+    var qIn = ApiService.Parking.getCarInFrequency;
+    var qOut = ApiService.Parking.getCarOutFrequency;
 
     return {
         getCarInOut: function () {
@@ -67,7 +26,7 @@ angular.module('BigScreen.Portal')
             return deferred.promise;
         },
         leaveAvgTime: function () {
-            return Parking.leaveAvgTime({}, {
+            return ApiService.Parking.leaveAvgTime({}, {
                 startTime: moment().subtract(1, 'days').startOf('day').valueOf(),
                 endTime: moment().valueOf(),
             });
@@ -75,7 +34,7 @@ angular.module('BigScreen.Portal')
     }
 }])
 
-.factory('ParkingChart', ['$rootScope', 'ParkingService', function ($rootScope, ParkingService) {
+.factory('ParkingChart', ['$rootScope', 'ParkingAreaService', function ($rootScope, ParkingAreaService) {
     var option = {
         tooltip: {
             trigger: 'axis'
@@ -226,7 +185,7 @@ angular.module('BigScreen.Portal')
             myChart.setOption(option);
         },
         setData: function () {
-            ParkingService.getCarInOut().then(function (res) {
+            ParkingAreaService.getCarInOut().then(function (res) {
                 data = parseData(res[0], res[1]);
                 myChart.setOption({
                     xAxis: {

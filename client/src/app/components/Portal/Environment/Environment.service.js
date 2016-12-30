@@ -2,75 +2,8 @@
 
 angular.module('BigScreen.Portal')
 
-.factory('EnvironmentService', ['$resource', '$q', 'SessionService', function ($resource, $q, SessionService) {
+.factory('EnvironmentService', ['$q', 'SessionService', 'ApiService', function ($q, SessionService, ApiService) {
     var _user = SessionService.getPortalAdmin();
-    var query = $resource(thirdPartyAPIUrl, {}, {
-        getFacialIdentify: {
-            url: thirdPartyAPIUrl + 'facialIdentify/aggregate',
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + _user.accessToken,
-                'apiKey': thirdPartyAPIKey
-            },
-            params: {
-                startDateTime: '@startDateTime',
-                endDateTime: '@endDateTime'
-            }
-        },
-        getThingsLatestStatus: {
-            url: thirdPartyAPIUrl + 'dataUtilization/ThingsLatestStatusQuery',
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + _user.accessToken,
-                'apiKey': thirdPartyAPIKey
-            },
-            params: {
-                // 'index': '493e83c9',
-                'startDateTime': '@startDateTime',
-                'endDateTime': '@endDateTime'
-            }
-        },
-        searchThings: {
-            url: thirdPartyAPIUrl + 'locationTag/searchThings',
-            method: 'POST',
-            headers: {
-                'Authorization': 'Bearer ' + _user.accessToken,
-                'apiKey': thirdPartyAPIKey
-            },
-            transformResponse: function (data) {
-                return {
-                    things: angular.fromJson(data)
-                }
-            }
-        },
-        detectPIR: {
-            url: thirdPartyAPIUrl + 'EnvironmentSensor/PIR',
-            method: 'POST',
-            isArray: true,
-            headers: {
-                'Authorization': 'Bearer ' + _user.accessToken,
-                'apiKey': thirdPartyAPIKey
-            }
-        },
-        getElectricMeter: {
-            url: thirdPartyAPIUrl + 'ElectricMeter/Wh',
-            method: 'POST',
-            isArray: true,
-            headers: {
-                'Authorization': 'Bearer ' + _user.accessToken,
-                'apiKey': thirdPartyAPIKey
-            }
-        },
-        getElectricMeterP: {
-            url: thirdPartyAPIUrl + 'ElectricMeter/P',
-            method: 'POST',
-            isArray: true,
-            headers: {
-                'Authorization': 'Bearer ' + _user.accessToken,
-                'apiKey': thirdPartyAPIKey
-            }
-        }
-    });
 
     function getNonBeehiveNumber(bucket) {
         var count = 0;
@@ -203,7 +136,7 @@ angular.module('BigScreen.Portal')
     return {
         getThingsLatestStatus: function () {
             var q = $q.defer();
-            query.getThingsLatestStatus({
+            ApiService.Environment.getThingsLatestStatus({
                 'startDateTime': moment().startOf('day').valueOf(),
                 'endDateTime': 9999999999999
             }).$promise.then(function (res) {
@@ -215,7 +148,7 @@ angular.module('BigScreen.Portal')
         },
         showPeople: function () {
             var q = $q.defer();
-            query.getFacialIdentify({
+            ApiService.Environment.getFacialIdentify({
                 startDateTime: moment().startOf('day').valueOf(),
                 endDateTime: moment().endOf('day').millisecond(0).valueOf()
             }).$promise.then(function (res) {
@@ -232,7 +165,7 @@ angular.module('BigScreen.Portal')
         },
         usage: function () {
             var q = $q.defer();
-            query.searchThings({
+            ApiService.Environment.searchThings({
                 location: '0807W',
                 includeSubLevel: true,
                 type: 'EnvironmentSensor'
@@ -240,7 +173,7 @@ angular.module('BigScreen.Portal')
                 var _thingList = res.things.map(function (o) {
                     return o.thingID;
                 });
-                return query.detectPIR({
+                return ApiService.Environment.detectPIR({
                     thingList: _thingList
                 }).$promise;
             }).then(function (res) {
@@ -259,7 +192,7 @@ angular.module('BigScreen.Portal')
         },
         getElectricMeter: function () {
             var q = $q.defer();
-            query.getElectricMeter({}, {
+            ApiService.Environment.getElectricMeter({}, {
                 'thingList': [5494, 5495, 4928, 5496, 5498, 5497]
             }).$promise.then(function (res) {
                 q.resolve(sumWh(res));
@@ -270,7 +203,7 @@ angular.module('BigScreen.Portal')
         },
         getElectricMeterP: function () {
             var q = $q.defer();
-            query.getElectricMeterP({}, {
+            ApiService.Environment.getElectricMeterP({}, {
                 'thingList': [5494, 5495, 4928, 5496, 5498, 5497]
             }).$promise.then(function (res) {
                 q.resolve(sumP(res));

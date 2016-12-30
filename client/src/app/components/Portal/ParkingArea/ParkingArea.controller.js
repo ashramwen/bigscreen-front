@@ -2,13 +2,13 @@
 
 angular.module('BigScreen.Portal')
 
-    .controller('ParkingAreaController', ['$scope', '$timeout', 'ParkingService', 'ParkingChart', function ($scope, $timeout, ParkingService, ParkingChart) {
+    .controller('ParkingAreaController', ['$scope', '$timeout', 'ParkingAreaService', 'ParkingChart', function ($scope, $timeout, ParkingAreaService, ParkingChart) {
 
         $scope.init = function () {
             ParkingChart.init(document.getElementById('parking-chart'));
             ParkingChart.setData();
 
-            ParkingService.leaveAvgTime().$promise.then(function (res) {
+            ParkingAreaService.leaveAvgTime().$promise.then(function (res) {
                 if (res.time < 0)
                     $scope.leaveTime = 0;
                 else

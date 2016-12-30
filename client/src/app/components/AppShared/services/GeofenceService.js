@@ -2,7 +2,7 @@
 
 angular.module('BigScreen.AppShared')
 
-.factory('GeofenceService', ['$rootScope', '$resource', '$q', '$interval', 'SessionService', function ($rootScope, $resource, $q, $interval, SessionService) {
+.factory('GeofenceService', ['$rootScope', '$q', '$interval', 'SessionService', 'ApiService', function ($rootScope, $q, $interval, SessionService, ApiService) {
 
     function searchPolygon(poi, current) {
         if (poi.floor !== current.floor) return false;
@@ -27,33 +27,13 @@ angular.module('BigScreen.AppShared')
     function getPOI(i) {
         var vip = vips[i];
         var q = $q.defer();
-        var poi = $resource(thirdPartyAPIUrl, {}, {
-            get: {
-                url: thirdPartyAPIUrl + 'locationGeo/searchUser',
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + SessionService.getPortalAdmin().accessToken,
-                    'apiKey': thirdPartyAPIKey
-                },
-                params: {
-                    userID: vip.key,
-                    // startDateTime: 0,
-                    startDateTime: '@startDateTime',
-                    endDateTime: 9999999999999,
-                    size: 1,
-                    from: 0,
-                    inv: 1,
-                    orderByTimestamp: 'desc'
-                }
-            }
-        });
-        poi.get({
+        ApiService.POI.get({
+            userID: vip.key,
             startDateTime: (new Date().valueOf() - 30000)
         }, function (res) {
-            var a = 1;
             q.resolve(parsePOI(res.hits));
         });
-        // return poi.get().$promise;
+        // return ApiService.POI.get().$promise;
         // setTimeout(function() {
         //     q.resolve({
         //         lng: 120.028456,

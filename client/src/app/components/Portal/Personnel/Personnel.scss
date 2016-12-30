@@ -1,0 +1,24 @@
+.app-portal-personnel {
+    padding: 0 40px;
+    font-size: 32px;
+    .enter {
+        color: #ff6600;
+    }
+    .latest {
+        color: #2292c9;
+    }
+    .recent {
+        color: #666666;
+    }
+    .column {
+        &.enter {
+            font-size: 40px;
+        }
+        .name{
+            font-size: 35px;
+        }
+    }
+    .time {
+        font-size: 25px;
+    }
+}

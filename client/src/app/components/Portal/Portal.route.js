@@ -44,6 +44,22 @@ angular.module('BigScreen.Portal')
                 return '智能停车场';
             }
         })
+        .state('app.Portal.Personnel', {
+            url: '/Personnel',
+            templateUrl: 'app/components/Portal/Personnel/Personnel.html',
+            controller: 'PersonnelController',
+            getName: function() {
+                return '办公室人流进出高峰';
+            }
+        })
+        .state('app.Portal.ApiUsage', {
+            url: '/ApiUsage',
+            templateUrl: 'app/components/Portal/ApiUsage/ApiUsage.html',
+            controller: 'ApiUsageController',
+            getName: function() {
+                return 'IB平台集成信息';
+            }
+        })
         .state('app.Portal.VIP', {
             url: '/vip/:name/{id:int}',
             templateUrl: 'app/components/Portal/VIP/VIP.html',

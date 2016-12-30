@@ -1,0 +1,120 @@
+'use strict';
+
+angular.module('BigScreen.Portal')
+
+.factory('ApiService', ['SessionService', '$resource', function (SessionService, $resource) {
+    var _user = SessionService.getPortalAdmin();
+    var _header = {
+        'Authorization': 'Bearer ' + _user.accessToken,
+        'apiKey': thirdPartyAPIKey
+    };
+    var ApiService = {
+        Environment: $resource(thirdPartyAPIUrl, {}, {
+            getFacialIdentify: {
+                url: thirdPartyAPIUrl + 'facialIdentify/aggregate',
+                method: 'GET',
+                headers: _header,
+                params: {
+                    startDateTime: '@startDateTime',
+                    endDateTime: '@endDateTime'
+                }
+            },
+            getThingsLatestStatus: {
+                url: thirdPartyAPIUrl + 'dataUtilization/ThingsLatestStatusQuery',
+                method: 'POST',
+                headers: _header,
+                params: {
+                    // 'index': '493e83c9',
+                    'startDateTime': '@startDateTime',
+                    'endDateTime': '@endDateTime'
+                }
+            },
+            searchThings: {
+                url: thirdPartyAPIUrl + 'locationTag/searchThings',
+                method: 'POST',
+                headers: _header,
+                transformResponse: function (data) {
+                    return {
+                        things: angular.fromJson(data)
+                    }
+                }
+            },
+            detectPIR: {
+                url: thirdPartyAPIUrl + 'EnvironmentSensor/PIR',
+                method: 'POST',
+                isArray: true,
+                headers: _header
+            },
+            getElectricMeter: {
+                url: thirdPartyAPIUrl + 'ElectricMeter/Wh',
+                method: 'POST',
+                isArray: true,
+                headers: _header
+            },
+            getElectricMeterP: {
+                url: thirdPartyAPIUrl + 'ElectricMeter/P',
+                method: 'POST',
+                isArray: true,
+                headers: _header
+            }
+        }),
+        MeetingRoom: $resource(thirdPartyAPIUrl + 'dataUtilization/fetchBookListByRoomId', {
+            sign: '@sign',
+            id: '@id'
+        }, {
+            get: {
+                headers: _header
+            }
+        }),
+        Parking: $resource(thirdPartyAPIUrl, {}, {
+            getCarInFrequency: {
+                url: thirdPartyAPIUrl + 'dataUtilization/CarInFrequency',
+                method: 'GET',
+                headers: _header,
+                params: {
+                    startTime: '@startTime',
+                    endTime: '@endTime',
+                    interval: '1h'
+                }
+            },
+            getCarOutFrequency: {
+                url: thirdPartyAPIUrl + 'dataUtilization/CarOutFrequency',
+                method: 'GET',
+                headers: _header,
+                params: {
+                    startTime: '@startTime',
+                    endTime: '@endTime',
+                    interval: '1h'
+                }
+            },
+            leaveAvgTime: {
+                url: thirdPartyAPIUrl + 'dataUtilization/leaveAvgTime',
+                method: 'POST',
+                headers: _header,
+                transformResponse: function (data) {
+                    return {
+                        time: angular.fromJson(data)
+                    }
+                }
+            }
+        }),
+        POI: $resource(thirdPartyAPIUrl, {}, {
+            get: {
+                url: thirdPartyAPIUrl + 'locationGeo/searchUser',
+                method: 'POST',
+                headers: _header,
+                params: {
+                    userID: '@userID',
+                    // startDateTime: 0,
+                    startDateTime: '@startDateTime',
+                    endDateTime: 9999999999999,
+                    size: 1,
+                    from: 0,
+                    inv: 1,
+                    orderByTimestamp: 'desc'
+                }
+            }
+        })
+    };
+    return ApiService;
+}]);

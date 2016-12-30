@@ -1,6 +1,6 @@
 angular.module('BigScreen.AppShared')
 
-.directive('appMeetingRoom', ['WebSocketClient', 'BookingService', 'RoomSensorService', function(WebSocketClient, BookingService, RoomSensorService) {
+.directive('appMeetingRoom', ['WebSocketClient', 'ApiService', 'RoomSensorService', function(WebSocketClient, ApiService, RoomSensorService) {
     return {
         restrict: 'E',
         templateUrl: 'app/components/AppShared/directives/meeting-room/meeting-room.html',
@@ -21,7 +21,7 @@ angular.module('BigScreen.AppShared')
             }
             RoomSensorService.run(scope.room);
             scope.room.bookInfoList = [];
-            BookingService.get({ id: scope.room.id, sign: scope.room.sign }).$promise.then(function(res) {
+            ApiService.MeetingRoom.get({ id: scope.room.id, sign: scope.room.sign }).$promise.then(function(res) {
                 if (!res.success) return;
                 var s, e;
                 res.content.bookInfoList.forEach(function(info, i) {

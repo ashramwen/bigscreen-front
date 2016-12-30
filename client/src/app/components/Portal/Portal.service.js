@@ -62,6 +62,14 @@ angular.module('BigScreen.Portal')
             name: '智能停车场',
             state: $state.get('app.Portal.ParkingArea'),
             icon: 'fa-car'
+        }, {
+            name: '办公室人流进出高峰',
+            state: $state.get('app.Portal.Personnel'),
+            icon: 'fa-users'
+        }, {
+            name: 'IB平台集成信息',
+            state: $state.get('app.Portal.ApiUsage'),
+            icon: 'fa-list-ol'
         }];
     }
 
