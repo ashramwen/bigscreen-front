@@ -8,7 +8,7 @@ angular.module('BigScreen.Portal')
             ParkingChart.init(document.getElementById('parking-chart'));
             ParkingChart.setData();
 
-            ParkingAreaService.leaveAvgTime().$promise.then(function (res) {
+            ParkingAreaService.leaveAvgTime().then(function (res) {
                 if (res.time < 0)
                     $scope.leaveTime = 0;
                 else

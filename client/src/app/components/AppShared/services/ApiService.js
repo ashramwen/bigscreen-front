@@ -3,7 +3,7 @@
 angular.module('BigScreen.Portal')
 
 .factory('ApiService', ['SessionService', '$resource', function (SessionService, $resource) {
-    var _user = SessionService.getPortalAdmin();
+    var _user = SessionService.getPortalAdmin() || {};
     var _header = {
         'Authorization': 'Bearer ' + _user.accessToken,
         'apiKey': thirdPartyAPIKey
@@ -55,18 +55,22 @@ angular.module('BigScreen.Portal')
                 url: thirdPartyAPIUrl + 'ElectricMeter/P',
                 method: 'POST',
                 isArray: true,
-                headers: _header
+                headers: _header,
+                params: {
+                    thingList: [5494, 5495, 4928, 5496, 5498, 5497]
+                }
             }
         }),
-        MeetingRoom: $resource(thirdPartyAPIUrl + 'dataUtilization/fetchBookListByRoomId', {
-            sign: '@sign',
-            id: '@id'
-        }, {
+        MeetingRoom: $resource(thirdPartyAPIUrl + 'dataUtilization/fetchBookListByRoomId', {}, {
             get: {
-                headers: _header
+                headers: _header,
+                params: {
+                    sign: '@sign',
+                    id: '@id'
+                }
             }
         }),
-        Parking: $resource(thirdPartyAPIUrl, {}, {
+        ParkingArea: $resource(thirdPartyAPIUrl, {}, {
             getCarInFrequency: {
                 url: thirdPartyAPIUrl + 'dataUtilization/CarInFrequency',
                 method: 'GET',
@@ -96,6 +100,23 @@ angular.module('BigScreen.Portal')
                         time: angular.fromJson(data)
                     }
                 }
+            }
+        }),
+        Personneel: $resource(thirdPartyAPIUrl, {}, {
+            identifyFrequency: {
+                url: thirdPartyAPIUrl + 'facialIdentify/identifyFrequency',
+                method: 'POST',
+                headers: _header
+            },
+            searchByStranger: {
+                url: thirdPartyAPIUrl + 'facialIdentify/searchByStranger',
+                method: 'POST',
+                headers: _header
+            },
+            searchLatestRecord: {
+                url: thirdPartyAPIUrl + 'facialIdentify/searchLatestRecord',
+                method: 'POST',
+                headers: _header
             }
         }),
         POI: $resource(thirdPartyAPIUrl, {}, {

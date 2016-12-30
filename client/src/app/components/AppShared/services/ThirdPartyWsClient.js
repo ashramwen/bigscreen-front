@@ -2,26 +2,26 @@
 
 angular.module('BigScreen.AppShared')
 
-.factory('WebSocketClient', ['$rootScope', '$timeout', 'SessionService', function ($rootScope, $timeout, SessionService) {
+.factory('ThirdPartyWsClient', ['$rootScope', '$timeout', 'SessionService', function ($rootScope, $timeout, SessionService) {
     var _client = {};
     var subscriptionList = [];
 
     var connect_callback = function (frame) {
-        console.log('STOMP Connected: ' + frame);
-        $rootScope.$broadcast('stomp.connected');
+        console.log('3rd STOMP Connected: ' + frame);
+        $rootScope.$broadcast('3rd_stomp.connected');
     };
     var error_callback = function (error) {
-        console.log('STOMP ERROR:', error);
+        console.log('3rd STOMP ERROR:', error);
         $timeout(stompConnect, 5000);
-        console.log('STOMP: Reconecting in 5 seconds');
+        console.log('3rd STOMP: Reconecting in 5 seconds');
     };
 
     function stompConnect() {
         var user = SessionService.getPortalAdmin();
         if (user) {
-            _client = Stomp.client(wsUrl);
+            _client = Stomp.client(thirdPartyWsUrl);
             _client.connect({
-                'Authorization': 'Bearer ' + user.accessToken
+                'apiKey': thirdPartyAPIKey
             }, connect_callback, error_callback);
             _client.debug = angular.noop();
         } else {
@@ -34,8 +34,8 @@ angular.module('BigScreen.AppShared')
         isConnected: function () {
             return _client.connected || false;
         },
-        subscribe: function (app, thingId, callback, headers) {
-            var destination = '/topic/' + app + '/' + thingId;
+        subscribe: function (url, callback, headers) {
+            var destination = url;
             if (subscriptionList.indexOf(destination) > -1) return;
             subscriptionList.push(destination);
             var s = _client.subscribe(destination, function () {

@@ -1,6 +1,6 @@
 angular.module('BigScreen.AppShared')
 
-.directive('appRoom', ['WebSocketClient', 'RoomSensorService', function(WebSocketClient, RoomSensorService) {
+.directive('appRoom', ['RoomSensorService', function(RoomSensorService) {
     return {
         restrict: 'E',
         templateUrl: 'app/components/AppShared/directives/room/room.html',

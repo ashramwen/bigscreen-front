@@ -3,11 +3,9 @@
 
 angular.module('BigScreen.Portal')
 
-.factory('ParkingAreaService', ['ApiService', 'SessionService', '$resource', '$q', function (ApiService, SessionService, $resource, $q) {
-    var _user = SessionService.getPortalAdmin();
-
-    var qIn = ApiService.Parking.getCarInFrequency;
-    var qOut = ApiService.Parking.getCarOutFrequency;
+.factory('ParkingAreaService', ['ApiService', '$resource', '$q', function (ApiService, $resource, $q) {
+    var qIn = ApiService.ParkingArea.getCarInFrequency;
+    var qOut = ApiService.ParkingArea.getCarOutFrequency;
 
     return {
         getCarInOut: function () {
@@ -26,10 +24,10 @@ angular.module('BigScreen.Portal')
             return deferred.promise;
         },
         leaveAvgTime: function () {
-            return ApiService.Parking.leaveAvgTime({}, {
+            return ApiService.ParkingArea.leaveAvgTime({}, {
                 startTime: moment().subtract(1, 'days').startOf('day').valueOf(),
                 endTime: moment().valueOf(),
-            });
+            }).$promise;
         }
     }
 }])

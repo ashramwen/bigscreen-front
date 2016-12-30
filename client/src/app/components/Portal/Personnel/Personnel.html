@@ -1,15 +1,33 @@
 <div class="app-portal-personnel">
-  <div class="row">
-    <div class="col-md-4 col-lg-4 enter">进入办公区...</div>
-    <div class="col-md-4 col-lg-4 latest">昨日最晚离开</div>
-    <div class="col-md-4 col-lg-4 recent">最近访客</div>
+  <div class="row data-row">
+    <div class="col-md-4 col-lg-4 enter">
+      <div>进入办公区...</div>
+      <div class="data">
+        <img ng-src="{{coming.photo}}" width="191" height="191" alt="" ng-if="coming">
+        <span>{{coming.name}}</span>
+      </div>
+    </div>
+    <div class="col-md-4 col-lg-4 latest">
+      <div>昨日最晚离开</div>
+      <table class="data">
+        <tr ng-repeat="r in latestRecords">
+          <td class="first"><img ng-src="{{r.photo}}" alt="" class="photo"></td>
+          <td><span>{{r.name}}</span></td>
+          <td><span>{{r.time | date:'HH:mm'}}</span></td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-md-4 col-lg-4 recent">
+      <div>最近访客</div>
+      <ul class="data noborder">
+        <li ng-repeat="r in strangers">
+          <img ng-src="{{r.photo}}" alt="" class="photo">
+          <span>{{r.time | date:'HH:mm'}}</span>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="row">
-    <div class="col-md-4 col-lg-4 column enter">进入办公区...</div>
-    <div class="col-md-4 col-lg-4 column latest">昨日最晚离开</div>
-    <div class="col-md-4 col-lg-4 column recent">最近访客</div>
-  </div>
-  <div class="row">
+  <div class="row chart-row">
     <div id="personnel-chart"></div>
   </div>
 </div>

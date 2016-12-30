@@ -1,24 +1,73 @@
+@import 'src/app/components/AppShared/scss/global.scss';
 .app-portal-personnel {
     padding: 0 40px;
     font-size: 32px;
+    line-height: 32px;
+    .row {
+        margin-top: 24px;
+    }
     .enter {
         color: #ff6600;
+        .data {
+            font-size: 40px;
+            img {
+                border: 3px solid #ff6600;
+                @include border-radius(12px);
+            }
+        }
     }
     .latest {
         color: #2292c9;
+        border-color: #2292c9;
     }
     .recent {
         color: #666666;
+        border-color: #666666;
     }
-    .column {
-        &.enter {
-            font-size: 40px;
+    .data {
+        height: 237px;
+        width: 466px;
+        border-right: 2px solid #90adc9;
+        margin-top: 24px;
+        &.noborder {
+            border: 0;
         }
-        .name{
+        .name {
             font-size: 35px;
         }
     }
     .time {
         font-size: 25px;
+    }
+    .photo {
+        width: 75px;
+        height: 75px;
+        border-width: 3px;
+        border-style: solid;
+        @include border-radius(4px);
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+        li {
+            list-style: none;
+            margin-top: 4px;
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
+    table.data {
+        tr {
+            &:first-child td {
+                margin-top: 0;
+            }
+            td {
+                padding-top: 4px;
+            }
+            .first {
+                width: 80px;
+            }
+        }
     }
 }

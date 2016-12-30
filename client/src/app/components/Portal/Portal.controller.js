@@ -2,9 +2,9 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('PortalController', ['$scope', '$rootScope', '$state', 'AppUtils', 'PortalService', 'SessionService', '$interval', 'WebSocketClient', 'GeofenceService',
+.controller('PortalController', ['$scope', '$rootScope', '$state', 'AppUtils', 'PortalService', 'SessionService', '$interval', 'GeofenceService', 'WebSocketClient', 'ThirdPartyWsClient',
 
-    function($scope, $rootScope, $state, AppUtils, PortalService, SessionService, $interval, WebSocketClient, GeofenceService) {
+    function($scope, $rootScope, $state, AppUtils, PortalService, SessionService, $interval, GeofenceService, WebSocketClient, ThirdPartyWsClient) {
         var userInfo = SessionService.getPortalAdmin();
         if (!userInfo) {
             $state.go('app.Secure');

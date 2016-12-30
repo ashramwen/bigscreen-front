@@ -2,9 +2,7 @@
 
 angular.module('BigScreen.Portal')
 
-.factory('EnvironmentService', ['$q', 'SessionService', 'ApiService', function ($q, SessionService, ApiService) {
-    var _user = SessionService.getPortalAdmin();
-
+.factory('EnvironmentService', ['$q', 'ApiService', function ($q, ApiService) {
     function getNonBeehiveNumber(bucket) {
         var count = 0;
         bucket.beehive_user_count.buckets.forEach(function (b) {
@@ -203,9 +201,7 @@ angular.module('BigScreen.Portal')
         },
         getElectricMeterP: function () {
             var q = $q.defer();
-            ApiService.Environment.getElectricMeterP({}, {
-                'thingList': [5494, 5495, 4928, 5496, 5498, 5497]
-            }).$promise.then(function (res) {
+            ApiService.Environment.getElectricMeterP().$promise.then(function (res) {
                 q.resolve(sumP(res));
             }, function (err) {
                 q.reject(err);
