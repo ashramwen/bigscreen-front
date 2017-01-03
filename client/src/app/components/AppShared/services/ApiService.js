@@ -9,6 +9,12 @@ angular.module('BigScreen.Portal')
         'apiKey': thirdPartyAPIKey
     };
     var ApiService = {
+        ApiUsage: $resource(thirdPartyAPIUrl + 'dataUtilization/OpenApiCallingCount', {}, {
+            query: {
+                headers: _header,
+                method: 'POST'
+            }
+        }),
         Environment: $resource(thirdPartyAPIUrl, {}, {
             getFacialIdentify: {
                 url: thirdPartyAPIUrl + 'facialIdentify/aggregate',
@@ -28,6 +34,11 @@ angular.module('BigScreen.Portal')
                     'startDateTime': '@startDateTime',
                     'endDateTime': '@endDateTime'
                 }
+            },
+            searchHistoryStatesAggregation: {
+                url: thirdPartyAPIUrl + 'dataUtilization/searchHistoryStatesAggregation',
+                method: 'POST',
+                headers: _header
             },
             searchThings: {
                 url: thirdPartyAPIUrl + 'locationTag/searchThings',

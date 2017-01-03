@@ -19,7 +19,7 @@
     "echarts": "^3.2.2",
     "moment": "^2.14.1",
     "stomp-websocket": "^2.3.4",
-    "numeral": "^1.5.3",
+    "numeral": "^2.0.4",
     "lodash": "^4.15.0"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 @import 'src/app/components/AppShared/scss/global.scss';
 .meeting-room {
+    position: relative;
     width: 232px;
     // height: 680px;
     border-radius: 8px;
@@ -16,7 +17,7 @@
             background-color: #2aabe2;
         }
         .status {
-            background-position: 0 -71px;
+            background-position: 0 -84px;
         }
     }
     &.full {
@@ -28,26 +29,34 @@
         }
     }
     .room-head {
-        padding: 45px 21px 0 21px;
+        padding: 25px 10px 0 10px;
         width: 100%;
         height: 140px;
         background-color: #ff6600;
         .name {
             float: left;
             .title {
-                font-size: 36px;
-                line-height: 36px;
+                font-size: 38px;
+                line-height: 38px;
             }
-            .id {
+            .no {
                 margin-top: 9px;
                 margin-left: 3px;
-                font-size: 18px;
+                font-size: 23px;
+                line-height: 23px
+            }
+            .used {
+                margin-top: 12px;
+                font-size: 20px;
+                line-height: 20px;
             }
         }
         .status {
-            float: right;
-            width: 54px;
-            height: 71px;
+            position: absolute;
+            top: 18px;
+            right: 10px;
+            width: 87px;
+            height: 84px;
             @include bg-image("icon_meeting.png");
         }
     }

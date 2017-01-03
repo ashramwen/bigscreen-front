@@ -142,7 +142,18 @@
                 }
             }
             .text {
-                width: 180px;
+                width: 160px;
+            }
+            .value {
+                .good {
+                    color: #2bce10;
+                }
+                .normal {
+                    color: #2aabe2;
+                }
+                .bad {
+                    color: #ff6600;
+                }
             }
             .progress {
                 margin-top: 10px;
@@ -177,7 +188,8 @@
     }
     #electricity-chart {
         margin-top: -55px;
-        width: 600px;
+        margin-left: -200px;
+        width: 1000px;
         height: 400px;
     }
     #population-chart {

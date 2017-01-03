@@ -42,7 +42,7 @@ angular.module('BigScreen.AppShared')
 .filter('celsius', function() {
     return function(input) {
         if (isNaN(input)) return '';
-        return angular.isNumber(parseFloat(input)) ? input + '˚C' : '';
+        return angular.isNumber(parseFloat(input)) ? '/' + input + '˚C' : '';
     };
 })
 

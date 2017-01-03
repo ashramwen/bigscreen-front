@@ -33,28 +33,28 @@
             </div>
         </div>
     </div>
-    <div class=" pull-right air-wrap">
+    <div class="pull-right air-wrap">
         <div class="title">办公室空气质量</div>
         <div class="type temp clearfix">
             <div class="text pull-left">温度</div>
-            <div class="value pull-left">{{status.temp | tempLevel}} {{status.temp | celsius}}</div>
-            <smiley-face class="pull-right"></smiley-face>
+            <div class="value pull-left"><span ng-class="tempLevel.level">{{tempLevel.text}}</span> {{status.temp | celsius}}</div>
+            <smiley-face class="pull-right" level="tempLevel"></smiley-face>
             <!--- [溫度] -5 ~ 45 -->
             <!--<uib-progressbar max="50" value="status.temp|bar:5"></uib-progressbar>-->
         </div>
         <hr>
         <div class="type co2 clearfix">
             <div class="text pull-left">CO2含量</div>
-            <div class="value pull-left">{{status.co2 | co2Level}} {{status.co2 || ''}}</div>
-            <smiley-face class="pull-right"></smiley-face>
+            <div class="value pull-left"><span ng-class="co2Level.level">{{co2Level.text}}</span> {{status.co2 ? '/' + status.co2 : ''}}</div>
+            <smiley-face class="pull-right" level="co2Level"></smiley-face>
             <!-- [CO2] 350 - 1000 -->
             <!--<uib-progressbar max="650" value="status.co2|bar:-350"></uib-progressbar>-->
         </div>
         <hr>
         <div class="type pm25 clearfix">
             <div class="text pull-left">PM2.5</div>
-            <div class="value pull-left">{{status.pm25 | pm25Level}} {{status.pm25 || ''}}</div>
-            <smiley-face class="pull-right"></smiley-face>
+            <div class="value pull-left"><span ng-class="pm25Level.level">{{pm25Level.text}}</span> {{status.pm25 ? '/' + status.pm25 : ''}}</div>
+            <smiley-face class="pull-right" level="pm25Level"></smiley-face>
             <!-- [PM2.5] 0-70 -->
             <!--<uib-progressbar max="250" value="status.pm25|bar"></uib-progressbar>-->
         </div>

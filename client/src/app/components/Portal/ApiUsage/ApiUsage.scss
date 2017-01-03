@@ -1,3 +1,81 @@
-.app-portal-welcome{
-
+@import 'src/app/components/AppShared/scss/global.scss';
+.app-portal-apiusage {
+    height: 100%;
+    >.pull-left {
+        width: 45%;
+        height: 100%;
+        padding-left: 85px;
+    }
+    >.pull-right {
+        width: 55%;
+        height: 100%;
+        padding-left: 125px;
+    }
+    .title {
+        font-size: 40px;
+        line-height: 40px;
+        color: #333;
+        margin-bottom: 35px;
+    }
+    .icon-container {
+        border-right: 1px dashed #999;
+    }
+    .data-wrap {
+        width: 650px;
+        height: 636px;
+        line-height: 30px;
+        font-size: 30px;
+        color: #4e4e4e;
+        border-top: 1px dashed #999;
+        border-bottom: 1px dashed #999;
+        .icon-api {
+            position: relative;
+            padding-left: 110px;
+            height: 103px;
+            line-height: 103px;
+            &::before {
+                position: absolute;
+                content: '';
+                top: 13px;
+                left: 0;
+                width: 76px;
+                height: 77px;
+                line-height: 103px;
+                @include bg-image('icon_api.png');
+            }
+            @for $i from 2 through 6 {
+                $y: -77px * ($i - 1);
+                &:nth-child(#{$i}) {
+                    &::before {
+                        background-position: 0 $y;
+                    }
+                }
+            }
+        }
+        .subtitle {
+            height: 109px;
+            line-height: 109px;
+            color: #2292c9;
+        }
+        ul.api {
+            list-style: none;
+            padding: 0;
+            li {
+                list-style: none;
+                margin-top: 4px;
+                height: 97px;
+                line-height: 97px;
+                border-bottom: 1px dashed #999;
+                &:first-child {
+                    margin-bottom: 0;
+                }
+                &:last-child {
+                    border-bottom: none;
+                }
+            }
+            .pull-right {
+                color: #2bce10;
+            }
+        }
+    }
 }

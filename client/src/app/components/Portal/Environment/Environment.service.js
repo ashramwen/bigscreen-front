@@ -2,7 +2,9 @@
 
 angular.module('BigScreen.Portal')
 
-.factory('EnvironmentService', ['$q', 'ApiService', function ($q, ApiService) {
+.factory('EnvironmentService', ['$q', '$$Thing', 'ApiService', function ($q, $$Thing, ApiService) {
+    var electricityThings = [5494, 5495, 4928, 5496, 5498, 5497];
+
     function getNonBeehiveNumber(bucket) {
         var count = 0;
         bucket.beehive_user_count.buckets.forEach(function (b) {
@@ -56,6 +58,7 @@ angular.module('BigScreen.Portal')
         return population;
     }
 
+    var coefficient = .3;
     // 3.b. calculate how many people came office
     function calculateComeInPeople(buckets, total) {
         var population = {
@@ -94,6 +97,7 @@ angular.module('BigScreen.Portal')
         }
         population.beehive -= dup_count;
         population.beehive_display = calNumber(population.beehive);
+        population.guest = Math.round(population.guest * coefficient);
         population.guest_display = calNumber(population.guest);
         return population;
     }
@@ -129,6 +133,75 @@ angular.module('BigScreen.Portal')
             airLighting: ret.airLighting.value(),
             socket: ret.socket.value()
         };
+    }
+
+    var electricity = {};
+
+    function getWhByThings(things) {
+        var whPromise = [];
+        electricity = {
+            airLighting: {
+                yesterday: numeral(),
+                lastWeek: numeral()
+            },
+            socket: {
+                yesterday: numeral(),
+                lastWeek: numeral()
+            }
+        }
+        things.forEach(function (thing) {
+            var y = ApiService.Environment.searchHistoryStatesAggregation({}, {
+                'thingID': thing.kiiThingID,
+                'stateField': 'state.Wh',
+                'startDateTime': moment().subtract(1, 'days').startOf('day').valueOf(),
+                'endDateTime': moment().startOf('day').valueOf()
+            }).$promise;
+            whPromise.push(y);
+            y.then(function (res) {
+                calWh(thing.id, res.aggregations, 'yesterday');
+            });
+
+            var w = ApiService.Environment.searchHistoryStatesAggregation({}, {
+                'thingID': thing.kiiThingID,
+                'stateField': 'state.Wh',
+                'startDateTime': moment().day(-7).startOf('day').valueOf(),
+                'endDateTime': moment().day(0).startOf('day').valueOf()
+            }).$promise
+            whPromise.push(w);
+            w.then(function (res) {
+                calWh(thing.id, res.aggregations, 'lastWeek');
+            });
+        });
+        return whPromise;
+    }
+
+    function processElectricity() {
+        calLastWeek(electricity.airLighting);
+        calLastWeek(electricity.socket);
+    }
+
+    function calLastWeek(data) {
+        var yesterday = data.yesterday.value()
+        data.lastWeek.divide(7);
+        data.lastWeek = numeral(yesterday).subtract(data.lastWeek).divide(data.lastWeek).format('0%');
+        data.yesterday = yesterday;
+    }
+
+    function calWh(globalThingID, data, property) {
+        var max = numeral(data.maxValue.value);
+        var min = numeral(data.minValue.value);
+        switch (globalThingID) {
+            case 5494:
+            case 5495:
+            case 4928:
+            case 5496:
+                electricity.airLighting[property].add(max.subtract(min));
+                break;
+            case 5498: //0807W-Z00-N-003
+            case 5497: //0807W-Z00-N-035
+                electricity.socket[property].add(max.subtract(min));
+                break;
+        }
     }
 
     return {
@@ -191,7 +264,7 @@ angular.module('BigScreen.Portal')
         getElectricMeter: function () {
             var q = $q.defer();
             ApiService.Environment.getElectricMeter({}, {
-                'thingList': [5494, 5495, 4928, 5496, 5498, 5497]
+                'thingList': electricityThings
             }).$promise.then(function (res) {
                 q.resolve(sumWh(res));
             }, function (err) {
@@ -205,6 +278,17 @@ angular.module('BigScreen.Portal')
                 q.resolve(sumP(res));
             }, function (err) {
                 q.reject(err);
+            });
+            return q.promise;
+        },
+        getWh: function () {
+            var q = $q.defer();
+            $$Thing.getThingsByIDs(electricityThings).$promise.then(function (res) {
+                var whPromise = getWhByThings(res);
+                $q.all(whPromise).then(function (res) {
+                    processElectricity();
+                    q.resolve(electricity);
+                });
             });
             return q.promise;
         }

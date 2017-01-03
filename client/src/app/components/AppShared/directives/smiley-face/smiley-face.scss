@@ -9,7 +9,7 @@
         background-color: #2bce10;
         background-size: cover;
         background-repeat: no-repeat;
-        background-image: url('../../../../../images/icon_smiley_face.png');
+        @include bg-image('icon_smiley_face.png');
         @include animation(pulse 1.25s infinite linear);
         // @include animation(pulse 2.25s infinite cubic-bezier(0.66, 0, 0, 1));
         // &:hover {

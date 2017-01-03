@@ -2,7 +2,9 @@
     <div class="room-head">
         <div class="name">
             <div class="title">{{room.name}}</div>
-            <div class="id">{{room.no}}</div>
+            <div class="no">{{room.no}}</div>
+            <div class="used" ng-if="!room.busy">会议室未被预订</div>
+            <div class="used" ng-if="room.busy">会议室已被预订</div>
         </div>
         <div class="status"></div>
     </div>

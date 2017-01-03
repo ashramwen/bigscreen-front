@@ -1,3 +1,25 @@
-<div class="app-portal-welcome">
-  <h3>{{'Common.Hello'}}</h3>
+<div class="app-portal-apiusage">
+  <div class="pull-left">
+    <div class="title">已支持应用</div>
+    <div class="icon-container">
+      <div class="data-wrap">
+        <div class="icon-api" ng-repeat="api in apis">{{api}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="pull-right">
+    <div class="title">本月API用量统计</div>
+    <div class="data-wrap">
+      <div class="subtitle clearfix">
+        <div class="pull-left">API</div>
+        <div class="pull-right">调用次数</div>
+      </div>
+      <ul class="api">
+        <li class="clearfix" ng-repeat="api in apiUsage">
+          <div class="pull-left">{{api.key}}</div>
+          <div class="pull-right">{{api.doc_count}}</div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

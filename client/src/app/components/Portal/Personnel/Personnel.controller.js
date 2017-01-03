@@ -2,9 +2,11 @@
 
 angular.module('BigScreen.Portal')
 
-.controller('PersonnelController', ['$scope', '$interval', 'PersonnelService', function ($scope, $interval, PersonnelService) {
+.controller('PersonnelController', ['$scope', '$interval', '$timeout', 'PersonnelService', 'PersonnelChart', function ($scope, $interval, $timeout, PersonnelService, PersonnelChart) {
     function init() {
-        PersonnelService.identifyFrequency().then(function (res) {});
+        PersonnelChart.init(document.getElementById('personnel-chart'));
+        PersonnelChart.setData();
+        // PersonnelService.identifyFrequency().then(function (res) {});
 
         PersonnelService.searchByStranger().then(function (res) {
             $scope.strangers = [];
@@ -37,19 +39,29 @@ angular.module('BigScreen.Portal')
         init();
     }, 60000);
 
+    var positions = ['east_in', 'east_out', 'south_in', 'south_in'];
+    var faceTimer;
     PersonnelService.faceplusplus(function (msg) {
         console.log(msg);
-        // if (msg.screen.camera.camera_position.indexOf('in') < 0) return;
+        if (positions.indexOf(msg.screen.camera_position) < 0) return;
+        angular.isDefined(faceTimer) && $timeout.cancel(faceTimer);
         $scope.coming = {
             name: msg.subject.name,
             photo: msg.photo
         };
+        faceTimer = $timeout(function () {
+            $scope.coming = undefined;
+        }, 60000);
     });
 
     $scope.$on('$destroy', function () {
         if (angular.isDefined(stop)) {
             $interval.cancel(stop);
             stop = undefined;
+        }
+        if (angular.isDefined(faceTimer)) {
+            $timeout.cancel(faceTimer);
+            faceTimer = undefined;
         }
     });
 }]);

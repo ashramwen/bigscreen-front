@@ -6,8 +6,7 @@ angular.module('BigScreen.AppShared')
         templateUrl: 'app/components/AppShared/directives/smiley-face/smiley-face.html',
         replace: true,
         scope: {
-            ngModel: '='
-        },
-        link: function (scope, element, attrs) {}
+            status: '=level'
+        }
     }
 });
