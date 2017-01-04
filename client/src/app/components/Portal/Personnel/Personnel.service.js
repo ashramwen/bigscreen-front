@@ -26,7 +26,7 @@ angular.module('BigScreen.Portal')
             var data = {
                 startDateTime: moment().startOf('day').valueOf(), // 當前時間 0 點
                 endDateTime: moment().add(1, 'days').startOf('day').valueOf(), // 次日時間 0 點,
-                interval: '1h'
+                interval: '10m'
             };
             var dataIn = angular.extend({
                 cameraPositions: ['south_in', 'east_in']
@@ -72,16 +72,11 @@ angular.module('BigScreen.Portal')
         tooltip: {
             trigger: 'axis'
         },
-        // legend: {
-        //     data: ['进入高峰', '离开高峰'],
-        //     textStyle: {
-        //         fontSize: 24
-        //     }
-        // },
         xAxis: {
             type: 'category',
             boundaryGap: false,
             data: [],
+            // minData: '0:00',
             axisLabel: {
                 textStyle: {
                     fontSize: 24
@@ -96,11 +91,15 @@ angular.module('BigScreen.Portal')
             axisLabel: {
                 textStyle: {
                     fontSize: 24
+                },
+                formatter: function (value, index) {
+                    if (value !== 0)
+                        return value;
                 }
             }
         },
         series: [{
-            name: '进入高峰',
+            name: '进入',
             type: 'line',
             smooth: true,
             itemStyle: {
@@ -110,8 +109,7 @@ angular.module('BigScreen.Portal')
             },
             lineStyle: {
                 normal: {
-                    color: '#ff6600',
-                    opacity: 0
+                    width: 0
                 }
             },
             areaStyle: {
@@ -142,7 +140,7 @@ angular.module('BigScreen.Portal')
                 }]
             }
         }, {
-            name: '离开高峰',
+            name: '离开',
             type: 'line',
             smooth: true,
             itemStyle: {
@@ -152,7 +150,7 @@ angular.module('BigScreen.Portal')
             },
             lineStyle: {
                 normal: {
-                    opacity: 0
+                    width: 0
                 }
             },
             areaStyle: {
@@ -190,10 +188,10 @@ angular.module('BigScreen.Portal')
         var dataIn = Array(x.length).fill(0);
         var dataOut = Array(x.length).fill(0);
         resIn.forEach(function (data) {
-            dataIn[x.indexOf(moment(data.key).format('H:00'))] = data.doc_count;
+            dataIn[x.indexOf(moment(data.key).add(10, 'm').format('H:mm'))] = data.doc_count;
         });
         resOut.forEach(function (data) {
-            dataOut[x.indexOf(moment(data.key).format('H:00'))] = data.doc_count;
+            dataOut[x.indexOf(moment(data.key).add(10, 'm').format('H:mm'))] = data.doc_count;
         });
         return {
             x: x,
@@ -206,7 +204,7 @@ angular.module('BigScreen.Portal')
         var x = _.unionBy(resIn, resOut, 'key');
         x = _.map(x, 'key').sort();
         return x.map(function (o) {
-            return moment(o).format('H:00');
+            return moment(o).add(10, 'm').format('H:mm');
         });
     }
 
@@ -225,10 +223,10 @@ angular.module('BigScreen.Portal')
                         data: data.x
                     },
                     series: [{
-                        name: '进入高峰',
+                        name: '进入',
                         data: data.dataIn
                     }, {
-                        name: '离开高峰',
+                        name: '离开',
                         data: data.dataOut
                     }]
                 });

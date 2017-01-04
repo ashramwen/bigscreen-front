@@ -1,13 +1,12 @@
 'use strict';
 
-angular.module('BigScreen.Portal')
-
-.controller('PersonnelController', ['$scope', '$interval', '$timeout', 'PersonnelService', 'PersonnelChart', function ($scope, $interval, $timeout, PersonnelService, PersonnelChart) {
-    function init() {
+angular.module('BigScreen.Portal').controller('PersonnelController', ['$scope', '$interval', '$timeout', 'PersonnelService', 'PersonnelChart', function ($scope, $interval, $timeout, PersonnelService, PersonnelChart) {
+    function routine() {
+        // chart
         PersonnelChart.init(document.getElementById('personnel-chart'));
         PersonnelChart.setData();
-        // PersonnelService.identifyFrequency().then(function (res) {});
 
+        // latest guest
         PersonnelService.searchByStranger().then(function (res) {
             $scope.strangers = [];
             res.hits.hits.forEach(function (o) {
@@ -17,37 +16,44 @@ angular.module('BigScreen.Portal')
                 })
             });
         });
-
-        PersonnelService.searchLatestRecord().then(function (res) {
-            $scope.latestRecords = [];
-            res.aggregations.beehive_user.buckets.every(function (o) {
-                if (o.key === 'non_beehive_user') return true;
-                var _source = o.latest_record.hits.hits[0]._source;
-                $scope.latestRecords.push({
-                    name: _source.object.subject.name,
-                    photo: _source.object.photo,
-                    time: _source.timestamp
-                })
-                if ($scope.latestRecords.length === 3) return false;
-                return true;
-            });
-        });
     }
-    init();
+    routine();
 
     var stop = $interval(function () {
-        init();
+        routine();
     }, 60000);
 
+    // latest records
+    PersonnelService.searchLatestRecord().then(function (res) {
+        $scope.latestRecords = [];
+        res.aggregations.beehive_user.buckets.every(function (o) {
+            if (o.key === 'non_beehive_user') return true;
+            var _source = o.latest_record.hits.hits[0]._source;
+            $scope.latestRecords.push({
+                name: _source.object.subject.name,
+                photo: _source.object.photo,
+                time: _source.timestamp
+            })
+            if ($scope.latestRecords.length === 3) return false;
+            return true;
+        });
+    });
+
+    // websocket: face++
     var positions = ['east_in', 'east_out', 'south_in', 'south_in'];
     var faceTimer;
     PersonnelService.faceplusplus(function (msg) {
-        console.log(msg);
+        console.log('face++', {
+            position: msg.screen.camera_position,
+            name: msg.subject.name,
+            timestamp: msg.timestamp
+        });
         if (positions.indexOf(msg.screen.camera_position) < 0) return;
         angular.isDefined(faceTimer) && $timeout.cancel(faceTimer);
         $scope.coming = {
             name: msg.subject.name,
-            photo: msg.photo
+            photo: msg.photo,
+            timestamp: msg.timestamp
         };
         faceTimer = $timeout(function () {
             $scope.coming = undefined;

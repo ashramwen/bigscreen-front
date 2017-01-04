@@ -4,9 +4,9 @@ angular.module('BigScreen.AppShared')
     return {
         restrict: 'EA',
         templateUrl: 'app/components/AppShared/directives/smiley-face/smiley-face.html',
-        replace: true,
+        // replace: true,
         scope: {
-            status: '=level'
+            level: '='
         }
     }
 });
