@@ -40,23 +40,6 @@ angular.module('BigScreen.Portal')
 
 .factory('ParkingChart', ['$rootScope', 'ParkingAreaService', function ($rootScope, ParkingAreaService) {
     var option = {
-        // markPoint: {
-        //     symbol: 'path://M 5.477 69.249 l 89.081 9.082 v 46.07 c 0 5.522 4.477 10 10 10 h 304 c 5.522 0 10 -4.478 10 -10 v -112 c 0 -5.523 -4.478 -10 -10 -10 h -304 c -5.523 0 -10 4.477 -10 10 v 46.07',
-        //     symbolSize: [156, 70],
-        //     symbolOffset: ['78', 0],
-        //     label: {
-        //         normal: {
-        //             textStyle: {
-        //                 fontSize: 24
-        //             },
-        //             position: 'insideRight'
-        //         }
-        //     },
-        //     data: [{
-        //         type: 'max',
-        //         name: '最大值'
-        //     }]
-        // },
         tooltip: {
             trigger: 'axis'
         },
@@ -65,6 +48,7 @@ angular.module('BigScreen.Portal')
             boundaryGap: false,
             data: [],
             axisLabel: {
+                interval: 5,
                 textStyle: {
                     fontSize: 24
                 }
@@ -75,9 +59,14 @@ angular.module('BigScreen.Portal')
         },
         yAxis: {
             type: 'value',
+            // boundaryGap: false,
             axisLabel: {
                 textStyle: {
                     fontSize: 24
+                },
+                formatter: function (value, index) {
+                    if (value !== 0)
+                        return value;
                 }
             }
         },
@@ -167,10 +156,21 @@ angular.module('BigScreen.Portal')
         }]
     };
 
+    function random(data) {
+        for (var i = 0; i < data.length; i++)
+            data[i] = Math.floor(Math.random() * 100);
+    }
+
     function parseData(resIn, resOut) {
         var x = genX(resIn, resOut);
         var dataIn = Array(x.length).fill(0);
         var dataOut = Array(x.length).fill(0);
+        // if (resIn.length === 0) {
+        //     random(dataIn);
+        // }
+        // if (resOut.length === 0) {
+        //     random(dataOut);
+        // }
         resIn.forEach(function (data) {
             dataIn[x.indexOf(moment(data.key).add(10, 'm').format('H:mm'))] = data.doc_count;
         });
@@ -186,13 +186,40 @@ angular.module('BigScreen.Portal')
 
     function genX(resIn, resOut) {
         var x = _.unionBy(resIn, resOut, 'key');
-        if (x.length === 0) return xAxis;
+        if (x.length === 0) {
+            symbolSize = 0;
+            return xAxis;
+        }
         x = _.map(x, 'key').sort();
         return x.map(function (o) {
             return moment(o).add(10, 'm').format('H:mm');
         });
     }
 
+    function setOpt() {
+        myChart.setOption({
+            xAxis: {
+                data: data.x
+            },
+            series: [{
+                name: '进入高峰',
+                data: data.dataIn,
+                markPoint: {
+                    symbolSize: symbolSize
+                }
+            }, {
+                name: '驶出高峰',
+                data: data.dataOut,
+                markPoint: {
+                    symbolSize: symbolSize
+                }
+            }]
+        });
+        console.log(myChart.getOption());
+    }
+
+    var SYMBOL_SIZE = [156, 70];
+    var symbolSize = SYMBOL_SIZE;
     var xAxis = [];
     var time = moment().startOf('hour').hour(8);
     var twenty = moment().startOf('hour').hour(20).valueOf();
@@ -209,28 +236,14 @@ angular.module('BigScreen.Portal')
             myChart.setOption(option);
         },
         setData: function () {
+            symbolSize = SYMBOL_SIZE;
             if (moment().startOf('hour').hour(8).add(10, 'm').isAfter(moment())) {
-                myChart.setOption({
-                    xAxis: {
-                        data: data.x
-                    }
-                });
+                data = parseData([], []);
+                setOpt();
             } else {
                 ParkingAreaService.getCarInOut().then(function (res) {
                     data = parseData(res[0], res[1]);
-                    myChart.setOption({
-                        xAxis: {
-                            data: data.x
-                        },
-                        series: [{
-                            name: '进入高峰',
-                            data: data.dataIn
-                        }, {
-                            name: '驶出高峰',
-                            data: data.dataOut
-                        }]
-                    });
-                    console.log(myChart.getOption());
+                    setOpt();
                 });
             }
         }
