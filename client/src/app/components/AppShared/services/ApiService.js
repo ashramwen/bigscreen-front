@@ -88,8 +88,7 @@ angular.module('BigScreen.Portal')
                 headers: _header,
                 params: {
                     startTime: '@startTime',
-                    endTime: '@endTime',
-                    interval: '1h'
+                    endTime: '@endTime'
                 }
             },
             getCarOutFrequency: {
@@ -98,8 +97,7 @@ angular.module('BigScreen.Portal')
                 headers: _header,
                 params: {
                     startTime: '@startTime',
-                    endTime: '@endTime',
-                    interval: '1h'
+                    endTime: '@endTime'
                 }
             },
             leaveAvgTime: {

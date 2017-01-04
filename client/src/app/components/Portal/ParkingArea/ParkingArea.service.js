@@ -9,9 +9,15 @@ angular.module('BigScreen.Portal')
 
     return {
         getCarInOut: function () {
+            var eight = moment().startOf('hour').hour(8).valueOf();
+            var twenty = moment().startOf('hour').hour(20).valueOf();
+            var end = new Date().valueOf();
+            end -= (end % 600000);
+            end = moment(end);
             var time = {
-                startTime: moment().startOf('hour').hour(8).valueOf(),
-                endTime: moment().startOf('hour').hour(20).valueOf()
+                startTime: eight,
+                endTime: eight,
+                interval: '10m'
             };
 
             var deferred = $q.defer();
@@ -34,15 +40,26 @@ angular.module('BigScreen.Portal')
 
 .factory('ParkingChart', ['$rootScope', 'ParkingAreaService', function ($rootScope, ParkingAreaService) {
     var option = {
+        // markPoint: {
+        //     symbol: 'path://M 5.477 69.249 l 89.081 9.082 v 46.07 c 0 5.522 4.477 10 10 10 h 304 c 5.522 0 10 -4.478 10 -10 v -112 c 0 -5.523 -4.478 -10 -10 -10 h -304 c -5.523 0 -10 4.477 -10 10 v 46.07',
+        //     symbolSize: [156, 70],
+        //     symbolOffset: ['78', 0],
+        //     label: {
+        //         normal: {
+        //             textStyle: {
+        //                 fontSize: 24
+        //             },
+        //             position: 'insideRight'
+        //         }
+        //     },
+        //     data: [{
+        //         type: 'max',
+        //         name: '最大值'
+        //     }]
+        // },
         tooltip: {
             trigger: 'axis'
         },
-        // legend: {
-        //     data: ['进入高峰', '驶出高峰'],
-        //     textStyle: {
-        //         fontSize: 24
-        //     }
-        // },
         xAxis: {
             type: 'category',
             boundaryGap: false,
@@ -95,7 +112,7 @@ angular.module('BigScreen.Portal')
                             fontSize: 24
                         },
                         position: 'insideRight',
-                        formatter: function(max) {
+                        formatter: function (max) {
                             var time = data.x[max.data.coord[0]];
                             return '进入高峰 \n' + max.value + '  ' + time + ' ';
                         }
@@ -136,7 +153,7 @@ angular.module('BigScreen.Portal')
                             fontSize: 24
                         },
                         position: 'insideRight',
-                        formatter: function(max) {
+                        formatter: function (max) {
                             var time = data.x[max.data.coord[0]];
                             return '驶出高峰 \n' + max.value + '  ' + time + ' ';
                         }
@@ -155,10 +172,10 @@ angular.module('BigScreen.Portal')
         var dataIn = Array(x.length).fill(0);
         var dataOut = Array(x.length).fill(0);
         resIn.forEach(function (data) {
-            dataIn[x.indexOf(moment(data.key).format('H:00'))] = data.doc_count;
+            dataIn[x.indexOf(moment(data.key).add(10, 'm').format('H:mm'))] = data.doc_count;
         });
         resOut.forEach(function (data) {
-            dataOut[x.indexOf(moment(data.key).format('H:00'))] = data.doc_count;
+            dataOut[x.indexOf(moment(data.key).add(10, 'm').format('H:mm'))] = data.doc_count;
         });
         return {
             x: x,
@@ -169,10 +186,19 @@ angular.module('BigScreen.Portal')
 
     function genX(resIn, resOut) {
         var x = _.unionBy(resIn, resOut, 'key');
+        if (x.length === 0) return xAxis;
         x = _.map(x, 'key').sort();
         return x.map(function (o) {
-            return moment(o).format('H:00');
+            return moment(o).add(10, 'm').format('H:mm');
         });
+    }
+
+    var xAxis = [];
+    var time = moment().startOf('hour').hour(8);
+    var twenty = moment().startOf('hour').hour(20).valueOf();
+    while (time.valueOf() <= twenty) {
+        xAxis.push(time.format('H:mm'));
+        time.add(10, 'm');
     }
 
     var myChart;
@@ -183,21 +209,30 @@ angular.module('BigScreen.Portal')
             myChart.setOption(option);
         },
         setData: function () {
-            ParkingAreaService.getCarInOut().then(function (res) {
-                data = parseData(res[0], res[1]);
+            if (moment().startOf('hour').hour(8).add(10, 'm').isAfter(moment())) {
                 myChart.setOption({
                     xAxis: {
                         data: data.x
-                    },
-                    series: [{
-                        name: '进入高峰',
-                        data: data.dataIn
-                    }, {
-                        name: '驶出高峰',
-                        data: data.dataOut
-                    }]
+                    }
                 });
-            });
+            } else {
+                ParkingAreaService.getCarInOut().then(function (res) {
+                    data = parseData(res[0], res[1]);
+                    myChart.setOption({
+                        xAxis: {
+                            data: data.x
+                        },
+                        series: [{
+                            name: '进入高峰',
+                            data: data.dataIn
+                        }, {
+                            name: '驶出高峰',
+                            data: data.dataOut
+                        }]
+                    });
+                    console.log(myChart.getOption());
+                });
+            }
         }
     };
 
