@@ -183,7 +183,7 @@ angular.module('BigScreen.Portal')
     function calLastWeek(data) {
         var yesterday = data.yesterday.value()
         data.lastWeek.divide(7);
-        data.lastWeek = numeral(yesterday).subtract(data.lastWeek).divide(data.lastWeek).format('0%');
+        data.lastWeek = numeral(yesterday).subtract(data.lastWeek).divide(data.lastWeek).format('+0%');
         data.yesterday = yesterday;
     }
 
