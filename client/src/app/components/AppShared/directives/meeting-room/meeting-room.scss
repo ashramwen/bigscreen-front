@@ -17,7 +17,7 @@
             background-color: #2aabe2;
         }
         .status {
-            background-position: 0 -84px;
+            background-position: 0 -49px;
         }
     }
     &.full {
@@ -31,7 +31,7 @@
     .room-head {
         padding: 25px 15px 0 10px;
         width: 100%;
-        height: 160px;
+        height: 120px;
         background-color: #ff6600;
         .name {
             float: left;
@@ -42,22 +42,17 @@
             .no {
                 margin-top: 9px;
                 margin-left: 3px;
-                font-size: 23px;
-                line-height: 23px
-            }
-            .used {
-                margin-top: 20px;
-                font-size: 20px;
-                line-height: 20px;
+                font-size: 30px;
+                line-height: 30px
             }
         }
         .status {
             position: absolute;
-            top: 58px;
+            top: 48px;
             right: 15px;
             // float:right;
-            width: 87px;
-            height: 84px;
+            width: 51px;
+            height: 49px;
             @include bg-image("icon_meeting.png");
         }
     }
@@ -66,6 +61,16 @@
         overflow: hidden;
         width: 100%;
         height: 400px;
+        .busy {
+            padding: 3px 0;
+            color: #ff6600;
+            font-size: 26px;
+            line-height: 26px;
+            text-align: center;
+            &.used {
+                background-color: #fff0e5;
+            }
+        }
         ul {
             padding-left: 23px;
             padding-top: 25px;
@@ -98,7 +103,7 @@
         }
     }
     .room-foot {
-        height: 100px;
+        height: 120px;
         padding-bottom: 23px;
         .icon-wrap {
             display: flex;

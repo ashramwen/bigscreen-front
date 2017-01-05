@@ -16,7 +16,7 @@ angular.module('BigScreen.Portal')
             });
         }
 
-        $scope.$on('theHour', function () {
+        $scope.$on('theMin', function () {
             ParkingChart.setData();;
         })
     }]);

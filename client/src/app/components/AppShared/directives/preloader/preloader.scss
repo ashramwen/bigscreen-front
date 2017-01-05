@@ -1,6 +1,7 @@
 .cssload-container {
-    position: relative;
-    top: 50%;
+    height: 29px;
+    width: 90px;
+    overflow: hidden;
     -webkit-transform: translateY(-50%);
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
@@ -20,17 +21,6 @@
             -webkit-box-sizing: border-box;
             -moz-box-sizing: border-box;
         }
-    }
-    margin: 49px auto;
-    width: 58px;
-    height: 29px;
-    >div {
-        float: left;
-        background: rgb(255, 102, 0);
-        height: 100%;
-        width: 5px;
-        margin-right: 1px;
-        // display: inline-block;
     }
     .cssload-shaft1 {
         animation-delay: 0.06s;
@@ -102,10 +92,12 @@
         -webkit-animation-delay: 0.58s;
         -moz-animation-delay: 0.58s;
     }
-    height: 39px;
-    width: 88px;
-    overflow: hidden;
     >div {
+        float: left;
+        background: rgb(255, 102, 0);
+        height: 100%;
+        width: 5px;
+        margin-right: 1px;
         width: 8px;
         position: relative;
         bottom: -2px;

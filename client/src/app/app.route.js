@@ -11,7 +11,7 @@ angular.module('BigScreen')
             abstract: true
         })
         .state('app.Secure', {
-            url: '/Secure',
+            url: '/',
             templateUrl: 'app/components/Secure/Secure.html',
             controller: 'SecureController',
         })
@@ -21,5 +21,5 @@ angular.module('BigScreen')
             controller: 'PortalController',
         });
 
-    $urlRouterProvider.otherwise('Secure');
+    $urlRouterProvider.otherwise('/');
 });

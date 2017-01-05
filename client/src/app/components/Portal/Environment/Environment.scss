@@ -19,9 +19,15 @@
         padding-top: 40px;
         border-bottom: 1px dashed #999;
         .electricity {
+            position: relative;
             margin: 0 auto;
             width: 510px;
             height: 370px;
+            .preloader {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+            }
         }
     }
     .population-wrap {
@@ -31,7 +37,6 @@
         }
         .population {
             width: 450px;
-            font-size: 24px;
         }
         .title {
             padding-top: 48px;
@@ -45,6 +50,7 @@
             vertical-align: bottom;
             .text {
                 position: absolute;
+                font-size: 30px;
                 bottom: 0;
             }
         }
@@ -92,110 +98,114 @@
             }
         }
     }
-    .air-wrap {
-        position: relative;
-        width: 650px;
-        height: 100%;
-        border-left: 1px dashed #999;
-        padding-left: 78px;
-        padding-top: 40px;
-        hr {
-            width: 100%;
-            border-top: 1px dashed #999;
-        }
-        .title {
-            height: 130px;
-            font-size: 35px;
-        }
-        .type {
+}
+
+.air-wrap {
+    position: relative;
+    width: 650px;
+    height: 100%;
+    border-left: 1px dashed #999;
+    padding-left: 78px;
+    padding-top: 40px;
+    hr {
+        width: 100%;
+        border-top: 1px dashed #999;
+    }
+    .title {
+        height: 130px;
+        font-size: 35px;
+    }
+    .type {
+        height: 73px;
+        line-height: 73px;
+        font-size: 30px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        &::before {
+            content: ' ';
+            float: left;
+            width: 75px;
             height: 73px;
-            line-height: 73px;
-            font-size: 30px;
-            margin-top: 40px;
-            margin-bottom: 40px;
-            &::before {
-                content: ' ';
-                float: left;
-                width: 75px;
-                height: 73px;
-                margin-right: 17px;
-                @include bg-image("icon_type.png");
-            }
-            &.temp {
-                .progress-bar {
-                    background-color: #2aabe2;
-                }
-            }
-            &.co2 {
-                &::before {
-                    background-position: -75px 0;
-                }
-                .progress-bar {
-                    background-color: #ff6600;
-                }
-            }
-            &.pm25 {
-                &::before {
-                    background-position: -150px 0;
-                }
-                .progress-bar {
-                    background-color: #2bce10;
-                }
-            }
-            .text {
-                width: 160px;
-            }
-            .value {
-                .good {
-                    color: #2bce10;
-                }
-                .normal {
-                    color: #2aabe2;
-                }
-                .bad {
-                    color: #ff6600;
-                }
-            }
-            .progress {
-                margin-top: 10px;
-                width: 467px;
-            }
-            .smiley-face {
-                margin-right: 20px;
+            margin-right: 17px;
+            @include bg-image("icon_type.png");
+        }
+        &.temp {
+            .progress-bar {
+                background-color: #2aabe2;
             }
         }
-        .foot {
-            position: absolute;
-            bottom: 22px;
-            font-size: 18px;
-            color: #999;
-            .fa {
+        &.co2 {
+            &::before {
+                background-position: -75px 0;
+            }
+            .progress-bar {
+                background-color: #ff6600;
+            }
+        }
+        &.pm25 {
+            &::before {
+                background-position: -150px 0;
+            }
+            .progress-bar {
+                background-color: #2bce10;
+            }
+        }
+        .text {
+            width: 160px;
+        }
+        .value {
+            .good {
+                color: #2bce10;
+            }
+            .normal {
                 color: #2aabe2;
             }
+            .bad {
+                color: #ff6600;
+            }
+        }
+        .progress {
+            margin-top: 10px;
+            width: 467px;
+        }
+        .smiley-face {
+            margin-right: 20px;
         }
     }
-    .progress {
-        .light {
-            background-color: #f60;
-            background-image: -webkit-linear-gradient(left, #f60, #cf0, #00d8ff);
-            background-image: -moz-linear-gradient(left, #f60, #cf0, #00d8ff);
-            background-image: -o-linear-gradient(left, #f60, #cf0, #00d8ff);
-            background-image: -ms-linear-gradient(left, #f60, #cf0, #00d8ff);
-            background-image: linear-gradient(to right, #f60, #cf0, #00d8ff);
-        }
-        .socket {
-            background-color: #48d4dd;
+    .foot {
+        position: absolute;
+        bottom: 22px;
+        font-size: 18px;
+        color: #999;
+        .fa {
+            color: #2aabe2;
         }
     }
-    #electricity-chart {
-        margin-top: -55px;
-        margin-left: -200px;
-        width: 1000px;
-        height: 400px;
+}
+
+.progress {
+    .light {
+        background-color: #f60;
+        background-image: -webkit-linear-gradient(left, #f60, #cf0, #00d8ff);
+        background-image: -moz-linear-gradient(left, #f60, #cf0, #00d8ff);
+        background-image: -o-linear-gradient(left, #f60, #cf0, #00d8ff);
+        background-image: -ms-linear-gradient(left, #f60, #cf0, #00d8ff);
+        background-image: linear-gradient(to right, #f60, #cf0, #00d8ff);
     }
-    #population-chart {
-        margin-top: -40px;
-        width: 280px;
-        height: 280px;
+    .socket {
+        background-color: #48d4dd;
     }
+}
+
+#electricity-chart {
+    margin-top: -55px;
+    margin-left: -200px;
+    width: 1000px;
+    height: 400px;
+}
+
+#population-chart {
+    margin-top: -40px;
+    width: 280px;
+    height: 280px;
 }

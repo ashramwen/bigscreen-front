@@ -7,9 +7,9 @@ angular.module('BigScreen.Portal')
         ThirdPartyWsClient.subscribe('/topic/facePlusPlus/*', function (msg) {
             callback.apply(this, [msg]);
         });
-        ThirdPartyWsClient.subscribe('/topic/thirdparty/faceplusplus', function (msg) {
-            callback.apply(this, [msg]);
-        });
+        // ThirdPartyWsClient.subscribe('/topic/thirdparty/faceplusplus', function (msg) {
+        //     callback.apply(this, [msg]);
+        // });
     }
 
     return {

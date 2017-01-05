@@ -4,6 +4,6 @@ angular.module('BigScreen.AppShared')
     return {
         restrict: 'EA',
         templateUrl: 'app/components/AppShared/directives/preloader/preloader.html',
-        replace: true
+        // replace: true
     }
 });

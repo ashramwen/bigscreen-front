@@ -3,12 +3,12 @@
         <div class="name">
             <div class="title">{{room.name}}</div>
             <div class="no">{{room.no}}</div>
-            <div class="used" ng-if="!room.busy">未被预订</div>
-            <div class="used" ng-if="room.busy">已被预订</div>
         </div>
         <div class="status"></div>
     </div>
     <div class="room-body">
+        <!--<div class="busy" ng-if="!room.busy">未被预订</div>-->
+        <div class="busy used" ng-if="room.busy">已被预订！</div>
         <ul>
             <li ng-repeat="info in room.bookInfoList">{{info.start}}-{{info.end}}</li>
         </ul>
