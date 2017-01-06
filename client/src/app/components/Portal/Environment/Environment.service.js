@@ -141,12 +141,12 @@ angular.module('BigScreen.Portal')
             var whPromise = [];
             electricity = {
                 airLighting: {
-                    yesterday: numeral(),
-                    lastWeek: numeral()
+                    yesterday: numeral(0),
+                    lastWeek: numeral(0)
                 },
                 socket: {
-                    yesterday: numeral(),
-                    lastWeek: numeral()
+                    yesterday: numeral(0),
+                    lastWeek: numeral(0)
                 }
             }
             things.forEach(function (thing) {
@@ -183,23 +183,25 @@ angular.module('BigScreen.Portal')
         function calLastWeek(data) {
             var yesterday = data.yesterday.value()
             data.lastWeek.divide(7);
-            data.lastWeek = numeral(yesterday).subtract(data.lastWeek).divide(data.lastWeek).format('+0%');
+            var lastWeekValue = data.lastWeek.value();
+            data.lastWeekValue = numeral(yesterday).subtract(lastWeekValue).divide(lastWeekValue);
+            data.lastWeek = data.lastWeekValue.format('+0%');
             data.yesterday = yesterday;
         }
 
         function calWh(globalThingID, data, property) {
-            var max = numeral(data.maxValue.value || 0);
-            var min = numeral(data.minValue.value || 0);
+            var max = data.maxValue.value || 0;
+            var min = data.minValue.value || 0;
             switch (globalThingID) {
                 case 5494:
                 case 5495:
                 case 4928:
                 case 5496:
-                    electricity.airLighting[property].add(max.subtract(min));
+                    electricity.airLighting[property].add(max).subtract(min);
                     break;
                 case 5498: //0807W-Z00-N-003
                 case 5497: //0807W-Z00-N-035
-                    electricity.socket[property].add(max.subtract(min));
+                    electricity.socket[property].add(max).subtract(min);
                     break;
             }
         }
@@ -288,6 +290,7 @@ angular.module('BigScreen.Portal')
                     $q.all(whPromise).then(function (res) {
                         processElectricity();
                         q.resolve(electricity);
+                        // console.log(electricity);
                     });
                 });
                 return q.promise;
