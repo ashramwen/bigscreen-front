@@ -234,7 +234,7 @@ angular.module('BigScreen.Portal')
                     center: ['45%', '50%'],
                     name: '能耗分析',
                     type: 'pie',
-                    radius: [0, '60%'],
+                    radius: [0, '65%'],
                     data: [{
                         value: Math.round(data.airLighting.yesterday),
                         name: '照明+空调',
