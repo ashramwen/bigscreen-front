@@ -230,28 +230,11 @@ angular.module('BigScreen.Portal')
                     trigger: 'item',
                     formatter: "{b}: {c} kW ({d}%)"
                 },
-                legend: {
-                    // orient: 'vertical',
-                    // x: 'right',
-                    // data: ['照明+空调', '插座'],
-                    // textStyle: {
-                    //     fontSize: 18
-                    // }
-                    // formatter: function(name) {
-                    //     var oa = option.series[0].data;
-                    //     var num = oa[0].value + oa[1].value;
-                    //     for (var i = 0; i < option.series[0].data.length; i++) {
-                    //         if (name == oa[i].name) {
-                    //             return name + '     ' + oa[i].value + '     ' + (oa[i].value / num * 100).toFixed(2) + '%';
-                    //         }
-                    //     }
-                    // }
-                },
                 series: [{
                     center: ['45%', '50%'],
                     name: '能耗分析',
                     type: 'pie',
-                    // radius: '60%',
+                    radius: [0, '60%'],
                     data: [{
                         value: Math.round(data.airLighting.yesterday),
                         name: '照明+空调',
