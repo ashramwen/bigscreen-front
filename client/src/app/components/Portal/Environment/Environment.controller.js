@@ -231,7 +231,7 @@ angular.module('BigScreen.Portal')
                     formatter: "{b}: {c} kW ({d}%)"
                 },
                 series: [{
-                    center: ['45%', '50%'],
+                    // center: ['25%', '50%'],
                     name: '能耗分析',
                     type: 'pie',
                     radius: [0, '65%'],
