@@ -2,8 +2,21 @@
 
 angular.module('BigScreen.Portal')
 
-    .factory('EnvironmentService', ['$q', '$$Thing', 'ApiService', function ($q, $$Thing, ApiService) {
-        var electricityThings = [5494, 5495, 4928, 5496, 5498, 5497];
+    .factory('EnvironmentService', ['$q', '$$Thing', 'ApiService', 'ElectricityService', function ($q, $$Thing, ApiService, ElectricityService) {
+        // var electricityThings = [5494, 5495, 4928, 5496, 5498, 5497];
+        var electricityThings = [{
+            vendorThingID: '0807W-Z00-N-002',
+            type: 'airLighting'
+        }, {
+            vendorThingID: '0807W-Z00-N-034',
+            type: 'airLighting'
+        }, {
+            vendorThingID: '0807W-Z00-N-003',
+            type: 'socket'
+        }, {
+            vendorThingID: '0807W-Z00-N-035',
+            type: 'socket'
+        }];
 
         function getNonBeehiveNumber(bucket) {
             var count = 0;
@@ -175,6 +188,40 @@ angular.module('BigScreen.Portal')
             return whPromise;
         }
 
+        function getWh(thing, data) {
+            return [getYesterdayWh(thing, data, 'yesterday'), getLastWeekWh(thing, data, 'lastWeek')];
+        }
+
+        function getYesterdayWh(thing, data, property) {
+            var promise = ApiService.Environment.searchHistoryStatesAggregation({}, {
+                'thingID': thing.kiiThingID,
+                'stateField': 'state.Wh',
+                'startDateTime': moment().subtract(1, 'days').startOf('day').valueOf(),
+                'endDateTime': moment().startOf('day').valueOf()
+            }).$promise;
+            promise.then(function (res) {
+                var max = res.aggregations.maxValue.value || 0;
+                var min = res.aggregations.minValue.value || 0;
+                data[property] = data[property].add(max).subtract(min);
+            });
+            return promise;
+        }
+
+        function getLastWeekWh(thing, data, property) {
+            var promise = ApiService.Environment.searchHistoryStatesAggregation({}, {
+                'thingID': thing.kiiThingID,
+                'stateField': 'state.Wh',
+                'startDateTime': moment().day(-7).startOf('day').valueOf(),
+                'endDateTime': moment().day(0).startOf('day').valueOf()
+            }).$promise;
+            promise.then(function (res) {
+                var max = res.aggregations.maxValue.value || 0;
+                var min = res.aggregations.minValue.value || 0;
+                data[property] = data[property].add(max).subtract(min);
+            });
+            return promise;
+        }
+
         function processElectricity() {
             calLastWeek(electricity.airLighting);
             calLastWeek(electricity.socket);
@@ -206,7 +253,7 @@ angular.module('BigScreen.Portal')
             }
         }
 
-        return {
+        var EnvironmentService = {
             getThingsLatestStatus: function () {
                 var q = $q.defer();
                 ApiService.Environment.getThingsLatestStatus({
@@ -283,17 +330,43 @@ angular.module('BigScreen.Portal')
                 });
                 return q.promise;
             },
+            queryThingInfo: function (vendorThingID, callback) {
+                var p = ApiService.Environment.queryThingInfo({
+                    vendorThingID: vendorThingID
+                }).$promise;
+                p.then(function (res) {
+                    callback(res);
+                });
+                return p;
+            },
             getWh: function () {
+                return ElectricityService.getWh();
                 var q = $q.defer();
-                $$Thing.getThingsByIDs(electricityThings).$promise.then(function (res) {
-                    var whPromise = getWhByThings(res);
-                    $q.all(whPromise).then(function (res) {
-                        processElectricity();
-                        q.resolve(electricity);
-                        // console.log(electricity);
-                    });
+                var promises = [];
+                var whPromises = [];
+                electricity = {
+                    airLighting: {
+                        yesterday: numeral(0),
+                        lastWeek: numeral(0)
+                    },
+                    socket: {
+                        yesterday: numeral(0),
+                        lastWeek: numeral(0)
+                    }
+                }
+                electricityThings.forEach(function (meter) {
+                    promises.push(this.queryThingInfo(meter.vendorThingID, function (thing) {
+                        whPromises = whPromises.concat(getWh(thing, electricity[meter.type]));
+                    }));
+                }.bind(this));
+                $q.all(promises).then(function (res) {
+                    return $q.all(whPromises);
+                }).then(function (res) {
+                    processElectricity();
+                    q.resolve(electricity);
                 });
                 return q.promise;
             }
         }
+        return EnvironmentService;
     }]);
