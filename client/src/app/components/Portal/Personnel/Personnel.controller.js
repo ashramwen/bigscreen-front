@@ -40,7 +40,7 @@ angular.module('BigScreen.Portal').controller('PersonnelController', ['$scope', 
     });
 
     // websocket: face++
-    var positions = ['east_in', 'east_out', 'south_in', 'south_in'];
+    var positions = ['east_in', 'east_out', 'south_in', 'south_out'];
     var faceTimer;
     PersonnelService.faceplusplus(function (msg) {
         console.log('face++', {
