@@ -42,7 +42,7 @@ angular.module('BigScreen.Portal').controller('PersonnelController', ['$scope', 
     // websocket: face++
     var positions = ['east_in', 'east_out', 'south_in', 'south_out'];
     var faceTimer;
-    PersonnelService.faceplusplus(function (msg) {
+    var client = PersonnelService.faceplusplus(function (msg) {
         console.log('face++', {
             position: msg.screen.camera_position,
             name: msg.subject.name,
@@ -61,6 +61,7 @@ angular.module('BigScreen.Portal').controller('PersonnelController', ['$scope', 
     });
 
     $scope.$on('$destroy', function () {
+        client.unsubscribeAll();
         if (angular.isDefined(stop)) {
             $interval.cancel(stop);
             stop = undefined;

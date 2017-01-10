@@ -45,8 +45,8 @@ angular.module('BigScreen.Portal').factory('ElectricityService', ['$q', '$$Thing
     }
 
     function sumWh(aggregations, type, property) {
-        var max = res.aggregations.maxValue.value || 0;
-        var min = res.aggregations.minValue.value || 0;
+        var max = aggregations.maxValue.value || 0;
+        var min = aggregations.minValue.value || 0;
         electricity[type][property] = electricity[type][property].add(max).subtract(min);
     }
 

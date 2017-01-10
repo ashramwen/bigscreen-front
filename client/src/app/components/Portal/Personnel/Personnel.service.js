@@ -21,6 +21,7 @@ angular.module('BigScreen.Portal')
                     wsSubscribe(callback);
                 })
             }
+            return ThirdPartyWsClient;
         },
         identifyFrequency: function () {
             var data = {
