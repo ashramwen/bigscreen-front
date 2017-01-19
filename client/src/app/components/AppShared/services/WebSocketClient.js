@@ -15,7 +15,7 @@ angular.module('BigScreen.AppShared')
             console.log('STOMP ERROR:', error);
             if (times > 0) {
                 $timeout(stompConnect, 5000);
-                console.log('STOMP: Reconecting in 5 seconds');
+                console.log('STOMP: Reconnecting in 5 seconds');
                 times--;
             }
         };

@@ -29,7 +29,11 @@ angular.module('BigScreen.Portal')
         return $$Auth;
     }])
 
-    .factory('$$Location', ['$resource', function ($resource) {
+    .factory('$$Location', ['$resource', 'SessionService', function ($resource, SessionService) {
+        var _user = SessionService.getPortalAdmin() || {};
+        var _header = {
+            'Authorization': 'Bearer ' + _user.accessToken
+        };
         var $$Location = $resource(MyAPIs.TAG + '/:id', {
             id: '@tagName'
         }, {
@@ -65,6 +69,7 @@ angular.module('BigScreen.Portal')
             getAllThingsByLocation: {
                 method: 'GET',
                 url: MyAPIs.LOCATION_TAGS + '/:location/allThings',
+                headers: _header,
                 params: {
                     location: '@location'
                 },
@@ -134,7 +139,11 @@ angular.module('BigScreen.Portal')
         return Tag;
     }])
 
-    .factory('$$Thing', ['$resource', function ($resource) {
+    .factory('$$Thing', ['$resource', 'SessionService', function ($resource, SessionService) {
+        var _user = SessionService.getPortalAdmin() || {};
+        var _header = {
+            'Authorization': 'Bearer ' + _user.accessToken
+        };
         var Thing = $resource(MyAPIs.THING + '/:globalThingID', {}, {
             getGateways: {
                 url: MyAPIs.THING + '/gateway',
@@ -289,6 +298,7 @@ angular.module('BigScreen.Portal')
             getThingsByVendorID: {
                 url: MyAPIs.THING + '/vendorThingID/:vendorThingID',
                 method: 'GET',
+                headers: _header,
                 params: {
                     vendorThingID: '@vendorThingID'
                 }
