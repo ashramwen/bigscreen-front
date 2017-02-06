@@ -1,30 +1,36 @@
 <div class="app-portal-personnel">
-  <div class="row data-row">
-    <div class="col-md-4 col-lg-4 enter">
-      <div>进入办公区...</div>
-      <div class="data">
-        <img ng-src="{{coming.photo}}" width="191" height="191" alt="" ng-if="coming">
-        <span>{{coming.name}}</span>
+  <div class="personnel-row">
+    <div class="personnel-area yesterday-enter">
+      <div>昨日({{yesterday}})最早进入</div>
+      <div class="personnel" ng-if="yesterdayEnter">
+        <img ng-src="{{coming.photo}}" width="174" height="174" alt="" a>
+        <div>Rajesh</div>
       </div>
     </div>
-    <div class="col-md-4 col-lg-4 latest">
-      <div>昨日最晚离开</div>
-      <table class="data">
-        <tr ng-repeat="r in latestRecords">
-          <td class="first"><img ng-src="{{r.photo}}" alt="" class="photo"></td>
-          <td><span>{{r.name}}</span></td>
-          <td><span>{{r.time | date:'HH:mm'}}</span></td>
-        </tr>
-      </table>
+    <div class="personnel-area today-enter">
+      <div>今日({{today}})最早进入</div>
+      <div class="personnel" ng-if="todayEnter">
+        <img ng-src="{{todayEnter.photo}}" width="174" height="174" alt="" a>
+        <div>{{todayEnter.name}}</div>
+      </div>
     </div>
-    <div class="col-md-4 col-lg-4 recent">
-      <div>最近访客</div>
-      <ul class="data noborder">
-        <li ng-repeat="r in strangers">
-          <img ng-src="{{r.photo}}" alt="" class="photo">
-          <span>{{r.time | date:'HH:mm'}}</span>
-        </li>
-      </ul>
+    <div class="personnel-area yesterday-leave">
+      <div>昨日({{yesterday}})最晚离开</div>
+      <div class="personnel" ng-if="yesterdayLeave">
+        <img ng-src="{{coming.photo}}" width="174" height="174" alt="" a>
+        <div>Bruno<br><span class="time">21:31</span></div>
+      </div>
+    </div>
+    <div class="peak-area">
+      <div class="title">高峰时段(今日)</div>
+      <div class="peak in">
+        <div class="sub">进入高峰</div>
+        <div class="time">{{max.in | date:'HH:mm'}}</div>
+      </div>
+      <div class="peak out">
+        <div class="sub">出去高峰</div>
+        <div class="time">{{max.out | date:'HH:mm'}}</div>
+      </div>
     </div>
   </div>
   <div class="row chart-row">

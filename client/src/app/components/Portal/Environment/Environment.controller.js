@@ -24,7 +24,8 @@ angular.module('BigScreen.Portal').controller('EnvironmentController', ['$scope'
 
     var pirChart = echarts.init(document.getElementById('population-chart'));
     var electricityChart = echarts.init(document.getElementById('electricity-chart'));
-    $scope.init = function () {
+
+    function init() {
         // show people
         EnvironmentService.showPeople().then(function (res) {
             $scope.population = res;
@@ -55,17 +56,9 @@ angular.module('BigScreen.Portal').controller('EnvironmentController', ['$scope'
         //     $scope.electricityReady = true;
         // });
     }
+    init();
 
-    var stop = $interval(function () {
-        $scope.init();
-    }, 60000);
-
-    $scope.$on('$destroy', function () {
-        if (angular.isDefined(stop)) {
-            $interval.cancel(stop);
-            stop = undefined;
-        }
-    });
+    $scope.$on('theMin', init);
 
     function getStatus(res) {
         try {
