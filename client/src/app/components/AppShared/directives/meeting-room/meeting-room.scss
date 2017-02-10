@@ -71,16 +71,16 @@
                 background-color: #fff0e5;
             }
         }
-        ul {
+        ul.booking {
             padding-left: 23px;
             padding-top: 25px;
             list-style-type: none;
             li {
                 margin-bottom: 25px;
                 width: 190px;
-                height: 20px;
-                font-size: 20px;
-                line-height: 20px;
+                height: 30px;
+                font-size: 30px;
+                line-height: 30px;
                 color: #666;
                 &::before {
                     content: ' ';
@@ -90,14 +90,65 @@
                     width: 19px;
                     @include bg-image("icon_clock_orange.png");
                 }
-                &::after {
-                    content: '已订';
-                    float: right;
-                    color: #ff6600;
-                    text-align: right;
-                }
+                // &::after {
+                //     content: '已订';
+                //     float: right;
+                //     color: #ff6600;
+                //     text-align: right;
+                // }
                 &:last-child {
                     margin-bottom: 0;
+                }
+            }
+        }
+        ul.status {
+            margin-top: 25px;
+            padding-left: 15px;
+            list-style-type: none;
+            li {
+                line-height: 31px;
+                font-size: 25px;
+                color: #666;
+                &::before {
+                    float: left;
+                    content: ' \25CF';
+                    color: #2aabe2;
+                    font-size: 14px;
+                    margin-right: 10px;
+                }
+                &.warn {
+                    color: #ff6600;
+                    &::before {
+                        color: #ff6600;
+                    }
+                }
+            }
+        }
+        .condition {
+            position: absolute;
+            bottom: 0;
+            padding-top: 10px;
+            width: 100%;
+            font-size: 25px;
+            line-height: 29px;
+            color: #000;
+            background-color: #fff;
+            ul {
+                padding-left: 15px;
+                list-style-type: none;
+                li {
+                    &::before {
+                        float: left;
+                        content: ' \25CF';
+                        color: #2aabe2;
+                        font-size: 14px;
+                    }
+                }
+                div {
+                    color: #2e2e2e;
+                }
+                span {
+                    color: #ff6600;
                 }
             }
         }

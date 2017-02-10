@@ -58,7 +58,7 @@ angular.module('BigScreen.Portal')
             getYesterdayRecord: function () {
                 return ApiService.Personneel.searchLatestRecord({}, {
                     startDateTime: moment().subtract(1, 'days').startOf('day').valueOf(), // 前一天 0 點
-                    endDateTime: moment().startOf('day').valueOf(), // 今天 0 點
+                    endDateTime: moment().subtract(1, 'days').endOf('day').valueOf(), // the end of yesterday
                     cameraPositions: ['south_out', 'east_out', 'south_in', 'east_in']
                 }).$promise;
             },

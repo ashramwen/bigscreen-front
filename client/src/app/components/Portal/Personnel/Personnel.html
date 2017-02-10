@@ -3,8 +3,8 @@
     <div class="personnel-area yesterday-enter">
       <div>昨日({{yesterday}})最早进入</div>
       <div class="personnel" ng-if="yesterdayEnter">
-        <img ng-src="{{coming.photo}}" width="174" height="174" alt="" a>
-        <div>Rajesh</div>
+        <img ng-src="{{yesterdayEnter.photo}}" width="174" height="174" alt="" a>
+        <div>{{yesterdayEnter.name}}</div>
       </div>
     </div>
     <div class="personnel-area today-enter">
@@ -17,8 +17,8 @@
     <div class="personnel-area yesterday-leave">
       <div>昨日({{yesterday}})最晚离开</div>
       <div class="personnel" ng-if="yesterdayLeave">
-        <img ng-src="{{coming.photo}}" width="174" height="174" alt="" a>
-        <div>Bruno<br><span class="time">21:31</span></div>
+        <img ng-src="{{yesterdayLeave.photo}}" width="174" height="174" alt="" a>
+        <div>{{yesterdayLeave.name}}<br><span class="time">{{yesterdayLeave.time | date:'HH:mm'}}</span></div>
       </div>
     </div>
     <div class="peak-area">

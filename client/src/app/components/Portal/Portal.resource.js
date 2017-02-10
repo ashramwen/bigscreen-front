@@ -96,6 +96,22 @@ angular.module('BigScreen.Portal')
         return Permission;
     }])
 
+    .factory('$$Schema', ['$resource', function ($resource) {
+        var Schema = $resource(MyAPIs.SCHEMA, {}, {
+            getByType: {
+                url: MyAPIs.SCHEMA + '/query/industrytemplate',
+                method: 'GET',
+                cache: true,
+                params: {
+                    thingType: '@thingType',
+                    name: '@name',
+                    version: '@version'
+                }
+            }
+        });
+        return Schema;
+    }])
+
     .factory('$$Supplier', ['$resource', function ($resource) {
         var Supplier = $resource(MyAPIs.SUPPLIER, {}, {
             getAll: {

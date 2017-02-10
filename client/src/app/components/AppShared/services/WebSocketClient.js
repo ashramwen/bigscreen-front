@@ -40,7 +40,7 @@ angular.module('BigScreen.AppShared')
             },
             subscribe: function (app, thingId, callback, headers) {
                 var destination = '/topic/' + app + '/' + thingId;
-                if (subscriptionList.indexOf(destination) > -1) return;
+                // if (subscriptionList.indexOf(destination) > -1) return;
                 subscriptionList.push(destination);
                 var s = _client.subscribe(destination, function () {
                     var args = arguments;

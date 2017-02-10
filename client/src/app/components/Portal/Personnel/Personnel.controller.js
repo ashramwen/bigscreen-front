@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('BigScreen.Portal').controller('PersonnelController', ['$scope', '$interval', '$timeout', 'PersonnelService', 'PersonnelChart', function ($scope, $interval, $timeout, PersonnelService, PersonnelChart) {
+    PersonnelChart.init(document.getElementById('personnel-chart'));
+
     function routine() {
         // chart
-        PersonnelChart.init(document.getElementById('personnel-chart'));
         PersonnelChart.setData().then(function (res) {
             $scope.max = res;
         });
@@ -35,10 +36,10 @@ angular.module('BigScreen.Portal').controller('PersonnelController', ['$scope', 
     // yesterday records
     PersonnelService.getYesterdayRecord().then(function (res) {
         var data = getEnter(res.aggregations.beehive_user.buckets, 'todayEnter');
-        $scope.yerterdayEnter = getPersonnelInfo(data);
+        $scope.yesterdayEnter = getPersonnelInfo(data);
 
         data = getLeave(res.aggregations.beehive_user.buckets, 'todayEnter');
-        $scope.yerterdayLeave = getPersonnelInfo(data);
+        $scope.yesterdayLeave = getPersonnelInfo(data);
     });
 
     /**
