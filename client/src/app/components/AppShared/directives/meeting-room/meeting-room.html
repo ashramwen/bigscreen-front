@@ -9,31 +9,24 @@
     <div class="room-body">
         <!--<div class="busy" ng-if="!room.busy">未被预订</div>-->
         <div class="busy used" ng-if="room.busy">已被预订！</div>
-        <ul class="booking hide">
+        <!-- START booking list -->
+        <ul class="booking" ng-if="bookingMode">
             <li ng-repeat="info in room.bookInfoList">{{info.start}}-{{info.end}}</li>
-            <li>15:00-16:00</li>
-            <li>15:00-16:00</li>
-            <li>15:00-16:00</li>
-            <li>15:00-16:00</li>
-            <li>15:00-16:00</li>
         </ul>
-        <ul class="status">
-            <li ng-repeat="(key, value) in room.things.EnvironmentSensor[0].status" ng-if="hasSchema(key)" ng-class="{warn:hasWarn(key)}">
-                {{getName(key)}}: {{value}}
+        <!-- END booking list -->
+        <!-- START status list -->
+        <ul class="status" ng-if="!bookingMode">
+            <li ng-repeat="(key, value) in room.things.EnvironmentSensor[0].status" ng-if="hasSchema(key)" ng-class="{warn:hasWarn(key)}">{{getName(key)}}: {{value}}</li>
+        </ul>
+        <!-- END status list -->
+        <!-- START condition list -->
+        <ul class="condition">
+            <li ng-repeat="c in room.conditions">
+                <div class="state">【{{c.name}}】<span>{{c.express}}{{c.condition}}</span></div>
+                <div class="desc"><span>{{c.desc}}</span></div>
             </li>
         </ul>
-        <div class="condition">
-            <ul>
-                <li ng-repeat="c in room.conditions">
-                    <div>【{{c.name}}】<span>{{c.express}}{{c.condition}}</span></div>
-                    <div>{{c.desc}}</div>
-                </li>
-                <!--<li>
-                    <div>【温度】<span><18</span></div>
-                    <div>空调开启制热模式</div>
-                </li>-->
-            </ul>
-        </div>
+        <!-- END condition list -->
     </div>
     <div class="room-foot">
         <div class="icon-wrap">

@@ -44,7 +44,7 @@ angular.module('BigScreen.AppShared')
         }
         var rules = [{
             state: 'CO2',
-            condition: 100,
+            condition: 800,
             express: '>',
             desc: '新风已自动开启'
         }, {

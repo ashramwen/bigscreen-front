@@ -1,6 +1,6 @@
 angular.module('BigScreen.AppShared')
 
-    .directive('appMeetingRoom', ['ApiService', 'RoomSensorService', function (ApiService, RoomSensorService) {
+    .directive('appMeetingRoom', ['$interval', 'ApiService', 'RoomSensorService', function ($interval, ApiService, RoomSensorService) {
         return {
             restrict: 'E',
             templateUrl: 'app/components/AppShared/directives/meeting-room/meeting-room.html',
@@ -18,6 +18,13 @@ angular.module('BigScreen.AppShared')
                         return true;
                     });
                 }
+
+                var unnecessaryStates = ['PIR'];
+                scope.bookingMode = true;
+                var stop = $interval(function () {
+                    scope.bookingMode = !scope.bookingMode;
+                }, 10000);
+
                 RoomSensorService.run(scope.room, true);
                 scope.room.bookInfoList = [];
                 ApiService.MeetingRoom.get({
@@ -39,7 +46,9 @@ angular.module('BigScreen.AppShared')
                     detectRoomStatus(moment());
                 });
                 scope.hasSchema = function (key) {
-                    return scope.room.things.EnvironmentSensor[0].schema && scope.room.things.EnvironmentSensor[0].schema.hasOwnProperty(key);
+                    return scope.room.things.EnvironmentSensor[0].schema &&
+                        !unnecessaryStates.includes(key) &&
+                        scope.room.things.EnvironmentSensor[0].schema.hasOwnProperty(key);
                 }
                 scope.getName = function (key) {
                     return scope.room.things.EnvironmentSensor[0].schema[key].displayNameCN;
@@ -53,6 +62,8 @@ angular.module('BigScreen.AppShared')
                     detectRoomStatus(time);
                 });
                 scope.$on('$destroy', function () {
+                    $interval.cancel(stop);
+                    stop = undefined;
                     RoomSensorService.stop(scope.room);
                 });
             }

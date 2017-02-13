@@ -170,7 +170,7 @@ angular.module('BigScreen.AppShared')
     }, 10000);
 
     var GeofenceService = {
-        rotative: false,
+        rotative: true,
         isNear: false,
         vip: undefined,
         current: undefined,
