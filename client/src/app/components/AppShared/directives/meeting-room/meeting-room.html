@@ -20,7 +20,7 @@
         </ul>
         <!-- END status list -->
         <!-- START condition list -->
-        <ul class="condition">
+        <ul class="condition" ng-if="room.showCondition">
             <li ng-repeat="c in room.conditions">
                 <div class="state">【{{c.name}}】<span>{{c.express}}{{c.condition}}</span></div>
                 <div class="desc"><span>{{c.desc}}</span></div>

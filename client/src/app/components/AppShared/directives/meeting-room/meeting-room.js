@@ -54,7 +54,7 @@ angular.module('BigScreen.AppShared')
                     return scope.room.things.EnvironmentSensor[0].schema[key].displayNameCN;
                 }
                 scope.hasWarn = function (key) {
-                    return (scope.room.conditions.findIndex(function (o) {
+                    return (scope.room.conditions && scope.room.conditions.findIndex(function (o) {
                         return o.state === key;
                     }) >= 0);
                 }
