@@ -63,11 +63,13 @@
         height: 400px;
         .busy {
             padding: 3px 0;
-            color: #ff6600;
             font-size: 26px;
             line-height: 26px;
             text-align: center;
+            color: #2aabe2;
+            background-color: #e5f7ff;
             &.used {
+                color: #ff6600;
                 background-color: #fff0e5;
             }
         }
@@ -127,6 +129,7 @@
         }
         ul.condition {
             position: absolute;
+            margin: 0;
             bottom: 0;
             padding-top: 10px;
             padding-left: 10px;

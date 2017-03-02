@@ -4,14 +4,14 @@
       <div>昨日({{yesterday}})最早进入</div>
       <div class="personnel" ng-if="yesterdayEnter">
         <img ng-src="{{yesterdayEnter.photo}}" width="174" height="174" alt="" a>
-        <div>{{yesterdayEnter.name}}</div>
+        <div>{{yesterdayEnter.name}}<br><span class="time">{{yesterdayEnter.time | date:'HH:mm'}}</span></div>
       </div>
     </div>
     <div class="personnel-area today-enter">
       <div>今日({{today}})最早进入</div>
       <div class="personnel" ng-if="todayEnter">
         <img ng-src="{{todayEnter.photo}}" width="174" height="174" alt="" a>
-        <div>{{todayEnter.name}}</div>
+        <div>{{todayEnter.name}}<br><span class="time">{{todayEnter.time | date:'HH:mm'}}</span></div>
       </div>
     </div>
     <div class="personnel-area yesterday-leave">
@@ -25,11 +25,11 @@
       <div class="title">高峰时段(今日)</div>
       <div class="peak in">
         <div class="sub">进入高峰</div>
-        <div class="time">{{max.in | date:'HH:mm'}}</div>
+        <div class="time" ng-if="max.in">{{max.in-600000 | date:'HH:mm'}}~{{max.in | date:'HH:mm'}}</div>
       </div>
       <div class="peak out">
         <div class="sub">出去高峰</div>
-        <div class="time">{{max.out | date:'HH:mm'}}</div>
+        <div class="time" ng-if="max.out">{{max.out-600000 | date:'HH:mm'}}~{{max.out | date:'HH:mm'}}</div>
       </div>
     </div>
   </div>
